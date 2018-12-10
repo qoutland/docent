@@ -1,0 +1,65 @@
+[
+    {
+        "model": "activity.Profile",
+        "pk":1,
+        "fields": {
+            "first_name": "John",
+            "last_name": "Lennon"
+        }
+    },
+    {
+        "model": "activity.Profile",
+        "pk":2,
+        "fields": {
+            "first_name": "Paul",
+            "last_name": "McCartney"
+        }
+    },
+    {
+        "model": "activity."
+
+    },
+
+    {
+        "model": "activity.Activity",
+        "ID": 1,
+        "name": "Movie Theater",
+        "phone_number": 7751234567,
+        "url": "https://movietheater.com",
+        "open_hour": "06:00:00",
+        "close_hour": "00:00:00",
+        "Description":"Come here and watch all the latest movies",
+        "address_1": "123 3rd Street",
+        "city": "Reno",
+        "state":"Nevada",
+        "code": 89512
+    },
+    {
+        "model": "activity.Activity",
+        "ID": 1,
+        "name": "Golf Course",
+        "phone_number": 7753154875,
+        "url": "https://golfcourse.com",
+        "open_hour": "06:00:00",
+        "close_hour": "18:00:00",
+        "Description":"Come here and play a round of golf on our pristine course",
+        "address_1": "457 Mountain Drive",
+        "city": "Reno",
+        "state":"Nevada",
+        "code": 89512
+    },
+    {
+        "model": "activity.Activity",
+        "ID": 1,
+        "name": "Wendy's",
+        "phone_number": 7751234567,
+        "url": "https://wendys.com",
+        "open_hour": "06:00:00",
+        "close_hour": "00:00:00",
+        "Description":"Come here and enjoy our 4 for $4 menu!",
+        "address_1": "128 3rd Street",
+        "city": "Reno",
+        "state":"Nevada",
+        "code": 89512
+    }
+]
