@@ -1,3 +1,4 @@
 venv/
 db.sqlite
 activity/migrations
+activity__/py__cache
