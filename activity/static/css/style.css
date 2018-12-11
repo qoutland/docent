@@ -159,12 +159,10 @@ body {
 }
 
 .activity {
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-top: 10px;
+  flex: 1 0 21%;
+  margin: 5px;
   border: 10px;
   padding: 10px;
-  height: 25%;
-  width:25%;
+  height: 100px;
   background-color: grey;
 }
