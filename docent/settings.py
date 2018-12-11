@@ -123,10 +123,12 @@ LOGIN_REDIRECT_URL = '/'
 APPEND_SLASH = False
 
 #Email Settings
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-'''
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'testsite_app'
-EMAIL_HOST_PASSWORD = 'mys3cr3tp4ssw0rd'
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'TestSite Team <noreply@example.com>'''
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'docent.activity@gmail.com'
+EMAIL_HOST_PASSWORD = 'S3niorC@pstone'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
