@@ -5,6 +5,7 @@ body {
   }
   
   .topnav {
+    width:100%
     overflow: hidden;
     background-color: #3d434c;
   }
@@ -154,8 +155,16 @@ body {
       float: center;
   }
 .wrapper {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
   display: flex;
-  flex-direction: wrap;
 }
 
 .activity {
@@ -164,5 +173,6 @@ body {
   border: 10px;
   padding: 10px;
   height: 100px;
+  width: 25%;
   background-color: grey;
 }
