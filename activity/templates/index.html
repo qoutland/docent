@@ -17,30 +17,33 @@
             <h2 class="section-title">Featured Activities</h2>
             <div class="med-divider"></div>
           </div>
-          {% load loop %}
-          {% while activity_list %}
+          {% for activity in activity_list %}
           <div class="columns w-row">
             <div class="column w-col w-col-4">
               <div class="activity-border">
-                <h1 class="activity-header">{{activity[i].name}}</h1>
-                <div class="activity-text-layout">{{activity[i].address}}<br>{{activity[i].phone_number}}</div>
+                <h1 class="activity-header">{{activity.0.name}}</h1>
+                <div class="activity-text-layout">{{activity.0.address_1}}<br>{{activity.0.phone_number}}</div>
               </div>
             </div>
-            <div class="column-2 w-col w-col-4">
-              <div class="activity-border">
-                <h1 class="activity-header">{{activity[i+1].name}}</h1>
-                <div class="activity-text-layout">{{activity[1i+1].address}}<br>{{activity[i+1].phone_number}}</div>
+            {% if activity.1 %}
+              <div class="column-2 w-col w-col-4">
+                <div class="activity-border">
+                  <h1 class="activity-header">{{activity.1.name}}</h1>
+                  <div class="activity-text-layout">{{activity.1.address_1}}<br>{{activity.1.phone_number}}</div>
+                  </div>
                 </div>
-            </div>
-            <div class="column-3 w-col w-col-4">
-              <div class="activity-border">
-                <h1 class="activity-header">{{activity[i+2].name}}</h1>
-                <div class="activity-text-layout">{{activity[i+2].address}}<br>{{activity[i+2].phone_number}}</div>  
+            {% endif %}
+            
+            {% if activity.2 %}
+              <div class="column-3 w-col w-col-4">
+                <div class="activity-border">
+                  <h1 class="activity-header">{{activity.2.name}}</h1>
+                  <div class="activity-text-layout">{{activity.2.address_1}}<br>{{activity.2.phone_number}}</div>  
+                </div>
               </div>
-            </div>
+            {% endif %}
           </div>
-          {%i+=3%}
-          {% endwhile %}
+          {% endfor %}
         <div class="w-container">
           <div class="section-heading">
             <h2 class="section-title">Suggested Activities</h2>

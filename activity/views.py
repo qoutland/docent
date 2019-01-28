@@ -11,6 +11,7 @@ from .forms import SignUpForm
 
 from .models import Profile, Interest, Activity, ActivityType
 
+
 def index(request):
 
 	if request.method == 'GET':
@@ -26,16 +27,22 @@ def index(request):
 		else:
 			activity_list = Activity.objects.all()
 	
+	act_list = []
+	i=3
+	while len(activity_list) > i:
+		act_list.append(activity_list[(i-3):i])
+		i+=3
+	if len(activity_list) % 3 != 0:
+		act_list.append(activity_list[i-3:len(activity_list)])
+
+
 	num_profiles = Profile.objects.all().count()
 	num_activities = Activity.objects.all().count()
 	num_visits = request.session.get('num_visits',0)
 	request.session['num_visits'] = num_visits+1
 
 	context = {
-		'activity_list': activity_list,
-		'num_activities': num_activities,
-		'num_visits': num_visits,
-		'num_profiles': num_profiles,
+		'activity_list': act_list,
 	}
 
 	return render(request, 'index.html', context)
@@ -73,3 +80,4 @@ def signUp(request):
 	else:
 		form = SignUpForm()
 	return render(request, 'activity/signup.html', {'form': form})
+
