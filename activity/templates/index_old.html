@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<a>Number of activites: {{ num_activities }}</a>
+<a>Number of users: {{ num_profiles }}</a>
+<a>number of site visits: {{ num_visits }}</a>
+    <div class="wrapper">   
+            {% if activity_list %}
+            {% for activity in activity_list %}
+        <div class="activity">
+            <h2>{{activity.name}}</h2>
+            <h3>{{activity.address_1}}</h3>
+            <h4 style="float:right">{{activity.phone_number}}</h4>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+    </div>
+{% endblock %}
+
+<body>
+    <h1>Suh dude</h1>    
+</body>
