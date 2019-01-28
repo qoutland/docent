@@ -17,30 +17,47 @@
             <h2 class="section-title">Featured Activities</h2>
             <div class="med-divider"></div>
           </div>
-          {% load loop %}
-          {% while activity_list %}
           <div class="columns w-row">
             <div class="column w-col w-col-4">
               <div class="activity-border">
-                <h1 class="activity-header">{{activity[i].name}}</h1>
-                <div class="activity-text-layout">{{activity[i].address}}<br>{{activity[i].phone_number}}</div>
+                <h1 class="activity-header">Golf Course</h1>
+                <div class="activity-text-layout">123 Golf Ave. <br>775-123-4567</div>
               </div>
             </div>
             <div class="column-2 w-col w-col-4">
               <div class="activity-border">
-                <h1 class="activity-header">{{activity[i+1].name}}</h1>
-                <div class="activity-text-layout">{{activity[1i+1].address}}<br>{{activity[i+1].phone_number}}</div>
-                </div>
+                <h1 class="activity-header">Movie Theater</h1>
+                <div class="activity-text-layout">123 Movie Street <br>775-123-4567</div>
+              </div>
             </div>
             <div class="column-3 w-col w-col-4">
               <div class="activity-border">
-                <h1 class="activity-header">{{activity[i+2].name}}</h1>
-                <div class="activity-text-layout">{{activity[i+2].address}}<br>{{activity[i+2].phone_number}}</div>  
+                <h1 class="activity-header">Wendy&#x27;s</h1>
+                <div class="activity-text-layout">582 Wendy Parkway<br>775-532-9987</div>
               </div>
             </div>
           </div>
-          {%i+=3%}
-          {% endwhile %}
+          <div class="w-row">
+            <div class="column w-col w-col-4">
+              <div class="activity-border">
+                <h1 class="activity-header">Chipotle</h1>
+                <div class="activity-text-layout">123 Food Ave. <br>775-482-4467</div>
+              </div>
+            </div>
+            <div class="column-2 w-col w-col-4">
+              <div class="activity-border">
+                <h1 class="activity-header">UNR Basketball Game</h1>
+                <div class="activity-text-layout">1664 N. Virginia Street<br>775-123-4567</div>
+              </div>
+            </div>
+            <div class="column-3 w-col w-col-4">
+              <div class="activity-border">
+                <h1 class="activity-header">Ice Skating Rink</h1>
+                <div class="activity-text-layout">572 Ice Road<br>775-532-9987</div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="w-container">
           <div class="section-heading">
             <h2 class="section-title">Suggested Activities</h2>
