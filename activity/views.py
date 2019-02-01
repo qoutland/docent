@@ -46,7 +46,9 @@ def index(request):
 	}
 
 	return render(request, 'index.html', context)
-	
+
+
+@login_required
 def profile(request):
 	if request.method == 'GET':
 		if request.GET.get('new_interest', None):

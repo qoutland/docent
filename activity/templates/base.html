@@ -9,6 +9,7 @@
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
   {% load static %}
+  <link rel="shortcut icon" href="{%  static 'images/favicon.png' %}">
   <link href="{% static 'css/normalize.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/webflow.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/docent-f9cce3.webflow.css' %}" rel="stylesheet" type="text/css">
@@ -31,8 +32,6 @@
         t + "touch")
     }(window, document);
   </script>
-  <link href="https://daks2k3a4ib2z.cloudfront.net/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
-  <link href="https://daks2k3a4ib2z.cloudfront.net/img/webclip.png" rel="apple-touch-icon">
   <script src="https://d1tdp7z6w94jbb.cloudfront.net/js/jquery-3.3.1.min.js" type="text/javascript" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
   <script src="{% static 'js/webflow.js' %}" type="text/javascript"></script>
@@ -54,8 +53,8 @@
 
           {% if user.is_authenticated %}
           <a href="{% url 'profile' %}" class="nav-link-4 w-nav-link">Profile</a>
+          <a href="{% url 'logout' %}?next={{request.path}}" class="nav-link-4 w-nav-link">Logout</a>
         </nav>
-        <a href="{% url 'logout' %}?next={{request.path}}" class="nav-link-4 w-nav-link">Logout</a>
 
         {% else %}
         <a href="{% url 'signup'%}" class="nav-link-5 w-nav-link">Sign Up</a>
