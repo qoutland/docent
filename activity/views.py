@@ -49,11 +49,36 @@ def index(request):
 	
 def profile(request):
 	if request.method == 'GET':
-		new_interest = request.GET.get('new_interest', None)
-		if new_interest != None:
-			new_int = ActivityType.objects.all().get(activity_type = new_interest)
-			Interest.objects.get_or_create(profile = request.user, act_type = new_int)
+		if request.GET.get('new_interest', None):
+			new_interest = request.GET.get('new_interest', None)
+			if new_interest != None:
+				new_int = ActivityType.objects.all().get(activity_type = new_interest)
+				Interest.objects.get_or_create(profile = request.user, act_type = new_int)
 
+	if request.method == 'GET':
+		if request.GET.get('old_interest', None):
+			rem_interest = request.GET.get('old_interest', None)
+			if rem_interest != None:
+				Interest.objects.filter(act_type=ActivityType.objects.get(activity_type=rem_interest), profile=request.user.id).delete()
+
+	'''def remove_item(self, request, int_id):
+		temlate = 'activity/profile.html'
+		post = get_object_or_404(Post, rem_interest=rem_interest,rem_user_id=rem_user_id)
+		try:
+			if request.method == 'POST':
+				form = PostForm(request.POST, instance=post)
+				post.delete()
+				message.success(request, 'You have removed the item')
+			else:
+				form = PostForm(instance=post)
+		except:
+			message.warning(request, 'This post could not be deleted')
+
+		#if request.method == 'POST':
+		#	rem_interest = request.POST["remove_interest"]
+		#	if rem_interest != None:
+		#		Interest.objects.filter(act_type=rem_interest, profile=user.id).delete()
+'''
 	int_list = ActivityType.objects.all()
 	user_interest_list = ActivityType.objects.filter(interest__in=Interest.objects.filter(profile=request.user.pk))
 	interest_list = [x for x in int_list if x not in user_interest_list]
