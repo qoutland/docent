@@ -30,15 +30,15 @@
 
           </form>
 
-                {% if user_interest_list %}
-                {% for int in user_interest_list %}
-                <form method="get" action=".">
-                <button onclick="this.form.submit()">X</button>
-                <a value={{int.activity_type}}>{{int.activity_type}}</a>
-                <input name= "old_interest" type="hidden" value="{{int.activity_type}}">
-              </form>
-                {% endfor %}
-                {% endif %}
+          {% if user_interest_list %}
+          {% for int in user_interest_list %}
+          <form method="get" action=".">
+            <button onclick="this.form.submit()">X</button>
+            <a value={{int.activity_type}}>{{int.activity_type}}</a>
+            <input name="old_interest" type="hidden" value="{{int.activity_type}}">
+          </form>
+          {% endfor %}
+          {% endif %}
         </div>
       </div>
     </div>
