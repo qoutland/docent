@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<h1>{{ user.get_username }}'s Profile page</h1>
-	<form type="get" action="." style="margin: 0">
-		<select name="new_interest" style="margin-left: 49%">
-			{% if interest_list %}
-			{% for type in interest_list %}
-			<option value={{type.activity_type}}>{{type.activity_type}}</option>
-			{% endfor %}
-			{% endif %}
-		  </select>
-		<button id="interest_submit" type="submit" >Submit</button>
-	</form>
-	<h2>User Interests:</h2>
-	{% if user_interest_list %}
-		{% for int in user_interest_list %}
-			<a>{{int.activity_type}}</a>
-		{%endfor%}
-	{% endif %}
+<h1>{{ user.get_username }}'s Profile page</h1>
+<form type="get" action="." style="margin: 0">
+	<select name="new_interest" style="margin-left: 49%">
+		{% if interest_list %}
+		{% for type in interest_list %}
+		<option value={{type.activity_type}}>{{type.activity_type}}</option>
+		{% endfor %}
+		{% endif %}
+	</select>
+	<button id="interest_submit" type="submit">Submit</button>
+</form>
+<h2>User Interests:</h2>
+{% if user_interest_list %}
+{% for int in user_interest_list %}
+<a>{{int.activity_type}}</a>
+{%endfor%}
+{% endif %}
 {% endblock %}
