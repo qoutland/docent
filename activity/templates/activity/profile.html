@@ -29,17 +29,16 @@
             </select>
 
           </form>
-          <form type="get" action=".">
-              <select name="old_interest" class="dropdown-toggle-3 w-dropdown-toggle" onchange="this.form.submit()">
-                <option value="" disabled selected>Choose an Interest</option>
+
                 {% if user_interest_list %}
                 {% for int in user_interest_list %}
-                <option value={{int.activity_type}}>{{int.activity_type}}</option>
+                <form method="get" action=".">
+                <button onclick="this.form.submit()">X</button>
+                <a value={{int.activity_type}}>{{int.activity_type}}</a>
+                <input name= "old_interest" type="hidden" value="{{int.activity_type}}">
+              </form>
                 {% endfor %}
                 {% endif %}
-              </select>
-  
-            </form>
         </div>
       </div>
     </div>
