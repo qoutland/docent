@@ -1,6 +1,6 @@
 import os, socket
 if socket.gethostname() == "prod":
-    from production_settings import *
+    from docent.production_settings import *
 else:
     from docent.local_settings import *
 
