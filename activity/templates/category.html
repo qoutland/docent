@@ -2,8 +2,7 @@
 {% block content %}
 <div class="hero-section">
   <div class="hero-content w-container">
-    <div data-ix="hero-text" class="hero-heading">Have plans?</div>
-    <div data-ix="hero-text-2" class="hero-subheading">Nope? Don&#x27;t stress, Docent does.</div>
+    <div data-ix="hero-text" class="hero-heading">{{type}}</div>
   </div>
 </div>
 <div class="category-section">
@@ -19,7 +18,7 @@
 <div id="posts" class="main-section bottom-padding">
   <div id="Latest-post" class="w-container">
     <div>
-      <h2 class="section-title">Featured Activities</h2>
+      <h2 class="section-title">{{type}} Activities</h2>
       <div class="med-divider"></div>
     </div>
     {% for activity in activity_list %}
@@ -49,31 +48,7 @@
       {% endif %}
     </div>
     {% endfor %}
-    <div class="w-container">
-      <div class="section-heading">
-        <h2 class="section-title">Suggested Activities</h2>
-        <div class="med-divider"></div>
-      </div>
-      <div class="w-row">
-        <div class="w-col w-col-4">
-          <div class="activity-border">
-            <h1 class="activity-header">Local Band</h1>
-            <div class="activity-text-layout">123 University Ave.<br>775-123-4567</div>
-          </div>
-        </div>
-        <div class="w-col w-col-4">
-          <div class="activity-border">
-            <h1 class="activity-header">Trail Head</h1>
-            <div class="activity-text-layout">382 Hike Road<br>775-143-4817</div>
-          </div>
-        </div>
-        <div class="w-col w-col-4">
-          <div class="activity-border">
-            <h1 class="activity-header">Baseball Game</h1>
-            <div class="activity-text-layout">123 Reno Street<br>775-233-0987</div>
-          </div>
-        </div>
-      </div>
+
     </div>
   </div>
 </div>

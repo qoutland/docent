@@ -13,7 +13,6 @@ from .models import Profile, Interest, Activity, ActivityType
 
 
 def index(request):
-
 	if request.method == 'GET':
 		search_query = request.GET.get('search_box', None)
 		if search_query != None and len(str(search_query)) > 0:
@@ -35,17 +34,40 @@ def index(request):
 	if len(activity_list) % 3 != 0:
 		act_list.append(activity_list[i-3:len(activity_list)])
 
-
-	num_profiles = Profile.objects.all().count()
-	num_activities = Activity.objects.all().count()
-	num_visits = request.session.get('num_visits',0)
-	request.session['num_visits'] = num_visits+1
-
 	context = {
 		'activity_list': act_list,
 	}
 
 	return render(request, 'index.html', context)
+
+def category(request):
+	if request.method == 'GET':
+		search_query = request.GET.get('type', None)
+		if search_query != None and len(str(search_query)) > 0:
+			act_list = []
+			try:
+				type_id = ActivityType.objects.filter(activity_type=str(search_query))
+				type_list = Activity.objects.filter(activity_type=ActivityType.objects.get(activity_type=str(search_query).lower())) #For activity type
+			except:
+				type_list= []
+			activity_list = list(set(act_list) | set(type_list))
+		else:
+			activity_list = Activity.objects.all()
+	
+	act_list = []
+	i=3
+	while len(activity_list) > i:
+		act_list.append(activity_list[(i-3):i])
+		i+=3
+	if len(activity_list) % 3 != 0:
+		act_list.append(activity_list[i-3:len(activity_list)])
+
+	context = {
+		'activity_list': act_list,
+		'type': search_query.capitalize(),
+	}
+
+	return render(request, 'category.html', context)
 
 
 @login_required
