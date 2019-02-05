@@ -4,11 +4,8 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import generic
-
 from itertools import chain
-
 from .forms import SignUpForm
-
 from .models import Profile, Interest, Activity, ActivityType
 
 

@@ -1357,25 +1357,31 @@ html.w-mod-js *[data-ix="view-more"] {
     padding-right: 15px;
     padding-left: 15px;
   }
+
   .main-section {
     padding: 40px 10px;
   }
+
   .main-section.dark {
     padding-right: 0px;
     padding-left: 0px;
   }
+
   .preview-text {
     overflow: hidden;
     max-height: 40px;
   }
+
   .section-heading {
     display: block;
     text-align: center;
   }
+
   .footer-section {
     padding-right: 10px;
     padding-left: 10px;
   }
+
   .featured-text {
     position: absolute;
     left: 0px;
@@ -1384,12 +1390,15 @@ html.w-mod-js *[data-ix="view-more"] {
     bottom: 0px;
     padding-top: 70px;
   }
+
   .featured-title {
     font-size: 23px;
   }
+
   .category-tag-2 {
     z-index: 10;
   }
+
   .featured-description {
     overflow: hidden;
     max-height: 55px;
@@ -1397,15 +1406,18 @@ html.w-mod-js *[data-ix="view-more"] {
     font-size: 17px;
     line-height: 23px;
   }
+
   .blog-thumbnail {
     width: 33.33%;
     padding-top: 6px;
     padding-bottom: 6px;
   }
+
   .featuredthumbnail {
     padding-top: 5px;
     padding-bottom: 5px;
   }
+
   .category-block {
     padding: 10px 0px;
   }
@@ -1416,61 +1428,75 @@ html.w-mod-js *[data-ix="view-more"] {
     height: 440px;
     padding-top: 162px;
   }
+
   .main-section {
     padding-right: 20px;
     padding-left: 20px;
   }
+
   .main-section.dark {
     padding-right: 0px;
     padding-left: 0px;
   }
+
   .featured-text {
     left: 0px;
     top: auto;
     right: 0px;
     bottom: 0px;
   }
+
   .featured-title {
     font-size: 27px;
   }
+
   .featured-description {
     font-size: 18px;
   }
+
   .author-picture {
     width: 210px;
     margin-right: 13px;
     margin-bottom: 6px;
   }
+
   .authorbio {
     font-size: 14px;
     line-height: 17px;
   }
+
   .blog-thumbnail {
     width: 50%;
   }
+
   .featuredthumbnail {
     padding: 10px 0px;
   }
+
   .navmenu {
     width: 100%;
   }
+
   .category-wrapper {
     display: inline-block;
     width: 33.33%;
     padding-top: 4px;
     padding-bottom: 4px;
   }
+
   .about-image {
     display: block;
     margin-right: auto;
     margin-left: auto;
   }
+
   .success-message {
     padding-top: 28px;
     background-color: #5cc489;
     color: #fff;
     font-size: 18px;
   }
+
   .success-text {
     font-size: 18px;
   }
@@ -1481,83 +1507,104 @@ html.w-mod-js *[data-ix="view-more"] {
     font-size: 18px;
     line-height: 28px;
   }
+
   .hero-section {
     height: 430px;
     padding-top: 118px;
     padding-right: 21px;
     padding-left: 21px;
   }
+
   .navbar {
     padding: 2px 15px 7px;
   }
+
   .menu-button {
     margin-top: 13px;
   }
+
   .long-text {
     margin-top: 0px;
   }
+
   .hero-subheading {
     line-height: 27px;
   }
+
   .main-section {
     padding-right: 15px;
     padding-left: 15px;
   }
+
   .author-img {
     display: block;
   }
+
   .section-heading {
     display: block;
   }
+
   .med-divider {
     width: 60%;
   }
+
   .form-wrapper {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
   }
+
   .field {
     width: 100%;
     margin-bottom: 5px;
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
   }
+
   .submit-button {
     width: 100%;
     border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
   }
+
   .footer-section {
     position: relative;
   }
+
   .footer-link {
     display: block;
     padding-left: 0px;
     float: none;
     text-align: center;
   }
+
   .featured-text {
     padding: 0px 15px 55px;
   }
+
   .featured-title {
     font-size: 18px;
   }
+
   .category-tag-2 {
     left: 15px;
     top: 15px;
     padding: 6px;
   }
+
   .featured-description {
     display: none;
   }
+
   .featured-details {
     padding-right: 15px;
     padding-left: 15px;
   }
+
   .inner-hero {
     height: 330px;
   }
+
   .author-picture {
     display: block;
     width: 130px;
@@ -1568,45 +1615,55 @@ html.w-mod-js *[data-ix="view-more"] {
     border-radius: 110px;
     text-align: center;
   }
+
   .author-name-main {
     margin-top: 2px;
     font-size: 23px;
     line-height: 34px;
     text-align: center;
   }
+
   .authorbio {
     font-size: 14px;
     text-align: center;
   }
+
   .social-wrapper {
     text-align: center;
   }
+
   .hero-header {
     font-size: 40px;
   }
+
   .blog-thumbnail {
     width: 100%;
     padding-top: 6px;
     padding-bottom: 6px;
   }
+
   .footer-logo {
     display: block;
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
   }
+
   .footer-logo.w--current {
     display: block;
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
   }
+
   .blog-post {
     width: 95%;
   }
+
   .featuredthumbnail {
     padding: 5px 0px;
   }
+
   .navmenu {
     margin-top: 0px;
     margin-right: 0px;
@@ -1614,6 +1671,7 @@ html.w-mod-js *[data-ix="view-more"] {
     float: none;
     background-color: rgba(35, 47, 56, .72);
   }
+
   .nav-link {
     display: block;
     padding-top: 14px;
@@ -1622,10 +1680,12 @@ html.w-mod-js *[data-ix="view-more"] {
     font-size: 17px;
     text-align: center;
   }
+
   .nav-link.w--current {
     opacity: 1;
     color: #fff;
   }
+
   .logo {
     display: inline-block;
     padding-top: 15px;
@@ -1634,6 +1694,7 @@ html.w-mod-js *[data-ix="view-more"] {
     float: left;
     text-align: center;
   }
+
   .nav-menu {
     position: absolute;
     display: block;
@@ -1641,6 +1702,7 @@ html.w-mod-js *[data-ix="view-more"] {
     padding-top: 60px;
     background-color: rgba(35, 47, 56, .92);
   }
+
   .close-x {
     position: absolute;
     left: 35px;
@@ -1655,6 +1717,7 @@ html.w-mod-js *[data-ix="view-more"] {
     text-decoration: none;
     text-transform: uppercase;
   }
+
   .success-text {
     line-height: 27px;
   }
@@ -1714,4 +1777,3 @@ html.w-mod-js *[data-ix="view-more"] {
   -ms-grid-row-span: 1;
   grid-row-end: 2;
 }
-
