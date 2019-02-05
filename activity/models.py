@@ -9,7 +9,6 @@ from localflavor.us.models import USStateField
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE,)
-	birthday = models.DateField(null=True, blank=False)
 	
 	@receiver(post_save, sender=User)
 	def create_user_profile(sender, instance, created, **kwargs):
@@ -43,8 +42,3 @@ class Activity(models.Model):
 	city = models.CharField(_("city"), max_length=64, default="Reno")
 	state = USStateField(_("state"), default="NV")
 	code = models.CharField(_("zip code"), max_length=5, null=True)
-
-
-
-	
-#class Review(models.Model):
