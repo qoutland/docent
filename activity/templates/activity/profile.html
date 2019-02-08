@@ -45,7 +45,43 @@
 </div>
 </div>
 <div>
-  <h1 class="heading-14">Saved Activities</h1>
+  <div id="posts" class="main-section bottom-padding">
+    <div id="Latest-post" class="w-container">
+      <div>
+        <h2 class="section-title">Saved Activities</h2>
+        <div class="med-divider"></div>
+      </div>
+      {% for activity in saved_activity_list %}
+      <div class="columns w-row">
+        <div class="column w-col w-col-4">
+          <div class="activity-border">
+            <h1 class="activity-header">{{activity.0.name}}</h1>
+            <div class="activity-text-layout">{{activity.0.address_1}}<br>{{activity.0.phone_number}}</div>
+          </div>
+        </div>
+        {% if activity.1 %}
+        <div class="column-2 w-col w-col-4">
+          <div class="activity-border">
+            <h1 class="activity-header">{{activity.1.name}}</h1>
+            <div class="activity-text-layout">{{activity.1.address_1}}<br>{{activity.1.phone_number}}</div>
+          </div>
+        </div>
+        {% endif %}
+  
+        {% if activity.2 %}
+        <div class="column-3 w-col w-col-4">
+          <div class="activity-border">
+            <h1 class="activity-header">{{activity.2.name}}</h1>
+            <div class="activity-text-layout">{{activity.2.address_1}}<br>{{activity.2.phone_number}}</div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+  
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
