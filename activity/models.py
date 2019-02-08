@@ -30,7 +30,7 @@ class Interest(models.Model):
 class Activity(models.Model):
 	ID = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=250)
-	activity_type = models.ForeignKey(ActivityType, on_delete=models.CASCADE)
+	activity_type = models.ManyToManyField(ActivityType, through='ActivityTypeLine')
 	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
 	phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
 	url = models.URLField(blank=True)
@@ -42,3 +42,11 @@ class Activity(models.Model):
 	city = models.CharField(_("city"), max_length=64, default="Reno")
 	state = USStateField(_("state"), default="NV")
 	code = models.CharField(_("zip code"), max_length=5, null=True)
+
+class ActivityTypeLine(models.Model):
+	act_type = models.ForeignKey(ActivityType, on_delete=models.CASCADE)
+	act_id = models.ForeignKey(Activity, on_delete=models.CASCADE)
+
+class SavedActivity(models.Model):
+	profile = models.ForeignKey(User, on_delete=models.CASCADE)
+	save_act_id = models.ForeignKey(Activity, on_delete=models.CASCADE)
