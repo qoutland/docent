@@ -11,4 +11,5 @@ urlpatterns = [
     path('activity/', include('activity.urls')),
     path('', RedirectView.as_view(url='/activity/')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('auth/', include('social_django.urls', namespace='social')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
