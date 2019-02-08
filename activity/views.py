@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from itertools import chain
 from .forms import SignUpForm
-from .models import Profile, Interest, Activity, ActivityType
+from .models import Profile, Interest, Activity, ActivityType, SavedActivity
 
 
 def index(request):
@@ -82,6 +82,16 @@ def profile(request):
 			if rem_interest != None:
 				Interest.objects.filter(act_type=ActivityType.objects.get(activity_type=rem_interest), profile=request.user.id).delete()
 
+	saved_activity_list = Activity.objects.filter(ID=SavedActivity.objects.get(profile=request.user.id).save_act_id.ID)
+
+	act_list = []
+	i=3
+	while len(saved_activity_list) > i:
+		act_list.append(saved_activity_list[(i-3):i])
+		i+=3
+	if len(saved_activity_list) % 3 != 0:
+		act_list.append(saved_activity_list[i-3:len(saved_activity_list)])
+
 	int_list = ActivityType.objects.all()
 	user_interest_list = ActivityType.objects.filter(interest__in=Interest.objects.filter(profile=request.user.pk))
 	interest_list = [x for x in int_list if x not in user_interest_list]
@@ -89,6 +99,7 @@ def profile(request):
 	context = {
 		'interest_list': interest_list,
 		'user_interest_list': user_interest_list,
+		'saved_activity_list': act_list,
 	}
 
 	return render(request, 'activity/profile.html', context)
