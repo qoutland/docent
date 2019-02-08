@@ -108,14 +108,9 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-<<<<<<< HEAD
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = '/activity'
 LOGOUT_REDIRECT_URL = '/activity'
-=======
-LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/activity/login'
->>>>>>> c83f1db3e46da6b1b6227275bc2f165e4af364e3
 APPEND_SLASH = True
 
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
