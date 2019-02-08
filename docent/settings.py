@@ -30,6 +30,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'docent.urls'
@@ -73,6 +74,18 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+ 'social_core.backends.open_id.OpenIdAuth',  # for Google authentication
+ 'social_core.backends.google.GoogleOpenId',  # for Google authentication
+ 'social_core.backends.google.GoogleOAuth2',  # for Google authentication
+ 'social_core.backends.github.GithubOAuth2',  # for Github authentication
+ 'social_core.backends.facebook.FacebookOAuth2',  # for Facebook authentication
+ 'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='585163855279-r6at10r3g9qfl7cgo01eqt3rhvglqo1c.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '66sEFfjJKDJ4u9H8qGmumXvH'
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -95,9 +108,14 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+<<<<<<< HEAD
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = '/activity'
 LOGOUT_REDIRECT_URL = '/activity'
+=======
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/activity/login'
+>>>>>>> c83f1db3e46da6b1b6227275bc2f165e4af364e3
 APPEND_SLASH = True
 
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
