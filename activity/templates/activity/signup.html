@@ -13,4 +13,4 @@
     {% endfor %}
     <button type="submit">Sign up</button>
 </form>
-{% endblock %}
+<a href="{% url 'social:begin' 'google-oauth2' %}">Sign Up with Google</a><br>{% endblock %}
