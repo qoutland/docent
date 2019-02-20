@@ -10,33 +10,34 @@ from .models import Profile, Interest, Activity, ActivityType, SavedActivity
 
 
 def index(request):
-	if request.method == 'GET':
-		search_query = request.GET.get('search_box', None)
-		save_act = request.GET.get('save_act', None)
-		if search_query:
-			activity_list = getActs(search_query)
+	if request.method == 'GET': #If the request is a GET method
+		search_query = request.GET.get('search_box', None) #Get search box var
+		save_act = request.GET.get('save_act', None) #Get activity to save or delete
+		if search_query: #If there is a search query
+			activity_list = getActs(search_query) #Return the results (if there are any)
 			if activity_list == []:
-				activity_list = Activity.objects.all()
+				activity_list = Activity.objects.all() #Otherwise return everything
 		else:
-			activity_list = Activity.objects.all()
-		if save_act != None:
-			if SavedActivity.objects.filter(profile=request.user.id, save_act_id=save_act).exists():
-				SavedActivity.objects.get(profile=request.user.id, save_act_id=save_act).delete()
+			activity_list = Activity.objects.all() #If there was no search_query then return all activities
+
+		if save_act: #If there is an activity to save/delete
+			if SavedActivity.objects.filter(profile=request.user.id, save_act_id=save_act).exists(): #See if it exists
+				SavedActivity.objects.get(profile=request.user.id, save_act_id=save_act).delete() #If it does then delete it
 			else:
-				SavedActivity.objects.get_or_create(profile=request.user, save_act_id=Activity.objects.get(ID=save_act))
+				SavedActivity.objects.get_or_create(profile=request.user, save_act_id=Activity.objects.get(ID=save_act)) #If not create it
 
-	act_list = toTuple(activity_list)
+	act_list = toTuple(activity_list) #This is used to split the activities up into groups of 3 for formatting
 
-	if request.user.is_authenticated:
-		saved_list=[]
-		if SavedActivity.objects.filter(profile=request.user.id).exists():
-			saved_activity_list = SavedActivity.objects.filter(profile=request.user.id)
-			for save_act in saved_activity_list:
-				saved_list.append(Activity.objects.get(ID=save_act.save_act_id.ID))
+	if request.user.is_authenticated: #If the user is authenticated show them the stars
+		saved_list=[] #Create empty list (must do if using the append function)
+		if SavedActivity.objects.filter(profile=request.user.id).exists(): #Check if a user has any saved activites
+			saved_activity_list = SavedActivity.objects.filter(profile=request.user.id) #Get all of instances (this is not just activities, it includes the user PK as well)
+			for save_act in saved_activity_list: #Loop through SavedActivity objects and get the Activity object referenced by its FK
+				saved_list.append(Activity.objects.get(ID=save_act.save_act_id.ID)) #Append to the  list
 		else:
-			saved_list=[]
+			saved_list=[] #If the user doesn't have any saved activites return an empty list
 	else:
-		saved_list=[]
+		saved_list=[] #If the user is not authenticated return an empty list
 
 	context = {
 		'activity_list': act_list,
@@ -44,7 +45,7 @@ def index(request):
 	}
 	return render(request, 'index.html', context)
 
-def category(request):
+def category(request): #This function is used to present the activities based on the categories (very similiar to search_query) **Maybe can be refactored in the future
 	if request.method == 'GET':
 		search_query = request.GET.get('type', None)
 		activity_list = getActs(search_query)
@@ -57,48 +58,40 @@ def category(request):
 	}
 	return render(request, 'category.html', context)
 
-@login_required
+@login_required #Can't see this page without loggin in
 def profile(request):
 	if request.method == 'GET':
-		if request.GET.get('new_interest', None):
-			new_interest = request.GET.get('new_interest', None)
-			if new_interest != None:
-				new_int = ActivityType.objects.all().get(activity_type = new_interest)
-				Interest.objects.get_or_create(profile = request.user, act_type = new_int)
-		if request.GET.get('old_interest', None):
-			rem_interest = request.GET.get('old_interest', None)
-			if rem_interest != None:
-				Interest.objects.filter(act_type=ActivityType.objects.get(activity_type=rem_interest), profile=request.user.id).delete()
-		if request.GET.get('save_act'):
-			save_act = request.GET.get('save_act', None)
-			SavedActivity.objects.get(profile=request.user.id, save_act_id=save_act).delete()
+		if request.GET.get('new_interest', None): #If user is adding a new interest
+			new_interest = request.GET.get('new_interest', None) #Get the var
+			new_int = ActivityType.objects.all().get(activity_type = new_interest) #Get the Activity type object
+			Interest.objects.get_or_create(profile = request.user, act_type = new_int) #Create a new interest for the user
 
+		if request.GET.get('old_interest', None): #If the user is removing an old interest
+			rem_interest = request.GET.get('old_interest', None) #Get the var
+			Interest.objects.filter(act_type=ActivityType.objects.get(activity_type=rem_interest), profile=request.user.id).delete() #Delete that object with the user and interest
 
-		saved_activity_list = SavedActivity.objects.filter(profile=request.user.id) #Get all Saved Activities in SavedActivities
+		if request.GET.get('save_act'): #If the user wants to delete a saved activity from the profile page
+			save_act = request.GET.get('save_act', None) #Get the var
+			SavedActivity.objects.get(profile=request.user.id, save_act_id=save_act).delete() #Delete that object with user and activity ID
+
+		saved_activity_list = SavedActivity.objects.filter(profile=request.user.id) #Get all Saved Activities in SavedActivities for a specific user
 		saved_act_list=[]
 		for save_act in saved_activity_list: #Get the activity object in SavedActivities
-			saved_act_list.append(Activity.objects.get(ID=save_act.save_act_id.ID))
-		if saved_act_list != []:
-			act_list = toTuple(saved_act_list)
+			saved_act_list.append(Activity.objects.get(ID=save_act.save_act_id.ID)) #Append List
+		if saved_act_list != []: #If the user had saved activites
+			act_list = toTuple(saved_act_list) #Put them in Tuple format for formatting
 		else:
-			act_list=[]
+			act_list=[] #If the user didn't have any saved activities create an empty list
 
-	saved_list=[]
-	saved_activity_list = SavedActivity.objects.filter(profile=request.user.id)
-	for save_act in saved_activity_list:
-		saved_list.append(Activity.objects.get(ID=save_act.save_act_id.ID))
-
-	int_list = ActivityType.objects.all()
-	user_interest_list = ActivityType.objects.filter(interest__in=Interest.objects.filter(profile=request.user.pk))
-	interest_list = [x for x in int_list if x not in user_interest_list]
+	int_list = ActivityType.objects.all() #Get all the activity types
+	user_interest_list = ActivityType.objects.filter(interest__in=Interest.objects.filter(profile=request.user.pk)) #Get all interests saved by the user
+	interest_list = [x for x in int_list if x not in user_interest_list] #Get the rest of the interests
 
 	context = {
 		'interest_list': interest_list,
 		'user_interest_list': user_interest_list,
 		'saved_activity_list': act_list,
-		'saved_list': saved_list,
 	}
-
 	return render(request, 'activity/profile.html', context)
 
 def signUp(request):
@@ -117,24 +110,24 @@ def signUp(request):
 	return render(request, 'activity/signup.html', {'form': form})
 
 def toTuple(lst):
-	act_list = []
-	i=3
-	while len(lst) >= i:
-		act_list.append(lst[(i-3):i])
-		i+=3
-	if len(lst) % 3 != 0:
-		act_list.append(lst[i-3:len(lst)])
-	return act_list
+	act_list = [] #Declare an empty list (Needed for appending)
+	i=3 #Set number to create tuples of
+	while len(lst) >= i: #While list is 3 or greater (3 or more activites)
+		act_list.append(lst[(i-3):i]) #Append an item that is a tuple of 3 ex: ([act1, act2, act3], [act4, act5, act6])
+		i+=3 #Increase index by tuple counter
+	if len(lst) % 3 != 0: #If there is less than 3 activities in the list or num is not divisible by 3
+		act_list.append(lst[i-3:len(lst)]) #Append those items to the list (Might be 1 or 2 empty ones being appened *this doesn't matter)
+	return act_list #Return the finished list
 
-def getActs(search_query):
-	if search_query != None and len(str(search_query)) > 0:
-			act_list = Activity.objects.all().filter(name__contains=str(search_query))
+def getActs(search_query): #Function that takes in search param and returns activites that match it
+	if search_query != None and len(str(search_query)) > 0: #If the search_query is not blank
+			act_list = Activity.objects.all().filter(name__contains=str(search_query)) #Get all activities with search_query in the name
 			try:
-				type_id = ActivityType.objects.filter(activity_type=str(search_query))
-				type_list = Activity.objects.filter(activity_type=ActivityType.objects.get(activity_type=str(search_query).lower())) #For activity type
-			except:
+				type_id = ActivityType.objects.filter(activity_type=str(search_query)) #Get activity type with search_query (if exists)
+				type_list = Activity.objects.filter(activity_type=ActivityType.objects.get(activity_type=str(search_query).lower())) #Get activities matching the type_id
+			except: #If there was no types that matched the search_query
 				type_list= []
-			activity_list = list(set(act_list) | set(type_list))
-			return activity_list
-	else:
-		return []
+			activity_list = list(set(act_list) | set(type_list)) #Combine the lists (Name matches and type matches)
+			return activity_list #Return the list
+	else: #If the search_query was empty
+		return [] #Return the empty list
