@@ -7,27 +7,18 @@ from django.forms import ModelForm
 from django.utils.translation import ugettext as _
 from localflavor.us.models import USStateField
 
-class Profile(models.Model):
+class Profile(models.Model): #Don't know if this is needed anymore
 	user = models.OneToOneField(User, on_delete=models.CASCADE,)
 	
-	@receiver(post_save, sender=User)
-	def create_user_profile(sender, instance, created, **kwargs):
-		if created:
-		   Profile.objects.create(user=instance)
+class ActivityType(models.Model): #Activity Typing
+	type_id = models.AutoField(primary_key=True) #A primary key to keep track of IDs
+	activity_type = models.CharField(null=False, blank=False, max_length=20) #The description of the key
 
-	@receiver(post_save, sender=User)
-	def save_user_profile(sender, instance, **kwargs):
-		instance.profile.save()
-
-class ActivityType(models.Model):
-	type_id = models.AutoField(primary_key=True)
-	activity_type = models.CharField(null=False, blank=False, max_length=20)
-
-class Interest(models.Model):
+class Interest(models.Model): #An entry for a user and an ActivityType
 	profile = models.ForeignKey(User, on_delete=models.CASCADE)
 	act_type = models.ForeignKey(ActivityType, on_delete=models.CASCADE)
 
-class Activity(models.Model):
+class Activity(models.Model): #An activity object (using a PK for individual references)
 	ID = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=250)
 	activity_type = models.ManyToManyField(ActivityType, through='ActivityTypeLine')
@@ -43,10 +34,10 @@ class Activity(models.Model):
 	state = USStateField(_("state"), default="NV")
 	code = models.CharField(_("zip code"), max_length=5, null=True)
 
-class ActivityTypeLine(models.Model):
+class ActivityTypeLine(models.Model): #Allows activities to have multiple types
 	act_type = models.ForeignKey(ActivityType, on_delete=models.CASCADE)
 	act_id = models.ForeignKey(Activity, on_delete=models.CASCADE)
 
-class SavedActivity(models.Model):
+class SavedActivity(models.Model): #Allows users to be able to save multiple activites 
 	profile = models.ForeignKey(User, on_delete=models.CASCADE)
 	save_act_id = models.ForeignKey(Activity, on_delete=models.CASCADE)
