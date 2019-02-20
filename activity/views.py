@@ -12,14 +12,35 @@ from .models import Profile, Interest, Activity, ActivityType, SavedActivity
 def index(request):
 	if request.method == 'GET':
 		search_query = request.GET.get('search_box', None)
-		activity_list = getActs(search_query)
-	if activity_list == []:
-		activity_list = Activity.objects.all()
+		save_act = request.GET.get('save_act', None)
+		if search_query:
+			activity_list = getActs(search_query)
+			if activity_list == []:
+				activity_list = Activity.objects.all()
+		else:
+			activity_list = Activity.objects.all()
+		if save_act != None:
+			if SavedActivity.objects.filter(profile=request.user.id, save_act_id=save_act).exists():
+				SavedActivity.objects.get(profile=request.user.id, save_act_id=save_act).delete()
+			else:
+				SavedActivity.objects.get_or_create(profile=request.user, save_act_id=Activity.objects.get(ID=save_act))
 
 	act_list = toTuple(activity_list)
 
+	if request.user.is_authenticated:
+		saved_list=[]
+		if SavedActivity.objects.filter(profile=request.user.id).exists():
+			saved_activity_list = SavedActivity.objects.filter(profile=request.user.id)
+			for save_act in saved_activity_list:
+				saved_list.append(Activity.objects.get(ID=save_act.save_act_id.ID))
+		else:
+			saved_list=[]
+	else:
+		saved_list=[]
+
 	context = {
 		'activity_list': act_list,
+		'saved_list': saved_list,
 	}
 	return render(request, 'index.html', context)
 
@@ -48,11 +69,24 @@ def profile(request):
 			rem_interest = request.GET.get('old_interest', None)
 			if rem_interest != None:
 				Interest.objects.filter(act_type=ActivityType.objects.get(activity_type=rem_interest), profile=request.user.id).delete()
-	try:
-		saved_activity_list = Activity.objects.filter(ID=SavedActivity.objects.get(profile=request.user.id).save_act_id.ID)
-		act_list = toTuple(saved_activity_list)
-	except:
-		act_list = []
+		if request.GET.get('save_act'):
+			save_act = request.GET.get('save_act', None)
+			SavedActivity.objects.get(profile=request.user.id, save_act_id=save_act).delete()
+
+
+		saved_activity_list = SavedActivity.objects.filter(profile=request.user.id) #Get all Saved Activities in SavedActivities
+		saved_act_list=[]
+		for save_act in saved_activity_list: #Get the activity object in SavedActivities
+			saved_act_list.append(Activity.objects.get(ID=save_act.save_act_id.ID))
+		if saved_act_list != []:
+			act_list = toTuple(saved_act_list)
+		else:
+			act_list=[]
+
+	saved_list=[]
+	saved_activity_list = SavedActivity.objects.filter(profile=request.user.id)
+	for save_act in saved_activity_list:
+		saved_list.append(Activity.objects.get(ID=save_act.save_act_id.ID))
 
 	int_list = ActivityType.objects.all()
 	user_interest_list = ActivityType.objects.filter(interest__in=Interest.objects.filter(profile=request.user.pk))
@@ -62,6 +96,7 @@ def profile(request):
 		'interest_list': interest_list,
 		'user_interest_list': user_interest_list,
 		'saved_activity_list': act_list,
+		'saved_list': saved_list,
 	}
 
 	return render(request, 'activity/profile.html', context)
@@ -84,7 +119,7 @@ def signUp(request):
 def toTuple(lst):
 	act_list = []
 	i=3
-	while len(lst) > i:
+	while len(lst) >= i:
 		act_list.append(lst[(i-3):i])
 		i+=3
 	if len(lst) % 3 != 0:
