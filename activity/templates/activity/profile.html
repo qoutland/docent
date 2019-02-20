@@ -57,18 +57,11 @@
           <div class="activity-border">
             <h1 class="activity-header">{{activity.0.name}}</h1>
             <div class="activity-text-layout">{{activity.0.address_1}}<br>{{activity.0.phone_number}}</div>
-            {% if user.is_authenticated %}
             <form method="get" action=".">
-              {% if activity.0 in saved_list %}
               <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star"
                   style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
-              {% else %}
-              <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star-empty"
-                  style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
-              {% endif %}
               <input name="save_act" type="hidden" value="{{activity.0.ID}}">
             </form>
-            {% endif %}
           </div>
         </div>
         {% if activity.1 %}
@@ -76,18 +69,11 @@
           <div class="activity-border">
             <h1 class="activity-header">{{activity.1.name}}</h1>
             <div class="activity-text-layout">{{activity.1.address_1}}<br>{{activity.1.phone_number}}</div>
-            {% if user.is_authenticated %}
             <form method="get" action=".">
-              {% if activity.1 in saved_list %}
               <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star"
                   style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
-              {% else %}
-              <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star-empty"
-                  style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
-              {% endif %}
-              <input name="save_act" type="hidden" value="{{activity.1.ID}}">
+              <input name="save_act" type="hidden" value="{{activity.0.ID}}">
             </form>
-            {% endif %}
           </div>
         </div>
         {% endif %}
@@ -97,18 +83,11 @@
           <div class="activity-border">
             <h1 class="activity-header">{{activity.2.name}}</h1>
             <div class="activity-text-layout">{{activity.2.address_1}}<br>{{activity.2.phone_number}}</div>
-            {% if user.is_authenticated %}
             <form method="get" action=".">
-              {% if activity.2 in saved_list %}
               <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star"
                   style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
-              {% else %}
-              <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star-empty"
-                  style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
-              {% endif %}
-              <input name="save_act" type="hidden" value="{{activity.2.ID}}">
+              <input name="save_act" type="hidden" value="{{activity.0.ID}}">
             </form>
-            {% endif %}
           </div>
         </div>
         {% endif %}
