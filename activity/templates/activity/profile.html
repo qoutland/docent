@@ -57,6 +57,11 @@
           <div class="activity-border">
             <h1 class="activity-header">{{activity.0.name}}</h1>
             <div class="activity-text-layout">{{activity.0.address_1}}<br>{{activity.0.phone_number}}</div>
+            <form method="get" action=".">
+              <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star"
+                  style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
+              <input name="save_act" type="hidden" value="{{activity.0.ID}}">
+            </form>
           </div>
         </div>
         {% if activity.1 %}
@@ -64,24 +69,34 @@
           <div class="activity-border">
             <h1 class="activity-header">{{activity.1.name}}</h1>
             <div class="activity-text-layout">{{activity.1.address_1}}<br>{{activity.1.phone_number}}</div>
+            <form method="get" action=".">
+              <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star"
+                  style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
+              <input name="save_act" type="hidden" value="{{activity.0.ID}}">
+            </form>
           </div>
         </div>
         {% endif %}
-  
+
         {% if activity.2 %}
         <div class="column-3 w-col w-col-4">
           <div class="activity-border">
             <h1 class="activity-header">{{activity.2.name}}</h1>
             <div class="activity-text-layout">{{activity.2.address_1}}<br>{{activity.2.phone_number}}</div>
+            <form method="get" action=".">
+              <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star"
+                  style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
+              <input name="save_act" type="hidden" value="{{activity.0.ID}}">
+            </form>
           </div>
         </div>
         {% endif %}
       </div>
       {% endfor %}
-  
-      </div>
+
     </div>
   </div>
+</div>
 </div>
 
 <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
