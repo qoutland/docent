@@ -1,5 +1,5 @@
 import os, socket
-if socket.gethostname() == "prod":
+if socket.gethostname() == "quin":
     from docent.production_settings import *
 else:
     from docent.local_settings import *
