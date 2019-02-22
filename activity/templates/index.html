@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="hero-section">
   <div class="hero-content w-container">
     <div data-ix="hero-text" class="hero-heading">Have plans?</div>
@@ -29,16 +30,15 @@
           <h1 class="activity-header">{{activity.0.name}}</h1>
           <div class="activity-text-layout">{{activity.0.address_1}}<br>{{activity.0.phone_number}}</div>
           {% if user.is_authenticated %}
-          <form method="get" action=".">
+          <div class="{{activity.0.ID}}">
             {% if activity.0 in saved_list %}
-            <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star"
-                style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
+            <a class="likebutton" href="#" data-catid="{{ activity.0.ID }}"><span class="glyphicon glyphicon-star"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
             {% else %}
-            <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star-empty"
-                style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
+            <a class="likebutton" href="#" data-catid="{{ activity.0.ID }}"><span class="glyphicon glyphicon-star-empty"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
             {% endif %}
-            <input name="save_act" type="hidden" value="{{activity.0.ID}}">
-          </form>
+          </div>
           {% endif %}
         </div>
       </div>
@@ -48,16 +48,15 @@
           <h1 class="activity-header">{{activity.1.name}}</h1>
           <div class="activity-text-layout">{{activity.1.address_1}}<br>{{activity.1.phone_number}}</div>
           {% if user.is_authenticated %}
-          <form method="get" action=".">
+          <div class="{{activity.1.ID}}">
             {% if activity.1 in saved_list %}
-            <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star"
-                style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
+            <a class="likebutton" href="#" data-catid="{{ activity.1.ID }}"><span class="glyphicon glyphicon-star"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
             {% else %}
-            <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star-empty"
-                style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
+            <a class="likebutton" href="#" data-catid="{{ activity.1.ID }}"><span class="glyphicon glyphicon-star-empty"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
             {% endif %}
-            <input name="save_act" type="hidden" value="{{activity.1.ID}}">
-          </form>
+          </div>
           {% endif %}
         </div>
       </div>
@@ -69,16 +68,15 @@
           <h1 class="activity-header">{{activity.2.name}}</h1>
           <div class="activity-text-layout">{{activity.2.address_1}}<br>{{activity.2.phone_number}}</div>
           {% if user.is_authenticated %}
-          <form method="get" action=".">
+          <div class="{{activity.2.ID}}">
             {% if activity.2 in saved_list %}
-            <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star"
-                style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
+            <a class="likebutton" href="#" data-catid="{{ activity.2.ID }}"><span class="glyphicon glyphicon-star"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
             {% else %}
-            <button onclick="this.form.submit()" style="background:transparent; border:none;"><span class="glyphicon glyphicon-star-empty"
-                style="position: absolute; right: 0; bottom: 0; font-size: 20px;"></span></button>
+            <a class="likebutton" href="#" data-catid="{{ activity.2.ID }}"><span class="glyphicon glyphicon-star-empty"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
             {% endif %}
-            <input name="save_act" type="hidden" value="{{activity.2.ID}}">
-          </form>
+          </div>
           {% endif %}
         </div>
       </div>
@@ -114,5 +112,9 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+
+</script>
 
 {% endblock %}

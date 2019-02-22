@@ -2,12 +2,23 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import generic
 from itertools import chain
 from .forms import SignUpForm
 from .models import Profile, Interest, Activity, ActivityType, SavedActivity
 
+def saveAct(request):
+	if request.method == 'GET':
+		save_act = request.GET['post_id'] #Get activity to save or delete
+		if save_act: #If there is an activity to save/delete
+			if SavedActivity.objects.filter(profile=request.user.id, save_act_id=save_act).exists(): #See if it exists
+				SavedActivity.objects.get(profile=request.user.id, save_act_id=save_act).delete() #If it does then delete it
+				return HttpResponse("deleted")
+			else:
+				SavedActivity.objects.get_or_create(profile=request.user, save_act_id=Activity.objects.get(ID=save_act)) #If not create it
+				return HttpResponse("created")
 
 def index(request):
 	if request.method == 'GET': #If the request is a GET method
