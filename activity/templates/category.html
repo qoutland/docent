@@ -27,6 +27,17 @@
         <div class="activity-border">
           <h1 class="activity-header">{{activity.0.name}}</h1>
           <div class="activity-text-layout">{{activity.0.address_1}}<br>{{activity.0.phone_number}}</div>
+          {% if user.is_authenticated %}
+          <div class="{{activity.0.ID}}">
+            {% if activity.0 in saved_list %}
+            <a class="likebutton" href="#" data-catid="{{ activity.0.ID }}"><span class="glyphicon glyphicon-star"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% else %}
+            <a class="likebutton" href="#" data-catid="{{ activity.0.ID }}"><span class="glyphicon glyphicon-star-empty"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% endif %}
+          </div>
+          {% endif %}
         </div>
       </div>
       {% if activity.1 %}
@@ -34,6 +45,17 @@
         <div class="activity-border">
           <h1 class="activity-header">{{activity.1.name}}</h1>
           <div class="activity-text-layout">{{activity.1.address_1}}<br>{{activity.1.phone_number}}</div>
+          {% if user.is_authenticated %}
+          <div class="{{activity.1.ID}}">
+            {% if activity.1 in saved_list %}
+            <a class="likebutton" href="#" data-catid="{{ activity.1.ID }}"><span class="glyphicon glyphicon-star"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% else %}
+            <a class="likebutton" href="#" data-catid="{{ activity.1.ID }}"><span class="glyphicon glyphicon-star-empty"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% endif %}
+          </div>
+          {% endif %}
         </div>
       </div>
       {% endif %}
@@ -43,6 +65,17 @@
         <div class="activity-border">
           <h1 class="activity-header">{{activity.2.name}}</h1>
           <div class="activity-text-layout">{{activity.2.address_1}}<br>{{activity.2.phone_number}}</div>
+          {% if user.is_authenticated %}
+          <div class="{{activity.2.ID}}">
+            {% if activity.2 in saved_list %}
+            <a class="likebutton" href="#" data-catid="{{ activity.2.ID }}"><span class="glyphicon glyphicon-star"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% else %}
+            <a class="likebutton" href="#" data-catid="{{ activity.2.ID }}"><span class="glyphicon glyphicon-star-empty"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% endif %}
+          </div>
+          {% endif %}
         </div>
       </div>
       {% endif %}
