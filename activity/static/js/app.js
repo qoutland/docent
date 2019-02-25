@@ -10,11 +10,13 @@ $('.likebutton').click(function () {
       success: function (data) {
         var str = "." + catid;
         if (data == 'created') {
+         $(str).find("span").fadeOut("fast")
+          $(str).find("span").fadeIn()
           $(str).find("span").removeClass("glyphicon-star-empty").addClass("glyphicon-star");
-          console.log("created")
         } else if (data == 'deleted') {
+          $(str).find("span").fadeOut("fast")
           $(str).find("span").removeClass("glyphicon-star").addClass("glyphicon-star-empty");
-          console.log("deleted")
+          $(str).find("span").fadeIn()
         }
       },
     })
