@@ -20,6 +20,17 @@ def saveAct(request):
 				SavedActivity.objects.get_or_create(profile=request.user, save_act_id=Activity.objects.get(ID=save_act)) #If not create it
 				return HttpResponse("created")
 
+def add_removeInterest(request):
+	if request.method == 'GET':
+		new_interest = request.GET['new_int'] #Get activity to save or delete
+		if new_interest: #If there is an activity to save/delete
+			if Interest.objects.filter(profile=request.user.id, act_type=ActivityType.objects.get(activity_type=new_interest)).exists(): #See if it exists
+				Interest.objects.get(profile=request.user.id, act_type=ActivityType.objects.get(activity_type=new_interest)).delete() #If it does then delete it
+				return HttpResponse("deleted")
+			else:
+				Interest.objects.get_or_create(profile=request.user, act_type=ActivityType.objects.get(activity_type=new_interest)) #If not create it
+				return HttpResponse("created")
+
 def index(request):
 	if request.method == 'GET': #If the request is a GET method
 		search_query = request.GET.get('search_box', None) #Get search box var
