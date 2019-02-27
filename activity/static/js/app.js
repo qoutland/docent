@@ -10,13 +10,14 @@ $('.likebutton').click(function () {
       success: function (data) {
         var str = "." + catid;
         if (data == 'created') {
-          $(str).find("span").fadeOut("fast")
-          $(str).find("span").fadeIn()
-          $(str).find("span").removeClass("glyphicon-star-empty").addClass("glyphicon-star");
+          console.log("created")
+          $(str).find("i").fadeOut("fast")
+          $(str).find("i").fadeIn()
+          $(str).find("i").removeClass("fa-star-o").addClass("fa-star");
         } else if (data == 'deleted') {
-          $(str).find("span").fadeOut("fast")
-          $(str).find("span").removeClass("glyphicon-star").addClass("glyphicon-star-empty");
-          $(str).find("span").fadeIn()
+          $(str).find("i").fadeOut("fast")
+          $(str).find("i").removeClass("fa-star").addClass("fa-star-o");
+          $(str).find("i").fadeIn()
         }
       },
     })
