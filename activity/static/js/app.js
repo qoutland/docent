@@ -79,3 +79,7 @@ $('.likebutton').click(function () {
       },
     })
   });
+
+  $('.show_modal').click(function () {
+    $('.modal').style.display = "block";
+  });
