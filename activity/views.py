@@ -64,8 +64,9 @@ def index(request):
 	context = {
 		'activity_list': act_list,
 		'saved_list': saved_list,
+		'save_list': activity_list
 	}
-	return render(request, 'index.html', context)
+	return render(request, 'index_bs.html', context)
 
 def category(request): #This function is used to present the activities based on the categories (very similiar to search_query) **Maybe can be refactored in the future
 	if request.method == 'GET':
