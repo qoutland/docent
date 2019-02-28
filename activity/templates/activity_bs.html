@@ -1,12 +1,12 @@
 <div class="col-auto mb-3">
     <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
+        <img class="card-img-top" src="#" alt="Card image cap">
         <div class="card-body">
                 {% if user.is_authenticated %}
                 {% if activity in saved_list %}
-                <a class="likebutton mark_{{ activity.ID }}" href="javascript:void();" data-catid="{{ activity.ID }}" style="float: right;"><i class="fas fa-bookmark"></i></a>
+                <a class="likebutton mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;" onclick="return false"><i class="fas fa-bookmark"></i></a>
                 {% else %}
-                <a class="likebutton mark_{{ activity.ID }}" href="javascript:void();" data-catid="{{ activity.ID }}" style="float: right;"><i class="far fa-bookmark"></i></a>
+                <a class="likebutton mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;" onclick="return false"><i class="far fa-bookmark"></i></a>
                 {% endif %}
                 {% endif %}
             <h5 class="card-title">{{activity.name}}</h5>

@@ -6,12 +6,13 @@
   <meta content="width=device-width, initial-scale=1" name="viewport">
   {% block title %}<title>Docent</title>{% endblock %}
   {% load static %}
-
-  <!--Glyphicons-->
+  <!--favicon-->
+  <link rel="shortcut icon" href="{%  static 'images/favicon.png' %}">
   <!--Bootstrap-->
   <link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"> <link rel="stylesheet"
     href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
     crossorigin="anonymous">
+  <!--Glyphicicns-->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
     crossorigin="anonymous">
 
@@ -58,7 +59,7 @@
                 <form method="post" action="{% url 'login' %}">
                   {% csrf_token %}
                   <div class="form-group">
-                    <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username"
+                    <input type="text" name="username" id="username_reg" tabindex="1" class="form-control" placeholder="Username"
                       value="">
                   </div>
                   <div class="form-group">
@@ -66,10 +67,10 @@
                       value="">
                   </div>
                   <div class="form-group">
-                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                    <input type="password" name="password" id="password_reg" tabindex="2" class="form-control" placeholder="Password">
                   </div>
                   <div class="form-group">
-                    <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control"
+                    <input type="password" name="confirm-password" id="confirm-password_reg" tabindex="2" class="form-control"
                       placeholder="Confirm Password">
                   </div>
                   <div class="form-group">
@@ -80,7 +81,6 @@
                       </div>
                     </div>
                   </div>
-                  <input type="hidden" class="hide" name="token" id="token" value="7c6f19960d63f53fcd05c3e0cbc434c0">
                 </form>
               </div>
             </ul>
@@ -126,12 +126,12 @@
                       </div>
                     </div>
                   </div>
-                  <input type="hidden" class="hide" name="token" id="token" value="a465a2791ae0bae853cf4bf485dbe1b6">
                 </form>
               </div>
             </ul>
           </li>
-        </ul>{% endif %}
+        </ul>
+        {% endif %}
       </ul>
     </div>
   </nav>
@@ -145,7 +145,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
   crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
 <script src="{% static 'js/app.js' %}" type="text/javascript"></script>
 
 </html>
