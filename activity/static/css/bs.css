@@ -1,8 +1,16 @@
-.nav {
-    height: 20px;
-    padding-top: 0px;
+ul.dropdown-lr {
+    width: 300px;
+  }
+  
+  /* mobile fix */
+  @media (max-width: 768px) {
+      .dropdown-lr h3 {
+          color: #eee;
+      }
+      .dropdown-lr label {
+          color: #eee;
+      }
 }
-
 .jumbotron {
     position: relative;
     height: 500px;
@@ -11,6 +19,7 @@
     background-position: 0px 0px, 50% 50%;
     background-size: auto, cover;
     padding-bottom: 0px;
-  }
-
-  
+}
+.dropdown-menu {
+    width: 300px;
+}
