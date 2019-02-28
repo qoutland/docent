@@ -2,146 +2,148 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    {% block title %}<title>Docent</title>{% endblock %}
-    {% load static %}
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  {% block title %}<title>Docent</title>{% endblock %}
+  {% load static %}
 
-    <!--Glyphicons-->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <!--Bootstrap-->
-    <link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"> <link
-        rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
+  <!--Glyphicons-->
+  <!--Bootstrap-->
+  <link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"> <link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+    crossorigin="anonymous">
 
-    <!--Custom-->
-    <link rel="stylesheet" href="{% static 'css/bs.css' %}" type="text/css">
+  <!--Custom-->
+  <link rel="stylesheet" href="{% static 'css/bs.css' %}" type="text/css">
 
 </head>
 
 <body>
-    {% block header%}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+  {% block header%}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light ">
 
-        <a class="navbar-brand" href="{% url 'index' %}">Docent</a>
-        <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <a class="navbar-brand" href="{% url 'index' %}">Docent</a>
+    <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse ml-auto" id="navbarToggler">
+    <div class="collapse navbar-collapse ml-auto" id="navbarToggler">
 
-            <form class="form-inline ml-auto mr-auto" type="get" action="." id="search">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <a id="search_submit" href="#" onclick="document.getElementById('search').submit();"><i class="fa fa-search"></i></a>
-            </form>
+      <form class="form-inline ml-auto mr-auto" type="get" action="." id="search">
+        <input class="form-control mr-sm-2" type="search" name="search_box" placeholder="Search" aria-label="Search">
+        <a id="search_submit" href="#" onclick="document.getElementById('search').submit();"><i class="fa fa-search"></i></a>
+      </form>
 
-            <ul class="navbar-nav ml-auto">
-                {% if user.is_authenticated %}
+      <ul class="navbar-nav ml-auto">
+        {% if user.is_authenticated %}
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Logoff</a>
-                </li>
-                {% else %}
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                      <a href="http://phpoll.com/register" class="dropdown-toggle" data-toggle="dropdown">Register <span class="caret"></span></a>
-                      <ul class="dropdown-menu dropdown-menu-right animated flipInX" role="menu">
-                        <div class="col-lg-12">
-                          <div class="text-center">
-                            <h3><b>Register</b></h3></div>
-                          <form id="ajax-register-form" action="http://phpoll.com/register/process" method="post" role="form" autocomplete="off">
-                            <div class="form-group">
-                              <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
-                            </div>
-                            <div class="form-group">
-                              <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
-                            </div>
-                            <div class="form-group">
-                              <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
-                            </div>
-                            <div class="form-group">
-                              <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
-                            </div>
-                            <div class="form-group">
-                              <div class="row">
-                                <div class="col-xs-6 col-xs-offset-3">
-                                  <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-info" value="Register Now">
-                                </div>
-                              </div>
-                            </div>
-                            <input type="hidden" class="hide" name="token" id="token" value="7c6f19960d63f53fcd05c3e0cbc434c0">
-                          </form>
-                        </div>
-                      </ul>
-                    </li>
-                    <li class="dropdown">
-                      <a href="http://phpoll.com/login" class="dropdown-toggle" data-toggle="dropdown">Log In <span class="caret"></span></a>
-                      <ul class="dropdown-menu dropdown-menu-right animated slideInRight" role="menu">
-                        <div class="col-lg-12">
-                          <div class="text-center">
-                            <h3><b>Log In</b></h3></div>
-                          <form id="ajax-login-form" action="http://phpoll.com/login/process" method="post" role="form" autocomplete="off">
-                            <div class="form-group">
-                              <label for="username">Username</label>
-                              <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" autocomplete="off">
-                            </div>
-            
-                            <div class="form-group">
-                              <label for="password">Password</label>
-                              <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" autocomplete="off">
-                            </div>
-            
-                            <div class="form-group">
-                              <div class="row">
-                                <div class="col-xs-7">
-                                  <input type="checkbox" tabindex="3" name="remember" id="remember">
-                                  <label for="remember"> Remember Me</label>
-                                </div>
-                                <div class="col-xs-5 pull-right">
-                                  <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-success" value="Log In">
-                                </div>
-                              </div>
-                            </div>
-            
-                            <div class="form-group">
-                              <div class="row">
-                                <div class="col-lg-12">
-                                  <div class="text-center">
-                                    <a href="http://phpoll.com/recover" tabindex="5" class="forgot-password">Forgot Password?</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <input type="hidden" class="hide" name="token" id="token" value="a465a2791ae0bae853cf4bf485dbe1b6">
-                          </form>
-                        </div>
-                      </ul>
-                    </li>
-                  </ul>{% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Logoff</a>
+        </li>
+        {% else %}
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Register <span class="caret"></span></a>
+            <ul class="dropdown-menu dropdown-menu-right animated flipInX" role="menu">
+              <div class="col-lg-12">
+                <div class="text-center">
+                  <h3><b>Register</b></h3>
+                </div>
+                <form method="post" action="{% url 'login' %}">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username"
+                      value="">
+                  </div>
+                  <div class="form-group">
+                    <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address"
+                      value="">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control"
+                      placeholder="Confirm Password">
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-xs-6 col-xs-offset-3">
+                        <input type="submit" value="login" class="form-control btn btn-info" />
+                        <input type="hidden" name="next" value="{{ next }}" /> 
+                      </div>
+                    </div>
+                  </div>
+                  <input type="hidden" class="hide" name="token" id="token" value="7c6f19960d63f53fcd05c3e0cbc434c0">
+                </form>
+              </div>
             </ul>
-        </div>
-    </nav>
-    <div class="jumbotron"></div>
-    <nav class="nav nav-pills nav-fill">
-        <a class="nav-item nav-link active" href="{% url 'category'%}?type=entertainment">Entertainment</a>
-        <a class="nav-item nav-link" href="{% url 'category'%}?type=music">Music</a>
-        <a class="nav-item nav-link" href="{% url 'category'%}?type=food">Food and Drink</a>
-        <a class="nav-item nav-link" href="{% url 'category'%}?type=sports">Sports</a>
-        <a class="nav-item nav-link" href="{% url 'category'%}?type=other">Other</a>
-    </nav>
-    {% endblock %}
-    {% block content %}{% endblock %}
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Log In <span class="caret"></span></a>
+            <ul class="dropdown-menu dropdown-menu-right animated slideInRight" role="menu">
+              <div class="col-lg-12">
+                <div class="text-center">
+                  <h3><b>Log In</b></h3>
+                </div>
+               <form method="post" action="{% url 'login' %}">
+                  {% csrf_token %}
+                  <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a><br>
+                  <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username"
+                      value="" autocomplete="off">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password"
+                      autocomplete="off">
+                  </div>
+
+                  <div class="form-group">
+                    <div class="row">
+                      
+                      <div class="col-xs-5 pull-right">
+                          <input type="submit" value="login" class="form-control btn btn-info" />
+                          <input type="hidden" name="next" value="{{ next }}" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="text-center">
+                            <a href="{% url 'password_reset' %}">Lost password?</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <input type="hidden" class="hide" name="token" id="token" value="a465a2791ae0bae853cf4bf485dbe1b6">
+                </form>
+              </div>
+            </ul>
+          </li>
+        </ul>{% endif %}
+      </ul>
+    </div>
+  </nav>
+  {% endblock %}
+  {% block content %}{% endblock %}
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
+  crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
+  crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
+  crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
 <script src="{% static 'js/app.js' %}" type="text/javascript"></script>

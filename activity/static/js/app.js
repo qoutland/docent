@@ -8,20 +8,29 @@ $('.likebutton').click(function () {
         post_id: catid
       },
       success: function (data) {
-        var str = "." + catid;
+        var str = ".mark_" + catid;
         if (data == 'created') {
-          console.log("created")
           $(str).find("i").fadeOut("fast")
           $(str).find("i").fadeIn()
-          $(str).find("i").removeClass("fa-star-o").addClass("fa-star");
+          $(str).find("i").removeClass("far fa-bookmark").addClass("fas fa-bookmark");
         } else if (data == 'deleted') {
           $(str).find("i").fadeOut("fast")
-          $(str).find("i").removeClass("fa-star").addClass("fa-star-o");
+          $(str).find("i").removeClass("fas fa-bookmark").addClass("far fa-bookmark");
           $(str).find("i").fadeIn()
         }
       },
     })
   });
+
+$('.category').click(function(e) {
+  $(this).siblings().removeClass('fa-arrow-down' );
+    $(this).addClass('active');
+});
+
+
+
+
+
 
   $('.removeLike').click(function () {
     var catid;
