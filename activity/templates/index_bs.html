@@ -12,10 +12,12 @@
                         <h5 class="card-title">{{activity.name}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{ activity.address_1 }}</h6>
                         <p class="card-text">{{ activity.phone_number }}</p>
+                        {% if user.is_authenticated %}
                         {% if activity in saved_list %}
                         <a class="card-link likebutton" href="#" data-catid="{{ activity.ID }}"><i class="fa fa-star"></i></a>
                         {% else %}
                         <a class="card-link likebutton" href="#" data-catid="{{ activity.ID }}"><i class="fa fa-star-o"></i></a>
+                        {% endif %}
                         {% endif %}
                     </div>
                 </div>
