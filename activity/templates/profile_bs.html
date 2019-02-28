@@ -1,19 +1,22 @@
 {% extends "base_bs.html" %}
 {% block content %}
 
-<div>
-
-</div>
-
-<h2 class="something">Saved Activities</h2>
-<div class="cols">
-        <div class="container mt-4">
-            <div class="row">
-                {% for activity in activity_list %}
-                {% include "activity_profile_bs.html" with activity=activity %}
-                {% endfor %}
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 ml-auto mr-auo">
+            <h1 class="display-5 text center">Choose a category</h1>
         </div>
+    </div>
 </div>
+
+<h2 class="display-5 text-center">Saved Activities</h2>
+<hr />
+
+        <div class="d-flex align-content-lg-start flex-wrap justify-content-center ">
+            {% for activity in activity_list %}
+            {% include "activity_profile_bs.html" with activity=activity %}
+            {% endfor %}
+        </div>
+
 
 {% endblock %}

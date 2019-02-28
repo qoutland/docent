@@ -1,3 +1,4 @@
+//Function to handle saving activities without refreshing page
 $('.likebutton').click(function () {
     var catid;
     catid = $(this).attr("data-catid");
@@ -27,69 +28,68 @@ $('.category').click(function(e) {
     $(this).addClass('active');
 });
 
+$('.removelike').click(function () {
+  var catid;
+  catid = $(this).attr("data-catid");
+  $.ajax({
+    type: "GET",
+    url: "save_act",
+    data: {
+      post_id: catid
+    },
+    success: function (data) {
+      var str = ".mark_" + catid;
+       if (data == 'deleted') {
+        $(str).parent().parent().fadeOut("fast")
+      }
+    },
+  })
+});
 
+function animateJumbo() {
+  $('.jumbo-text').fadeIn('slow')
+}
 
+$('.addInt').click(function () {
+  var catid;
+  catid = $(this).attr("data-catid");
+  $.ajax({
+    type: "GET",
+    url: "new_interest",
+    data: {
+     new_int: catid
+    },
+    success: function (data) {
+      var str = "." + catid;
+      console.log(data)
+      if (data == 'created') {
+        $(str).fadeIn()
+        //this.parent().fadeOut()
+      }
+    },
+  })
+});
 
+$('.removeInt').click(function () {
+  var catid;
+  catid = $(this).attr("data-catid");
+  $.ajax({
+    type: "GET",
+    url: "new_interest",
+    data: {
+      new_int: catid
+    },
+    success: function (data) {
+      var str = "." + catid;
+      console.log(data)
+      if (data == 'deleted') {
+        $(str).fadeOut()
+        //this.parent().fadeOut()
+      }
+    },
+  })
+});
 
-
-  $('.removeLike').click(function () {
-    var catid;
-    catid = $(this).attr("data-catid");
-    $.ajax({
-      type: "GET",
-      url: "save_act",
-      data: {
-        post_id: catid
-      },
-      success: function (data) {
-        var str = "." + catid;
-          if (data == 'deleted') {
-          $(str).parent().parent().fadeOut()
-        }
-      },
-    })
-  });
-
-  $('.addInt').click(function () {
-    var catid;
-    catid = $(this).attr("data-catid");
-    $.ajax({
-      type: "GET",
-      url: "new_interest",
-      data: {
-        new_int: catid
-      },
-      success: function (data) {
-        var str = "." + catid;
-        console.log(data)
-        if (data == 'created') {
-          $(str).fadeIn()
-          //this.parent().fadeOut()
-        }
-      },
-    })
-  });
-
-  $('.removeInt').click(function () {
-    var catid;
-    catid = $(this).attr("data-catid");
-    $.ajax({
-      type: "GET",
-      url: "new_interest",
-      data: {
-        new_int: catid
-      },
-      success: function (data) {
-        var str = "." + catid;
-        console.log(data)
-        if (data == 'deleted') {
-          $(str).fadeOut()
-          //this.parent().fadeOut()
-        }
-      },
-    })
-  });
-
-  $('.show_modal').click(function () {
-    $('.modal').style.display = "block";
-  });
+$('.show_modal').click(function () {
+  $('.modal').style.display = "block";
+});
