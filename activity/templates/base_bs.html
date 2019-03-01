@@ -44,57 +44,48 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'profile' %}">Profile</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item pl-2">
           <a class="nav-link" href="{% url 'logout' %}">Logoff</a>
         </li>
         {% else %}
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Register <span class="caret"></span></a>
-            <ul class="dropdown-menu dropdown-menu-right animated flipInX" role="menu">
+            <ul class="dropdown-menu dropdown-menu-right animated flipInX">
               <div class="col-lg-12">
-                <div class="text-center">
-                  <h3><b>Register</b></h3>
-                </div>
-                <form method="post" action="{% url 'login' %}">
+                <h3><b>Register</b></h3>
+                <a href="{% url 'social:begin' 'google-oauth2' %}" style="text-align: center;">
+                  <i class="fab fa-google"></i> Sign Up with Google</a>
+                <br />
+                <br />
+
+
+                <form name="signup" method="post" action=".">
                   {% csrf_token %}
+                  {% for field in form.visible_fields %}
                   <div class="form-group">
-                    <input type="text" name="username" id="username_reg" tabindex="1" class="form-control" placeholder="Username"
-                      value="">
+                      <label for="password">{{ field.label_tag }}</label>
+                    {{field}}
                   </div>
-                  <div class="form-group">
-                    <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address"
-                      value="">
-                  </div>
-                  <div class="form-group">
-                    <input type="password" name="password" id="password_reg" tabindex="2" class="form-control" placeholder="Password">
-                  </div>
-                  <div class="form-group">
-                    <input type="password" name="confirm-password" id="confirm-password_reg" tabindex="2" class="form-control"
-                      placeholder="Confirm Password">
-                  </div>
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="col-xs-6 col-xs-offset-3">
-                        <input type="submit" value="login" class="form-control btn btn-info" />
-                        <input type="hidden" name="next" value="{{ next }}" /> 
-                      </div>
-                    </div>
-                  </div>
+                  {% endfor %}
+                  <input type="submit" value="Register" class="form-control btn btn-info" />
                 </form>
+
               </div>
             </ul>
           </li>
-          <li class="dropdown">
+          <li class="dropdown pl-2">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Log In <span class="caret"></span></a>
             <ul class="dropdown-menu dropdown-menu-right animated slideInRight" role="menu">
               <div class="col-lg-12">
                 <div class="text-center">
                   <h3><b>Log In</b></h3>
                 </div>
-               <form method="post" action="{% url 'login' %}">
+                <form method="post" action="{% url 'login' %}">
                   {% csrf_token %}
-                  <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a><br>
+                  <a href="{% url 'social:begin' 'google-oauth2' %}">
+                    <i class="fab fa-google"></i> Login with Google</a>
+                  <br>
                   <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username"
@@ -109,10 +100,9 @@
 
                   <div class="form-group">
                     <div class="row">
-                      
-                      <div class="col-xs-5 pull-right">
-                          <input type="submit" value="login" class="form-control btn btn-info" />
-                          <input type="hidden" name="next" value="{{ next }}" />
+                      <div class="col-xs-5 ml-auto mr-auto">
+                        <input type="submit" value="Login" class="form-control btn btn-info" />
+                        <input type="hidden" name="next" value="{{ next }}" />
                       </div>
                     </div>
                   </div>
@@ -121,7 +111,7 @@
                     <div class="row">
                       <div class="col-lg-12">
                         <div class="text-center">
-                            <a href="{% url 'password_reset' %}">Lost password?</a>
+                          <a href="{% url 'password_reset' %}">Lost password?</a>
                         </div>
                       </div>
                     </div>
