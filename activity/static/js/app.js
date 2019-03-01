@@ -24,7 +24,6 @@ $('.likebutton').click(function () {
   });
 
 $('.category').click(function(e) {
-  $(this).siblings().removeClass('fa-arrow-down' );
     $(this).addClass('active');
 });
 
