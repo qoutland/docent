@@ -80,9 +80,10 @@ $('.removeInt').click(function () {
       new_int: catid
     },
     success: function (data) {
-      var str = "." + catid;
+      var str = ".butt_" + catid;
       console.log(data)
       if (data == 'deleted') {
+        console.log(str)
         $(str).fadeOut()
         //this.parent().fadeOut()
       }
