@@ -8,8 +8,7 @@ favicon_view = RedirectView.as_view(url='/static/images/favicon.ico', permanent=
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('activity/', include('activity.urls')),
-    path('', RedirectView.as_view(url='/activity/')),
+    path('', include('activity.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('auth/', include('social_django.urls', namespace='social')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
