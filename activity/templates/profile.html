@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="panel">
+        <div class="panel-heading">Add Categories</div>
+        <div class="panel-body">
+            <form type="get" action=".">
+                <select name="new_interest" class="form-control cats" onchange="this.form.submit()">
+                    <option value="" disabled selected>Choose an Interest</option>
+                    {% if interest_list %}
+                    {% for type in interest_list %}
+                    <option value={{type.activity_type}}>{{type.activity_type}}</option>
+                    {% endfor %}
+                    {% endif %}
+                </select>
+            </form>
+            <br />
+            {% if user_interest_list %}
+            <div class="button-area">
+                {% for int in user_interest_list %}
+                <button type="button" class="butt_{{int.activity_type}} btn btn-primary mx-1 removeInt" data-catid="{{int.activity_type}}">
+                    <i class="far fa-trash-alt" style="color:white;"></i>
+                    {{int.activity_type}}
+                </button>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</div>
+
+<hr />
+<h2 class="display-5 text-center">Saved Activities</h2>
+<hr />
+
+<div class="container">
+    <div class="grid-row">
+        {% for activity in activity_list %}
+        {% include "activity_profile.html" with activity=activity %}
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}
