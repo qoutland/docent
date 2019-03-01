@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="hero-section">
+  <div class="hero-content w-container">
+    <div data-ix="hero-text" class="hero-heading">{{type}}</div>
+  </div>
+</div>
+<div class="category-section">
+  <div class="w-container">
+    <div class="w-layout-grid grid">
+      <a id="w-node-22a5fb2110e5-26bb90b9" href="{% url 'category'%}?type=entertainment" class="section-link">Entertainment</a>
+      <a id="w-node-5a397cfa2271-26bb90b9" href="{% url 'category'%}?type=music" class="section-link">Music</a>
+      <a id="w-node-a5b83fcb1abb-26bb90b9" href="{% url 'category'%}?type=food" class="section-link">Food &amp; Drink</a>
+      <a id="w-node-66c38e0410d6-26bb90b9" href="{% url 'category'%}?type=sports" class="section-link">Sports</a>
+      <a id="w-node-0799e9fbf77d-26bb90b9" href="{% url 'category'%}?type=other" class="section-link">Other</a></div>
+  </div>
+</div>
+<div id="posts" class="main-section bottom-padding">
+  <div id="Latest-post" class="w-container">
+    <div>
+      <h2 class="section-title">{{type}} Activities</h2>
+      <div class="med-divider"></div>
+    </div>
+    {% for activity in activity_list %}
+    <div class="columns w-row">
+      <div class="column w-col w-col-4">
+        <div class="activity-border">
+          <h1 class="activity-header">{{activity.0.name}}</h1>
+          <div class="activity-text-layout">{{activity.0.address_1}}<br>{{activity.0.phone_number}}</div>
+          {% if user.is_authenticated %}
+          <div class="{{activity.0.ID}}">
+            {% if activity.0 in saved_list %}
+            <a class="likebutton" href="#" data-catid="{{ activity.0.ID }}"><span class="glyphicon glyphicon-star"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% else %}
+            <a class="likebutton" href="#" data-catid="{{ activity.0.ID }}"><span class="glyphicon glyphicon-star-empty"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% if activity.1 %}
+      <div class="column-2 w-col w-col-4">
+        <div class="activity-border">
+          <h1 class="activity-header">{{activity.1.name}}</h1>
+          <div class="activity-text-layout">{{activity.1.address_1}}<br>{{activity.1.phone_number}}</div>
+          {% if user.is_authenticated %}
+          <div class="{{activity.1.ID}}">
+            {% if activity.1 in saved_list %}
+            <a class="likebutton" href="#" data-catid="{{ activity.1.ID }}"><span class="glyphicon glyphicon-star"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% else %}
+            <a class="likebutton" href="#" data-catid="{{ activity.1.ID }}"><span class="glyphicon glyphicon-star-empty"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if activity.2 %}
+      <div class="column-3 w-col w-col-4">
+        <div class="activity-border">
+          <h1 class="activity-header">{{activity.2.name}}</h1>
+          <div class="activity-text-layout">{{activity.2.address_1}}<br>{{activity.2.phone_number}}</div>
+          {% if user.is_authenticated %}
+          <div class="{{activity.2.ID}}">
+            {% if activity.2 in saved_list %}
+            <a class="likebutton" href="#" data-catid="{{ activity.2.ID }}"><span class="glyphicon glyphicon-star"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% else %}
+            <a class="likebutton" href="#" data-catid="{{ activity.2.ID }}"><span class="glyphicon glyphicon-star-empty"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
