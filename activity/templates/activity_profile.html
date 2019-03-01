@@ -1,9 +1,12 @@
 <div class="mb-3 ml-2 mr-2">
     <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="#" alt="Card image cap">
-        <div class="card-body">
-            <a class="removelike mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;" onclick="return false"><i
-                    class="fas fa-bookmark"></i></a>
+        {% if activity.pic_url %}
+        <img class="card-img-top" src="{{activty.pic_url}}" alt="Activity Pic">
+        {% else %}
+        <img class="card-img-top" src="../../static/images/default.png" alt="Default Activity Pic">
+        {% endif %} <div class="card-body">
+            <a class="removelike mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;"
+                onclick="return false"><i class="fas fa-bookmark"></i></a>
             <h5 class="card-title">{{activity.name}}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{ activity.address_1 }}</h6>
             <p class="card-text">{{ activity.phone_number }}</p>
