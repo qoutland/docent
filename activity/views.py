@@ -23,8 +23,11 @@ def saveAct(request):
 def add_removeInterest(request):
 	if request.method == 'GET':
 		new_interest = request.GET['new_int'] #Get activity to save or delete
+		print(new_interest)
 		if new_interest: #If there is an activity to save/delete
-			if Interest.objects.filter(profile=request.user.id, act_type=ActivityType.objects.get(activity_type=new_interest)).exists(): #See if it exists
+			print('Checking if it exists')
+			if Interest.objects.get(profile=request.user.id, act_type=ActivityType.objects.get(activity_type=new_interest)): #See if it exists
+				print('It exists, deleting')
 				Interest.objects.get(profile=request.user.id, act_type=ActivityType.objects.get(activity_type=new_interest)).delete() #If it does then delete it
 				return HttpResponse("deleted")
 			else:
@@ -47,8 +50,16 @@ def index(request):
 				SavedActivity.objects.get(profile=request.user.id, save_act_id=save_act).delete() #If it does then delete it
 			else:
 				SavedActivity.objects.get_or_create(profile=request.user, save_act_id=Activity.objects.get(ID=save_act)) #If not create it
-
-	act_list = toTuple(activity_list) #This is used to split the activities up into groups of 3 for formatting
+	elif request.method == 'POST':
+		form = SignUpForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			user.refresh_from_db()
+			user.save()
+			raw_password = form.cleaned_data.get('password1')
+			user = authenticate(username=user.username, password=raw_password)
+			login(request, user)
+			return redirect('index')
 
 	if request.user.is_authenticated: #If the user is authenticated show them the stars
 		saved_list=[] #Create empty list (must do if using the append function)
@@ -60,10 +71,11 @@ def index(request):
 			saved_list=[] #If the user doesn't have any saved activites return an empty list
 	else:
 		saved_list=[] #If the user is not authenticated return an empty list
-
+	form = SignUpForm()
 	context = {
-		'activity_list': act_list,
+		'activity_list': activity_list,
 		'saved_list': saved_list,
+		'form': form,
 	}
 	return render(request, 'index.html', context)
 
@@ -71,12 +83,14 @@ def category(request): #This function is used to present the activities based on
 	if request.method == 'GET':
 		search_query = request.GET.get('type', None)
 		activity_list = getActs(search_query)
-	if activity_list != []:
-		activity_list = toTuple(activity_list)
-	
+	if search_query != None:
+		search_query= search_query.capitalize()
+
+	form = SignUpForm()
 	context = {
 		'activity_list': activity_list,
-		'type': search_query.capitalize(),
+		'type': search_query,
+		'form': form,
 	}
 	return render(request, 'category.html', context)
 
@@ -98,12 +112,16 @@ def profile(request):
 
 		saved_activity_list = SavedActivity.objects.filter(profile=request.user.id) #Get all Saved Activities in SavedActivities for a specific user
 		saved_act_list=[]
-		for save_act in saved_activity_list: #Get the activity object in SavedActivities
-			saved_act_list.append(Activity.objects.get(ID=save_act.save_act_id.ID)) #Append List
-		if saved_act_list != []: #If the user had saved activites
-			act_list = toTuple(saved_act_list) #Put them in Tuple format for formatting
+
+		saved_list=[] #Create empty list (must do if using the append function)
+		if SavedActivity.objects.filter(profile=request.user.id).exists(): #Check if a user has any saved activites
+			saved_activity_list = SavedActivity.objects.filter(profile=request.user.id) #Get all of instances (this is not just activities, it includes the user PK as well)
+			for save_act in saved_activity_list: #Loop through SavedActivity objects and get the Activity object referenced by its FK
+				saved_list.append(Activity.objects.get(ID=save_act.save_act_id.ID)) #Append to the  list
 		else:
-			act_list=[] #If the user didn't have any saved activities create an empty list
+			saved_list=[] #If the user doesn't have any saved activites return an empty list
+	else:
+		saved_list=[] #If the user is not authenticated return an empty list
 
 	int_list = ActivityType.objects.all() #Get all the activity types
 	user_interest_list = ActivityType.objects.filter(interest__in=Interest.objects.filter(profile=request.user.pk)) #Get all interests saved by the user
@@ -112,9 +130,10 @@ def profile(request):
 	context = {
 		'interest_list': interest_list,
 		'user_interest_list': user_interest_list,
-		'saved_activity_list': act_list,
+		'activity_list': saved_list,
+		'saved_list': saved_list,
 	}
-	return render(request, 'activity/profile.html', context)
+	return render(request, 'profile.html', context)
 
 def signUp(request):
 	if request.method == 'POST':
