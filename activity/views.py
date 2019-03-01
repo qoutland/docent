@@ -23,8 +23,11 @@ def saveAct(request):
 def add_removeInterest(request):
 	if request.method == 'GET':
 		new_interest = request.GET['new_int'] #Get activity to save or delete
+		print(new_interest)
 		if new_interest: #If there is an activity to save/delete
-			if Interest.objects.filter(profile=request.user.id, act_type=ActivityType.objects.get(activity_type=new_interest)).exists(): #See if it exists
+			print('Checking if it exists')
+			if Interest.objects.get(profile=request.user.id, act_type=ActivityType.objects.get(activity_type=new_interest)): #See if it exists
+				print('It exists, deleting')
 				Interest.objects.get(profile=request.user.id, act_type=ActivityType.objects.get(activity_type=new_interest)).delete() #If it does then delete it
 				return HttpResponse("deleted")
 			else:
@@ -47,7 +50,16 @@ def index(request):
 				SavedActivity.objects.get(profile=request.user.id, save_act_id=save_act).delete() #If it does then delete it
 			else:
 				SavedActivity.objects.get_or_create(profile=request.user, save_act_id=Activity.objects.get(ID=save_act)) #If not create it
-
+	elif request.method == 'POST':
+		form = SignUpForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			user.refresh_from_db()
+			user.save()
+			raw_password = form.cleaned_data.get('password1')
+			user = authenticate(username=user.username, password=raw_password)
+			login(request, user)
+			return redirect('index')
 
 	if request.user.is_authenticated: #If the user is authenticated show them the stars
 		saved_list=[] #Create empty list (must do if using the append function)
@@ -59,10 +71,11 @@ def index(request):
 			saved_list=[] #If the user doesn't have any saved activites return an empty list
 	else:
 		saved_list=[] #If the user is not authenticated return an empty list
-
+	form = SignUpForm()
 	context = {
 		'activity_list': activity_list,
 		'saved_list': saved_list,
+		'form': form,
 	}
 	return render(request, 'index_bs.html', context)
 
