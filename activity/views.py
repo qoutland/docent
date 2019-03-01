@@ -77,7 +77,7 @@ def index(request):
 		'saved_list': saved_list,
 		'form': form,
 	}
-	return render(request, 'index_bs.html', context)
+	return render(request, 'index.html', context)
 
 def category(request): #This function is used to present the activities based on the categories (very similiar to search_query) **Maybe can be refactored in the future
 	if request.method == 'GET':
@@ -86,11 +86,13 @@ def category(request): #This function is used to present the activities based on
 	if search_query != None:
 		search_query= search_query.capitalize()
 
+	form = SignUpForm()
 	context = {
 		'activity_list': activity_list,
 		'type': search_query,
+		'form': form,
 	}
-	return render(request, 'category_bs.html', context)
+	return render(request, 'category.html', context)
 
 @login_required #Can't see this page without loggin in
 def profile(request):
@@ -131,7 +133,7 @@ def profile(request):
 		'activity_list': saved_list,
 		'saved_list': saved_list,
 	}
-	return render(request, 'profile_bs.html', context)
+	return render(request, 'profile.html', context)
 
 def signUp(request):
 	if request.method == 'POST':

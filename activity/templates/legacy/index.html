@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero-section">
+  <div class="hero-content w-container">
+    <div data-ix="hero-text" class="hero-heading">Have plans?</div>
+    <div data-ix="hero-text-2" class="hero-subheading">Nope? Don&#x27;t stress, Docent does.</div>
+  </div>
+</div>
+<div class="category-section">
+  <div class="w-container">
+    <div class="w-layout-grid grid">
+      <a id="w-node-22a5fb2110e5-26bb90b9" href="{% url 'category'%}?type=entertainment" class="section-link">Entertainment</a>
+      <a id="w-node-5a397cfa2271-26bb90b9" href="{% url 'category'%}?type=music" class="section-link">Music</a>
+      <a id="w-node-a5b83fcb1abb-26bb90b9" href="{% url 'category'%}?type=food" class="section-link">Food &amp; Drink</a>
+      <a id="w-node-66c38e0410d6-26bb90b9" href="{% url 'category'%}?type=sports" class="section-link">Sports</a>
+      <a id="w-node-0799e9fbf77d-26bb90b9" href="{% url 'category'%}?type=other" class="section-link">Other</a></div>
+  </div>
+</div>
+<div id="posts" class="main-section bottom-padding">
+  <div id="Latest-post" class="w-container">
+    <div>
+      <h2 class="section-title">Featured Activities</h2>
+      <div class="med-divider"></div>
+    </div>
+    {% for activity in activity_list %}
+    <div class="columns w-row">
+
+      <div class="column w-col w-col-4">
+        <div class="activity-border" data-toggle="modal" data-target="#modal_{{activity.0.ID}}">
+
+          <h1 class="activity-header">{{activity.0.name}}</h1>
+          <div class="activity-text-layout">{{activity.0.address_1}}<br>{{activity.0.phone_number}}</div>
+          {% if user.is_authenticated %}
+          <div class="{{activity.0.ID}}">
+            {% if activity.0 in saved_list %}
+            <a class="likebutton" href="#" data-catid="{{ activity.0.ID }}"><span class="glyphicon glyphicon-star"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% else %}
+            <a class="likebutton" href="#" data-catid="{{ activity.0.ID }}"><span class="glyphicon glyphicon-star-empty"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="modal fade" id="modal_{{activity.0.ID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">{{activity.0.name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      {% if activity.1 %}
+      <div class="column-2 w-col w-col-4">
+        <div class="activity-border">
+          <h1 class="activity-header">{{activity.1.name}}</h1>
+          <div class="activity-text-layout">{{activity.1.address_1}}<br>{{activity.1.phone_number}}</div>
+          {% if user.is_authenticated %}
+          <div class="{{activity.1.ID}}">
+            {% if activity.1 in saved_list %}
+            <a class="likebutton" href="#" data-catid="{{ activity.1.ID }}"><span class="glyphicon glyphicon-star"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% else %}
+            <a class="likebutton" href="#" data-catid="{{ activity.1.ID }}"><span class="glyphicon glyphicon-star-empty"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if activity.2 %}
+      <div class="column-3 w-col w-col-4">
+        <div class="activity-border">
+          <h1 class="activity-header">{{activity.2.name}}</h1>
+          <div class="activity-text-layout">{{activity.2.address_1}}<br>{{activity.2.phone_number}}</div>
+          {% if user.is_authenticated %}
+          <div class="{{activity.2.ID}}">
+            {% if activity.2 in saved_list %}
+            <a class="likebutton" href="#" data-catid="{{ activity.2.ID }}"><span class="glyphicon glyphicon-star"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% else %}
+            <a class="likebutton" href="#" data-catid="{{ activity.2.ID }}"><span class="glyphicon glyphicon-star-empty"
+                style="position: absolute; right: 0; bottom: 0; font-size: 20px; color: black;"></a>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+    {% endfor %}
+
+    <div class="w-container">
+      <div class="section-heading">
+        <h2 class="section-title">Suggested Activities</h2>
+        <div class="med-divider"></div>
+      </div>
+      <div class="w-row">
+        <div class="w-col w-col-4">
+          <div class="activity-border">
+            <h1 class="activity-header">Local Band</h1>
+            <div class="activity-text-layout">123 University Ave.<br>775-123-4567</div>
+          </div>
+        </div>
+        <div class="w-col w-col-4">
+          <div class="activity-border">
+            <h1 class="activity-header">Trail Head</h1>
+            <div class="activity-text-layout">382 Hike Road<br>775-143-4817</div>
+          </div>
+        </div>
+        <div class="w-col w-col-4">
+          <div class="activity-border">
+            <h1 class="activity-header">Baseball Game</h1>
+            <div class="activity-text-layout">123 Reno Street<br>775-233-0987</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+</script>
+
+{% endblock %}
