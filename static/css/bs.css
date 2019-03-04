@@ -19,8 +19,27 @@
       padding-bottom: 0px;
   }
 
+  @keyframes menu-animate {
+      0% {
+          transform: translateY(1rem);
+          opacity: 0;
+      }
+
+      100% {
+          transform: translateY(0rem);
+          opacity: 1;
+      }
+
+      0% {
+          transform: translateY(1rem);
+          opacity: 0;
+      }
+  }
+
   .dropdown-menu {
       width: 300px;
+      animation-name: menu-animate;
+      animation-duration: .5s;
   }
 
   @keyframes jumbo-text-animate {
@@ -54,61 +73,68 @@
   }
 
   .panel-body {
-      width:100%;
+      width: 100%;
   }
+
   .button-area {
       max-width: 1200px;
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
   }
-.panel {
-    max-width:1200px;
-    width: 1200px;
-}
-.cats {
-    align-self: left;
-    width:200px;
-}
+
+  .panel {
+      max-width: 1200px;
+      width: 1200px;
+  }
+
+  .cats {
+      align-self: left;
+      width: 200px;
+  }
 
   @media (min-width: 1281px) {
-    .container {
-        max-width: 333px;
-    }
-}
+      .container {
+          max-width: 333px;
+      }
+  }
 
-@media (min-width: 1281px) {
-    .container {
-        max-width: 1250px;
-    }
-}
+  @media (min-width: 1281px) {
+      .container {
+          max-width: 1250px;
+      }
+  }
 
-@media (min-width: 1025px) and (max-width: 1280px) {
-    .container {
-        max-width: 942px;
-    }
-}
+  @media (min-width: 1025px) and (max-width: 1280px) {
+      .container {
+          max-width: 942px;
+      }
+  }
 
-@media (min-width: 768px) and (max-width: 1024px) {
-    .container {
-        max-width: 942px;
-    }
-}
+  @media (min-width: 768px) and (max-width: 1024px) {
+      .container {
+          max-width: 942px;
+      }
+  }
 
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-    .container {
-        max-width: 638px;
-    }
-}
+  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+      .container {
+          max-width: 638px;
+      }
+  }
 
-@media (min-width: 481px) and (max-width: 767px) {
-    .container {
-        max-width: 638px;
-    }
-}
+  @media (min-width: 481px) and (max-width: 767px) {
+      .container {
+          max-width: 638px;
+      }
+  }
 
-@media (min-width: 320px) and (max-width: 480px) {
-    .container {
-        max-width: 331px;
-    }
-}
+  @media (min-width: 320px) and (max-width: 480px) {
+      .container {
+          max-width: 331px;
+      }
+  }
+
+  .card:hover {
+      top: -4px;
+  }
