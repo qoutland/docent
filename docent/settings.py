@@ -98,8 +98,8 @@ USE_TZ = True
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = '/activity'
-LOGOUT_REDIRECT_URL = '/activity'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 APPEND_SLASH = True
 
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
