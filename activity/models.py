@@ -33,6 +33,7 @@ class Activity(models.Model): #An activity object (using a PK for individual ref
 	city = models.CharField(_("city"), max_length=64, default="Reno")
 	state = USStateField(_("state"), default="NV")
 	code = models.CharField(_("zip code"), max_length=5, null=True)
+	pic_url = models.URLField(blank=True, default="static/images/default.png")
 
 class ActivityTypeLine(models.Model): #Allows activities to have multiple types
 	act_type = models.ForeignKey(ActivityType, on_delete=models.CASCADE)
