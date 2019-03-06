@@ -2,6 +2,9 @@ from django.core.management.base import BaseCommand
 from activity.models import Activity, ActivityType, ActivityTypeLine
 import json, urllib.request
 from pprint import pprint
+from yelpapi import YelpAPI
+
+yelp_api = YelpAPI('0X8SzKkV2v7bo9s_vUvl7IR23KFICRqBaucXJ9DOYQlhgDqXgOeZuzk3ruirXyphW0O6cZXrQfzJRgaHREFQNiBIDXzmwDUvgWdNBQRGLezZ4h7a1D4G8H8Wi-e3W3Yx', timeout_s=3.0)
 
 class Command(BaseCommand):
     args = ''
@@ -26,7 +29,10 @@ class Command(BaseCommand):
             #Check if activity already exists
             if Activity.objects.filter(name=activity.name).count():
                 print('Already added')
-                #Possible add another typeline here (for duplicate acts)
+                if ActivityTypeLine.objects.filter(act_type=ActivityType.objects.get(activity_type=query_type), act_id=Activity.objects.get(name=activity.name)).count():
+                    print('Already added type')
+                else:
+                    ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=query_type), act_id=Activity.objects.get(name=activity.name))
             else:
                 activity.save()
                 urllib.request.urlretrieve(act['image_url'],  'activity/static/media/'+ str(activity.ID) + '_pic.jpg')
@@ -39,18 +45,11 @@ class Command(BaseCommand):
                 else:
                     ActivityType.objects.create(activity_type=query_type)
                     ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=query_type), act_id=activity)
-    def toJSON(result):
-        return json.loads(str(result).replace("True",'"TRUE"').replace("False",'"FALSE"').replace("None",'"NULL"').replace("'", '"'))
 
     def _pull_json(self, search_term):
-        #yelp_api = YelpAPI('0X8SzKkV2v7bo9s_vUvl7IR23KFICRqBaucXJ9DOYQlhgDqXgOeZuzk3ruirXyphW0O6cZXrQfzJRgaHREFQNiBIDXzmwDUvgWdNBQRGLezZ4h7a1D4G8H8Wi-e3W3Yx', timeout_s=3.0)
-        #search_results = yelp_api.search_query(term=search_term, location='reno, nv', sort_by='rating', limit=25)
-        #return toJSON(search_results)
-
-        with open('top10.json','r') as f:
-            data = json.load(f)
-        f.close()
-        return data
+        search_results = yelp_api.search_query(term=search_term, location='reno, nv', sort_by='rating', limit=25)
+        print('returning api results: ' + search_term)
+        return json.loads(json.dumps(search_results))
 
     def handle(self, *args, **options):
         terms = ['entertainment', 'music', 'food', 'bar', 'sports', 'other']

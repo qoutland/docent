@@ -30,7 +30,7 @@ class Activity(models.Model): #An activity object (using a PK for individual ref
 	longitude = models.FloatField(null=True)
 	latitude = models.FloatField(null=True)
 	address1 = models.CharField(_("address"), max_length=128, null=True,)
-	address2 = models.CharField(_("address cont'd"), max_length=128, blank=True)
+	address2 = models.CharField(_("address cont'd"), max_length=128, null=True)
 	city = models.CharField(_("city"), max_length=64, default="Reno")
 	state = USStateField(_("state"), default="NV")
 	code = models.CharField(_("zip code"), max_length=5, null=True)
