@@ -1,9 +1,10 @@
 <div class="mb-3 ml-2 mr-2">
-    <div class="card" style="width: 18rem;">
+    <div class="card" style="width: 18rem; height: 317px;">
         {% if activity.pic_url %}
-        <img class="card-img-top" src="{{ activty.pic_url }}" alt="Activity Pic">
+        {% load static %}
+        <img class="card-img-top" src="static/media/{{ activity.pic_url }}" alt="Activity Pic" width="286px" height="197px">
         {% else %}
-        <img class="card-img-top" src="../../static/images/default.png" alt="Default Activity Pic">
+        <img class="card-img-top" src="../../static/images/default.png" alt="Default Activity Pic" width="286px" height="197px">
         {% endif %}
         <div class="card-body">
             {% if user.is_authenticated %}
