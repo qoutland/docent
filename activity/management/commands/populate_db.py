@@ -3,6 +3,8 @@ from activity.models import Activity, ActivityType, ActivityTypeLine
 import json, urllib.request
 from pprint import pprint
 from yelpapi import YelpAPI
+from PIL import Image
+from resizeimage import resizeimage
 
 yelp_api = YelpAPI('0X8SzKkV2v7bo9s_vUvl7IR23KFICRqBaucXJ9DOYQlhgDqXgOeZuzk3ruirXyphW0O6cZXrQfzJRgaHREFQNiBIDXzmwDUvgWdNBQRGLezZ4h7a1D4G8H8Wi-e3W3Yx', timeout_s=3.0)
 
@@ -46,6 +48,10 @@ class Command(BaseCommand):
                 activity.save()
                 urllib.request.urlretrieve(act['image_url'],  'activity/static/media/'+ str(activity.ID) + '_pic.jpg')
                 activity.pic_url=str(activity.ID) + '_pic.jpg'
+                with open('activity/static/media/'+ str(activity.ID) + '_pic.jpg', 'r+b') as f:
+                    with Image.open(f) as image:
+                        cover = resizeimage.resize_cover(image, [286, 197])
+                        cover.save('activity/static/media/'+ str(activity.ID) + '_pic.jpg', image.format)
                 activity.save()
                 print('Added activity: ' + str(activity.ID))
                 #Check if type exists, if it does then add activity to it | else make that type and create the act type
@@ -82,6 +88,10 @@ class Command(BaseCommand):
             activity.save()
             urllib.request.urlretrieve(act['image_url'],  'activity/static/media/'+ str(activity.ID) + '_pic.jpg')
             activity.pic_url=str(activity.ID) + '_pic.jpg'
+            with open('activity/static/media/'+ str(activity.ID) + '_pic.jpg', 'r+b') as f:
+                    with Image.open(f) as image:
+                        cover = resizeimage.resize_cover(image, [286, 197])
+                        cover.save('activity/static/media/'+ str(activity.ID) + '_pic.jpg', image.format)
             activity.save()
             print('Added activity: ' + str(activity.ID))
             #Check if type exists, if it does then add activity to it | else make that type and create the act type
@@ -91,12 +101,11 @@ class Command(BaseCommand):
                 ActivityType.objects.create(activity_type=query_type)
                 ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=query_type), act_id=activity)
 
-
     def handle(self, *args, **options):
         terms = ['entertainment', 'music', 'food', 'bar', 'sports', 'other']
         if options['test']:
             for search_term in terms:
-                acts = self._test_data(search_term)
+                self._test_data(search_term)
         else:
             for search_term in terms:
                 acts = self._pull_json(search_term)

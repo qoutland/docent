@@ -1,5 +1,5 @@
 <div class="mb-3 ml-2 mr-2">
-    <div class="card" style="width: 18rem; height: 317px;"">
+    <div class="card" style="width: 18rem; height: 340px;"">
         {% if activity.pic_url %}
         {% load static %}
         <img class="
@@ -11,10 +11,8 @@
             <a class="removelike mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;"
                 onclick="return false"><i class="fas fa-bookmark"></i></a>
             <h5 class="card-title">{{activity.name}}</h5>
-            <h6 class="card-subtitle mb-2 text-muted"><a herf="#"><i class="fas fa-location-arrow"></i></a> {{
-                activity.address1 }}</h6>
-            <p class="card-text"><a herf="tel:{{ activity.phone_number }}"><i class="fas fa-phone"></i></a> {{
-                activity.display_phone }}</p>
+            <h6 class="card-subtitle mb-2 text-muted"><a herf="#"><i class="fas fa-location-arrow"></i></a> {{ activity.address1 }}</h6>
+            <p class="card-text"><a herf="tel:{{ activity.phone_number }}"><i class="fas fa-phone"></i></a> {{ activity.display_phone }}</p>
         </div>
     </div>
 </div>
