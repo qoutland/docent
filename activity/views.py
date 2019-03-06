@@ -2,6 +2,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import generic
@@ -9,6 +10,7 @@ from itertools import chain
 from .forms import SignUpForm
 from .models import Profile, Interest, Activity, ActivityType, SavedActivity
 
+#Save an activity to a users profile
 def saveAct(request):
 	if request.method == 'GET':
 		save_act = request.GET['post_id'] #Get activity to save or delete
@@ -20,6 +22,7 @@ def saveAct(request):
 				SavedActivity.objects.get_or_create(profile=request.user, save_act_id=Activity.objects.get(ID=save_act)) #If not create it
 				return HttpResponse("created")
 
+#Add or remove an interest from a user profile
 def add_removeInterest(request):
 	if request.method == 'GET':
 		new_interest = request.GET['new_int'] #Get activity to save or delete
@@ -34,6 +37,7 @@ def add_removeInterest(request):
 				Interest.objects.get_or_create(profile=request.user, act_type=ActivityType.objects.get(activity_type=new_interest)) #If not create it
 				return HttpResponse("created")
 
+#Main page
 def index(request):
 	if request.method == 'GET': #If the request is a GET method
 		search_query = request.GET.get('search_box', None) #Get search box var
@@ -72,8 +76,13 @@ def index(request):
 	else:
 		saved_list=[] #If the user is not authenticated return an empty list
 	form = SignUpForm()
+
+	paginator = Paginator(activity_list, 24) # Show 25 contacts per page
+	page = request.GET.get('page')
+	act_list = paginator.get_page(page)
+
 	context = {
-		'activity_list': activity_list,
+		'activity_list': act_list,
 		'saved_list': saved_list,
 		'form': form,
 	}
@@ -135,6 +144,7 @@ def profile(request):
 	}
 	return render(request, 'profile.html', context)
 
+#Might be able to delete
 def signUp(request):
 	if request.method == 'POST':
 		form = SignUpForm(request.POST)
@@ -150,6 +160,7 @@ def signUp(request):
 		form = SignUpForm()
 	return render(request, 'activity/signup.html', {'form': form})
 
+#Delete sometime
 def toTuple(lst):
 	act_list = [] #Declare an empty list (Needed for appending)
 	i=3 #Set number to create tuples of

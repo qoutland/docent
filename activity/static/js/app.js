@@ -1,30 +1,30 @@
 //Function to handle saving activities without refreshing page
 $('.likebutton').click(function () {
-    var catid;
-    catid = $(this).attr("data-catid");
-    $.ajax({
-      type: "GET",
-      url: "save_act",
-      data: {
-        post_id: catid
-      },
-      success: function (data) {
-        var str = ".mark_" + catid;
-        if (data == 'created') {
-          $(str).find("i").fadeOut("fast")
-          $(str).find("i").fadeIn()
-          $(str).find("i").removeClass("far fa-bookmark").addClass("fas fa-bookmark");
-        } else if (data == 'deleted') {
-          $(str).find("i").fadeOut("fast")
-          $(str).find("i").removeClass("fas fa-bookmark").addClass("far fa-bookmark");
-          $(str).find("i").fadeIn()
-        }
-      },
-    })
-  });
+  var catid;
+  catid = $(this).attr("data-catid");
+  $.ajax({
+    type: "GET",
+    url: "save_act",
+    data: {
+      post_id: catid
+    },
+    success: function (data) {
+      var str = ".mark_" + catid;
+      if (data == 'created') {
+        $(str).find("i").fadeOut("fast")
+        $(str).find("i").fadeIn()
+        $(str).find("i").removeClass("far fa-bookmark").addClass("fas fa-bookmark");
+      } else if (data == 'deleted') {
+        $(str).find("i").fadeOut("fast")
+        $(str).find("i").removeClass("fas fa-bookmark").addClass("far fa-bookmark");
+        $(str).find("i").fadeIn()
+      }
+    },
+  })
+});
 
-$('.category').click(function(e) {
-    $(this).addClass('active');
+$('.category').click(function (e) {
+  $(this).addClass('active');
 });
 
 $('.removelike').click(function () {
@@ -38,7 +38,7 @@ $('.removelike').click(function () {
     },
     success: function (data) {
       var str = ".mark_" + catid;
-       if (data == 'deleted') {
+      if (data == 'deleted') {
         $(str).parent().parent().fadeOut("fast")
       }
     },
@@ -56,7 +56,7 @@ $('.addInt').click(function () {
     type: "GET",
     url: "new_interest",
     data: {
-     new_int: catid
+      new_int: catid
     },
     success: function (data) {
       var str = "." + catid;
