@@ -105,7 +105,7 @@ class Command(BaseCommand):
         terms = ['entertainment', 'music', 'food', 'bar', 'sports', 'other']
         if options['test']:
             for search_term in terms:
-                acts = self._test_data(search_term)
+                self._test_data(search_term)
         else:
             for search_term in terms:
                 acts = self._pull_json(search_term)
