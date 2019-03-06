@@ -2,7 +2,8 @@
     <div class="card" style="width: 18rem; height: 317px;"">
         {% if activity.pic_url %}
         {% load static %}
-        <img class="card-img-top" src="../static/media/{{ activity.pic_url }}" alt="Activity Pic" width="286px" height="197px">
+        <img class="
+        card-img-top" src="../static/media/{{ activity.pic_url }}" alt="Activity Pic" width="286px" height="197px">
         {% else %}
         <img class="card-img-top" src="../../static/images/default.png" alt="Default Activity Pic" width="286px" height="197px">
         {% endif %}
@@ -10,8 +11,10 @@
             <a class="removelike mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;"
                 onclick="return false"><i class="fas fa-bookmark"></i></a>
             <h5 class="card-title">{{activity.name}}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{ activity.address_1 }}</h6>
-            <p class="card-text">{{ activity.phone_number }}</p>
+            <h6 class="card-subtitle mb-2 text-muted"><a herf="#"><i class="fas fa-location-arrow"></i></a> {{
+                activity.address1 }}</h6>
+            <p class="card-text"><a herf="tel:{{ activity.phone_number }}"><i class="fas fa-phone"></i></a> {{
+                activity.display_phone }}</p>
         </div>
     </div>
 </div>
