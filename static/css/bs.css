@@ -1,0 +1,140 @@
+  /* mobile fix */
+  @media (max-width: 768px) {
+      .dropdown-lr h3 {
+          color: #eee;
+      }
+
+      .dropdown-lr label {
+          color: #eee;
+      }
+  }
+
+  .jumbotron {
+      position: relative;
+      height: 300px;
+      padding-top: 100px;
+      background-image: linear-gradient(135deg, rgba(30, 33, 33, .82) 1%, rgba(32, 32, 32, .14) 98%), url('../images/banner.png');
+      background-position: 0px 0px, 50% 50%;
+      background-size: auto, cover;
+      padding-bottom: 0px;
+  }
+
+  @keyframes menu-animate {
+      0% {
+          transform: translateY(1rem);
+          opacity: 0;
+      }
+
+      100% {
+          transform: translateY(0rem);
+          opacity: 1;
+      }
+
+      0% {
+          transform: translateY(1rem);
+          opacity: 0;
+      }
+  }
+
+  .dropdown-menu {
+      width: 300px;
+      animation-name: menu-animate;
+      animation-duration: .5s;
+  }
+
+  @keyframes jumbo-text-animate {
+      0% {
+          opacity: 0;
+          transform: translate(0px, 40px);
+      }
+
+      100% {
+          opacity: 1;
+          transform: translate(0px, 0px);
+      }
+  }
+
+  .jumbo-text {
+      animation-name: jumbo-text-animate;
+      animation-duration: 1s;
+  }
+
+  .container {
+      display: grid;
+      justify-items: center;
+      max-width: 1250px;
+      margin: 0 auto;
+  }
+
+  .grid-row {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+  }
+
+  .panel-body {
+      width: 100%;
+  }
+
+  .button-area {
+      max-width: 1200px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+  }
+
+  .panel {
+      max-width: 1200px;
+      width: 1200px;
+  }
+
+  .cats {
+      align-self: left;
+      width: 200px;
+  }
+
+  @media (min-width: 1281px) {
+      .container {
+          max-width: 333px;
+      }
+  }
+
+  @media (min-width: 1281px) {
+      .container {
+          max-width: 1250px;
+      }
+  }
+
+  @media (min-width: 1025px) and (max-width: 1280px) {
+      .container {
+          max-width: 942px;
+      }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+      .container {
+          max-width: 942px;
+      }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+      .container {
+          max-width: 638px;
+      }
+  }
+
+  @media (min-width: 481px) and (max-width: 767px) {
+      .container {
+          max-width: 638px;
+      }
+  }
+
+  @media (min-width: 320px) and (max-width: 480px) {
+      .container {
+          max-width: 331px;
+      }
+  }
+
+  .card:hover {
+      top: -4px;
+  }
