@@ -1,18 +1,52 @@
-<div class="mb-3 ml-2 mr-2">
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="#" alt="Card image cap">
-        <div class="card-body">
+
+<a data-target="#modal_{{ activity.ID }}" data-toggle="modal" href="#modal_{{ activity.ID }}">
+    <div class="mb-3 ml-2 mr-2">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="#" alt="Card image cap">
+            <div class="card-body">
                 {% if user.is_authenticated %}
                 {% if activity in saved_list %}
-                <a class="likebutton mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;" onclick="return false"><i class="fas fa-bookmark"></i></a>
+                <a class="likebutton mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;"
+                    onclick="return false"><i class="fas fa-bookmark"></i></a>
                 {% else %}
-                <a class="likebutton mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;" onclick="return false"><i class="far fa-bookmark"></i></a>
+                <a class="likebutton mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;"
+                    onclick="return false"><i class="far fa-bookmark"></i></a>
                 {% endif %}
                 {% endif %}
-            <h5 class="card-title">{{activity.name}}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{ activity.address_1 }}</h6>
-            <p class="card-text">{{ activity.phone_number }}</p>
-            
+                <h5 class="card-title">{{activity.name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ activity.address_1 }}</h6>
+                <p class="card-text">{{ activity.phone_number }}</p>
+
+            </div>
         </div>
     </div>
+</a>
+
+<!--Modal-->
+<div class="modal fade" id="modal_{{ activity.ID }}" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+
+        <!--Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <img class="card-img-top" src="#" alt="Card image cap">
+
+            </div>
+            <div class="modal-body">
+                <h4 class="modal-title">{{activity.name}}</h4>
+                <p>{{activity.address_1}}</p>
+                <p>{{activity.phone_number}}</p>
+                <p>hours here</p>
+                <p>avg review</p>
+                <button>Directions</button>
+                <button>Purchase</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+
+
 </div>
