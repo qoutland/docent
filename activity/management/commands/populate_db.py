@@ -25,6 +25,7 @@ class Command(BaseCommand):
         for act in acts['businesses']:
             activity = Activity(
                 name=act['name'],
+                avg_review=act['rating'],
                 phone_number=act['phone'],
                 display_phone=act['display_phone'],
                 url=act['url'],
@@ -73,6 +74,7 @@ class Command(BaseCommand):
         for act in acts['businesses']:
             activity = Activity(
                 name=act['name'],
+                avg_review=act['rating'],
                 phone_number=act['phone'],
                 display_phone=act['display_phone'],
                 url=act['url'],
