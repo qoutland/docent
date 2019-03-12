@@ -138,3 +138,25 @@
 .card:hover {
     top: -4px;
 }
+
+.hero-image {
+    position: relative;
+    height: 300px;
+    background-image: url('../images/background-black-blank-733857.jpg');
+    background-repeat: no-repeat;
+    background-position: 0px 0px, 50% 50%; 
+    background-size: cover;
+    padding-bottom: 200px;
+    background-origin: content-box;
+    margin-bottom: 30px;
+  }
+  
+  .hero-text {
+    animation-name: jumbo-text-animate;
+    animation-duration: 1s;
+    text-align: center;
+    position: absolute;
+    top: 40%;
+    left: 60%; 
+    color: rgb(68, 67, 67);
+  }
