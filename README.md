@@ -23,7 +23,7 @@ python manage.py populate_db *--test*
 python manage.py collectstatic
 ```
 
-###Resync the database after a schema change
+### Resync the database after a schema change
 ```
 python manage.py makeigrations && python manage.py migrate
 ```
