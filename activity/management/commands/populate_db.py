@@ -36,7 +36,8 @@ class Command(BaseCommand):
                 address2=act['location']['address2'],
                 city=act['location']['city'],
                 state=act['location']['state'],
-                code=act['location']['zip_code']
+                code=act['location']['zip_code'],
+                origin='y'
             )
             #Check if activity already exists
             if Activity.objects.filter(name=activity.name).count():
@@ -52,7 +53,9 @@ class Command(BaseCommand):
                 with open('activity/static/media/'+ str(activity.ID) + '_pic.jpg', 'r+b') as f:
                     with Image.open(f) as image:
                         cover = resizeimage.resize_cover(image, [286, 197])
+                        modal = resizeimage.resize_cover(image, [466, 197])
                         cover.save('activity/static/media/'+ str(activity.ID) + '_pic.jpg', image.format)
+                        modal.save('activity/static/media/modal_'+ str(activity.ID) + '_pic.jpg', image.format)
                 activity.save()
                 print('Added activity: ' + str(activity.ID))
                 #Check if type exists, if it does then add activity to it | else make that type and create the act type
@@ -85,7 +88,8 @@ class Command(BaseCommand):
                 address2=act['location']['address2'],
                 city=act['location']['city'],
                 state=act['location']['state'],
-                code=act['location']['zip_code']
+                code=act['location']['zip_code'],
+                origin='y'
             )
             activity.save()
             urllib.request.urlretrieve(act['image_url'],  'activity/static/media/'+ str(activity.ID) + '_pic.jpg')
@@ -93,7 +97,9 @@ class Command(BaseCommand):
             with open('activity/static/media/'+ str(activity.ID) + '_pic.jpg', 'r+b') as f:
                     with Image.open(f) as image:
                         cover = resizeimage.resize_cover(image, [286, 197])
+                        modal = resizeimage.resize_cover(image, [466, 197])
                         cover.save('activity/static/media/'+ str(activity.ID) + '_pic.jpg', image.format)
+                        modal.save('activity/static/media/modal_'+ str(activity.ID) + '_pic.jpg', image.format)
             activity.save()
             print('Added activity: ' + str(activity.ID))
             #Check if type exists, if it does then add activity to it | else make that type and create the act type

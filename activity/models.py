@@ -30,7 +30,7 @@ class Activity(models.Model): #An activity object (using a PK for individual ref
 	pic_url = models.CharField(blank=True, max_length=20)
 	longitude = models.FloatField(null=True)
 	latitude = models.FloatField(null=True)
-	address1 = models.CharField(_("address"), max_length=128, null=True,)
+	address1 = models.CharField(_("address"), max_length=128, null=True)
 	address2 = models.CharField(_("address cont'd"), max_length=128, null=True)
 	city = models.CharField(_("city"), max_length=64, default="Reno")
 	state = USStateField(_("state"), default="NV")
@@ -38,6 +38,7 @@ class Activity(models.Model): #An activity object (using a PK for individual ref
 	description = models.TextField(blank=True, max_length=300)
 	created = models.DateField(auto_now_add=True)
 	modified = models.DateField(auto_now=True)
+	origin = models.CharField(max_length=1, default="n")
 
 class ActivityTypeLine(models.Model): #Allows activities to have multiple types
 	act_type = models.ForeignKey(ActivityType, on_delete=models.CASCADE)
