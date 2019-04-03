@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from activity.models import Activity, ActivityType, ActivityTypeLine
-import json, urllib.request, requests
+import json, urllib.request, requests, os
 from pprint import pprint
 from yelpapi import YelpAPI
 from PIL import Image
@@ -215,6 +215,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         terms = ['entertainment', 'music', 'food', 'bar', 'sports', 'other']
+        if not os.path.exists('activity/static/media'):
+            os.makedirs('activity/static/media')
         if options['test']:
             for search_term in terms:
                 self._test_yelp_data(search_term)
