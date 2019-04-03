@@ -36,6 +36,7 @@ class Activity(models.Model): #An activity object (using a PK for individual ref
 	state = USStateField(_("state"), default="NV")
 	code = models.CharField(_("zip code"), max_length=5, null=True)
 	description = models.TextField(blank=True, max_length=300)
+	event_date = models.DateField(null=True)
 	created = models.DateField(auto_now_add=True)
 	modified = models.DateField(auto_now=True)
 	origin = models.CharField(max_length=1, default="n")

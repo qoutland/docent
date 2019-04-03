@@ -21,4 +21,20 @@
         {% endfor %}
     </div>
 </div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+
+        <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+        {% if activity_list.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ activity_list.previous_page_number }}">{{ activity_list.previous_page_number }}</a></li>
+        {% endif %}
+        <li class="page-item active"><a class="page-link" href="#">{{ activity_list.number }}</a></li>
+        {% if activity_list.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ activity_list.next_page_number }}">{{ activity_list.next_page_number }}</a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link" href="?page={{ activity_list.paginator.num_pages }}">Last</a></li>
+    </ul>
+</nav>
+
 {% endblock %}

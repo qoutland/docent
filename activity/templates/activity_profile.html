@@ -1,5 +1,5 @@
 <div class="mb-3 ml-2 mr-2">
-    <div class="card" style="width: 18rem; height: 340px;">
+    <div class="card" style="width: 18rem; height: 365px;">
         <a data-target="#modal_{{ activity.ID }}" data-toggle="modal" href="#modal_{{ activity.ID }}">
         {% if activity.pic_url %}
         {% load static %}
@@ -10,13 +10,16 @@
         <div class="card-body">
             <a class="removelike mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;"
             onclick="return false"><i class="fas fa-bookmark"></i></a>
-            <h5 class="card-title">{{activity.name}}</h5>
+            <h5 class="card-title">{{activity.name|truncatechars:38}}</h5>
             {% if activity.address1 %}
             <a href="https://maps.google.com/maps/search/{{ activity.name }}"><h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-location-arrow"></i> {{ activity.address1 }}</h6></a>
             {% endif %}
             {% if activity.display_phone %}
             <a class="desktel" style="text-decoration: none;"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
             <a class="mobiletel" href="tel:{{ activity.phone_number }}"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
+            {% endif %}
+            {% if activity.event_date %}
+            <p class="card-text" style="margin-top: 8px;"><i class="far fa-calendar-alt"></i> Event Date: {{ activity.event_date }}</p>
             {% endif %}
             {% if activity.origin == 'y' %}
             <p class="card-text"><a href="{{ activity.url }}"><i class="fab fa-yelp" style="color: #d32323;"></i> Visit on Yelp</a></p>
@@ -51,7 +54,12 @@
                 <a class="desktel" style="text-decoration: none;"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
                 <a class="mobiletel" href="tel:{{ activity.phone_number }}"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
                 {% endif %}
+                {% if activity.avg_review %}
                 <p class="card-text" style="margin-top: 8px;"><i class="fas fa-star"></i> Average Rating: {{ activity.avg_review }}</p>
+                {% endif %}
+                {% if activity.event_date %}
+                <p class="card-text" style="margin-top: 8px;"><i class="far fa-calendar-alt"></i> Event Date: {{ activity.event_date }}</p>
+                {% endif %}
                 <a href="https://maps.google.com/maps/search/{{ activity.name }}"><button type="button" class="btn btn-primary">Directions</button></a>
                 {% if activity.origin == 'y' %}
                 <a href="{{ activity.url }}"><button type="button" class="btn btn-primary" style="background-color:#d32323; border-color:#d32323;"><i class="fab fa-yelp"></i> Yelp</button></a>
