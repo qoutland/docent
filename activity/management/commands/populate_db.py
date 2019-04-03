@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from activity.models import Activity, ActivityType, ActivityTypeLine
-import json, urllib.request
+import json, urllib.request, requests
 from pprint import pprint
 from yelpapi import YelpAPI
 from PIL import Image
@@ -21,7 +21,7 @@ class Command(BaseCommand):
             help='Generate 60 test activities for the application',
         )
 
-    def _create_activities(self, acts, query_type):
+    def _create_yelp_activities(self, acts, query_type):
         for act in acts['businesses']:
             activity = Activity(
                 name=act['name'],
@@ -42,6 +42,7 @@ class Command(BaseCommand):
             #Check if activity already exists
             if Activity.objects.filter(name=activity.name).count():
                 print('Already added')
+                ActivityType.objects.get_or_create(activity_type=query_type)
                 if ActivityTypeLine.objects.filter(act_type=ActivityType.objects.get(activity_type=query_type), act_id=Activity.objects.get(name=activity.name)).count():
                     print('Already added type')
                 else:
@@ -62,7 +63,7 @@ class Command(BaseCommand):
                 if ActivityType.objects.filter(activity_type=query_type).count():
                     ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=query_type), act_id=activity)
                 else:
-                    ActivityType.objects.create(activity_type=query_type)
+                    ActivityType.objects.get_or_create(activity_type=query_type)
                     ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=query_type), act_id=activity)
 
     def _pull_json(self, search_term):
@@ -70,7 +71,7 @@ class Command(BaseCommand):
         print('returning api results: ' + search_term)
         return json.loads(json.dumps(search_results))
 
-    def _test_data(self, query_type):
+    def _test_yelp_data(self, query_type):
         with open('top10.json','r') as f:
             acts = json.load(f)
         f.close()
@@ -106,15 +107,121 @@ class Command(BaseCommand):
             if ActivityType.objects.filter(activity_type=query_type).count():
                 ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=query_type), act_id=activity)
             else:
-                ActivityType.objects.create(activity_type=query_type)
+                ActivityType.objects.get_or_create(activity_type=query_type)
                 ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=query_type), act_id=activity)
+
+    def _test_ticket_data(self):
+        with open('events.json','r') as f:
+            data = json.load(f)
+        f.close()
+        events = data['_embedded']['events']
+        events = data['_embedded']['events']
+        for e in events:
+            activity = Activity(
+                name=e['name'],
+                url=e['url'],
+                event_date=e['dates']['start']['localDate'],
+                pic_url=e['images'][2]['url'],
+                city=e['_embedded']['venues'][0]['city']['name'],
+                state=e['_embedded']['venues'][0]['state']['stateCode'],
+                code=e['_embedded']['venues'][0]['postalCode'],
+                longitude=e['_embedded']['venues'][0]['location']['longitude'],
+                latitude=e['_embedded']['venues'][0]['location']['latitude'],
+                address1=e['_embedded']['venues'][0]['address']['line1'],
+                origin='t'
+            )
+            if Activity.objects.filter(name=activity.name).count():
+                print('Already added')
+                ActivityType.objects.get_or_create(activity_type=e['classifications'][0]['segment']['name'].lower())
+
+                if ActivityTypeLine.objects.filter(act_type=ActivityType.objects.get(activity_type=e['classifications'][0]['segment']['name'].lower()), act_id=Activity.objects.get(name=activity.name)).count():
+                    print('Already added type')
+                else:
+                    ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=e['classifications'][0]['segment']['name'].lower()), act_id=Activity.objects.get(name=activity.name))
+            else:
+                activity.save()
+                x=1
+                i=0
+                while x==1:
+                    if e['images'][i]['width'] >= 466 and e['images'][i]['height'] >= 197:
+                        urllib.request.urlretrieve(e['images'][i]['url'],  'activity/static/media/'+ str(activity.ID) + '_pic.jpg')
+                        x=0
+                    else:
+                        i+=1
+                activity.pic_url=str(activity.ID) + '_pic.jpg'
+                with open('activity/static/media/'+ str(activity.ID) + '_pic.jpg', 'r+b') as f:
+                    with Image.open(f) as image:
+                        cover = resizeimage.resize_cover(image, [286, 197])
+                        modal = resizeimage.resize_cover(image, [466, 197])
+                        cover.save('activity/static/media/'+ str(activity.ID) + '_pic.jpg', image.format)
+                        modal.save('activity/static/media/modal_'+ str(activity.ID) + '_pic.jpg', image.format)
+                activity.save()
+                print('Added activity: ' + str(activity.ID))
+                #Check if type exists, if it does then add activity to it | else make that type and create the act type
+                if ActivityType.objects.filter(activity_type=e['classifications'][0]['segment']['name']).count():
+                    ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=e['classifications'][0]['segment']['name'].lower()), act_id=activity)
+                else:
+                    ActivityType.objects.get_or_create(activity_type=e['classifications'][0]['segment']['name'].lower())
+                    ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=e['classifications'][0]['segment']['name'].lower()), act_id=activity)
+
+    def _create_ticketmaster_activities(self):
+        data = requests.get('https://app.ticketmaster.com/discovery/v2/events.json?stateCode=NV&city=Reno&size=100&apikey=RvKwUT6q6DuDH6eBGG8zARBNdI394ZIa').json()
+        events = data['_embedded']['events']
+        for e in events:
+            activity = Activity(
+                name=e['name'],
+                url=e['url'],
+                event_date=e['dates']['start']['localDate'],
+                pic_url=e['images'][2]['url'],
+                city=e['_embedded']['venues'][0]['city']['name'],
+                state=e['_embedded']['venues'][0]['state']['stateCode'],
+                code=e['_embedded']['venues'][0]['postalCode'],
+                longitude=e['_embedded']['venues'][0]['location']['longitude'],
+                latitude=e['_embedded']['venues'][0]['location']['latitude'],
+                address1=e['_embedded']['venues'][0]['address']['line1'],
+                origin='t'
+            )
+            if Activity.objects.filter(name=activity.name).count():
+                print('Already added')
+                if ActivityTypeLine.objects.filter(act_type=ActivityType.objects.get(activity_type=e['classifications'][0]['segment']['name'].lower()), act_id=Activity.objects.get(name=activity.name)).count():
+                    print('Already added type')
+                else:
+                    ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=e['classifications'][0]['segment']['name'].lower()), act_id=Activity.objects.get(name=activity.name))
+            else:
+                activity.save()
+                x=1
+                i=0
+                while x==1:
+                    if e['images'][i]['width'] >= 466 and e['images'][i]['height'] >= 197:
+                        urllib.request.urlretrieve(e['images'][i]['url'],  'activity/static/media/'+ str(activity.ID) + '_pic.jpg')
+                        x=0
+                    else:
+                        i+=1
+                activity.pic_url=str(activity.ID) + '_pic.jpg'
+                with open('activity/static/media/'+ str(activity.ID) + '_pic.jpg', 'r+b') as f:
+                    with Image.open(f) as image:
+                        cover = resizeimage.resize_cover(image, [286, 197])
+                        modal = resizeimage.resize_cover(image, [466, 197])
+                        cover.save('activity/static/media/'+ str(activity.ID) + '_pic.jpg', image.format)
+                        modal.save('activity/static/media/modal_'+ str(activity.ID) + '_pic.jpg', image.format)
+                activity.save()
+                print('Added activity: ' + str(activity.ID))
+                #Check if type exists, if it does then add activity to it | else make that type and create the act type
+                if ActivityType.objects.filter(activity_type=e['classifications'][0]['segment']['name']).count():
+                    ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=e['classifications'][0]['segment']['name'].lower()), act_id=activity)
+                else:
+                    ActivityType.objects.create(activity_type=e['classifications'][0]['segment']['name'].lower())
+                    ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=e['classifications'][0]['segment']['name'].lower()), act_id=activity)
 
     def handle(self, *args, **options):
         terms = ['entertainment', 'music', 'food', 'bar', 'sports', 'other']
         if options['test']:
             for search_term in terms:
-                self._test_data(search_term)
+                self._test_yelp_data(search_term)
+                self._test_ticket_data()
+                
         else:
             for search_term in terms:
                 acts = self._pull_json(search_term)
-                self._create_activities(acts, search_term)
+                self._create_yelp_activities(acts, search_term)
+            self._create_ticketmaster_activities()
