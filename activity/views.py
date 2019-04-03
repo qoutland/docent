@@ -96,8 +96,13 @@ def category(request): #This function is used to present the activities based on
 		search_query= search_query.capitalize()
 
 	form = SignUpForm()
+
+	paginator = Paginator(activity_list, 24) # Show 25 contacts per page
+	page = request.GET.get('page')
+	act_list = paginator.get_page(page)
+
 	context = {
-		'activity_list': activity_list,
+		'activity_list': act_list,
 		'type': search_query,
 		'form': form,
 	}
