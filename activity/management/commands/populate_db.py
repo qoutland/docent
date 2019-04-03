@@ -210,7 +210,7 @@ class Command(BaseCommand):
                 if ActivityType.objects.filter(activity_type=e['classifications'][0]['segment']['name']).count():
                     ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=e['classifications'][0]['segment']['name'].lower()), act_id=activity)
                 else:
-                    ActivityType.objects.create(activity_type=e['classifications'][0]['segment']['name'].lower())
+                    ActivityType.objects.get_or_create(activity_type=e['classifications'][0]['segment']['name'].lower())
                     ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=e['classifications'][0]['segment']['name'].lower()), act_id=activity)
 
     def handle(self, *args, **options):
