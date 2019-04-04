@@ -60,7 +60,9 @@
                 <a href="https://maps.google.com/maps/search/{{ activity.name }}"><p class="card-subtitle mb-3 mt-2 text-muted"><i class="fas fa-location-arrow"></i> {{activity.address1}}</p></a>
                 {% endif %}
                 {% if activity.display_phone %}
-                <a class="desktel" style="text-decoration: none;"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
+                <div class="desktel"> <!--This is a fix for iOS Safari-->
+                    <a class="desktel" style="text-decoration: none;"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
+                </div>                
                 <a class="mobiletel" href="tel:{{ activity.phone_number }}"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
                 {% endif %}
                 {% if activity.avg_review %}
