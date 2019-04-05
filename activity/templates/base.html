@@ -40,12 +40,8 @@
     </button>
 
     <div class="collapse navbar-collapse ml-auto" id="navbarToggler">
-
-      <form class="form-inline ml-auto mr-auto" type="get" action="." id="search">
-        <input class="form-control mr-sm-2" type="search" name="search_box" placeholder="Search" aria-label="Search">
-        <a id="search_submit" href="#" onclick="document.getElementById('search').submit();"><i class="fa fa-search"></i></a>
-      </form>
-
+      {% block search %} {% endblock %}
+    
       <ul class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
 
