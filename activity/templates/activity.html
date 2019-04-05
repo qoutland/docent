@@ -24,7 +24,9 @@
             <a href="https://maps.google.com/maps/search/{{ activity.name }}"><h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-location-arrow"></i> {{ activity.address1 }}</h6></a>
             {% endif %}
             {% if activity.display_phone %}
-            <a class="desktel" style="text-decoration: none;"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
+            <div class="desktel">
+                <a class="desktel" style="text-decoration: none;"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
+            </div>
             <a class="mobiletel" href="tel:{{ activity.phone_number }}"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
             {% endif %}
             {% if activity.event_date %}
