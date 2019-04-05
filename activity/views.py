@@ -42,10 +42,9 @@ def index(request):
 	if request.method == 'GET': #If the request is a GET method
 		search_query = request.GET.get('search_box', None) #Get search box var
 		save_act = request.GET.get('save_act', None) #Get activity to save or delete
-		if search_query: #If there is a search query
+		category = request.GET.get('category', None) #Get a category type
+		if search_query != None: #If there is a search query
 			activity_list = getActs(search_query) #Return the results (if there are any)
-			if activity_list == []:
-				activity_list = Activity.objects.all() #Otherwise return everything
 		else:
 			activity_list = Activity.objects.all() #If there was no search_query then return all activities
 
@@ -54,6 +53,10 @@ def index(request):
 				SavedActivity.objects.get(profile=request.user.id, save_act_id=save_act).delete() #If it does then delete it
 			else:
 				SavedActivity.objects.get_or_create(profile=request.user, save_act_id=Activity.objects.get(ID=save_act)) #If not create it
+
+		if category != None:
+			activity_list = getActs(category)
+			#category = category.capitalize()
 	elif request.method == 'POST':
 		form = SignUpForm(request.POST)
 		if form.is_valid():
@@ -80,11 +83,14 @@ def index(request):
 	paginator = Paginator(activity_list, 24) # Show 25 contacts per page
 	page = request.GET.get('page')
 	act_list = paginator.get_page(page)
-
+	result_num = len(activity_list)
 	context = {
 		'activity_list': act_list,
 		'saved_list': saved_list,
 		'form': form,
+		'search_query': search_query,
+		'result_num': result_num,
+		'category': category,
 	}
 	return render(request, 'index.html', context)
 
