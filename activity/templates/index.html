@@ -2,19 +2,49 @@
 {% block content %}
 <div class="jumbotron">
     <div class="jumbo-text .animated .fadeUpBig" style="color: white; text-align: center">
-        <h1 class="display-4">Have Plans?</h1>
+        {% if search_query %}
+            <h1 class="display-4">Results for "{{search_query}}"</h1>
+            <p>Found {{result_num}} results</p>
+        {% elif category %}
+            <h1 class="display-4">{{ category|capfirst }}</h1>
+        {% else %}
+            <h1 class="display-4">Have Plans?</h1>
         <p>Don't worry, Docent does.</p>
+        {% endif %}
     </div>
 </div>
 <nav class="nav nav-pills nav-fill">
-    <a id="enterntainment" class="nav-item nav-link category" href="{% url 'category'%}?type=entertainment">Entertainment</a>
-    <a id="music" class="nav-item nav-link category" href="{% url 'category'%}?type=music">Music</a>
-    <a id="food" class="nav-item nav-link category" href="{% url 'category'%}?type=food">Food and Drink</a>
-    <a id="sports" class="nav-item nav-link category" href="{% url 'category'%}?type=sports">Sports</a>
-    <a id="other" class="nav-item nav-link category" href="{% url 'category'%}?type=other">Other</a>
+    <!--This is really really dirty, butt fuckit-->
+    {% if category == 'entertainment' %}
+    <a id="enterntainment" class="nav-item nav-link category active" href="{% url 'index'%}?category=entertainment">Entertainment</a>
+    {% else %}
+    <a id="enterntainment" class="nav-item nav-link category" href="{% url 'index'%}?category=entertainment">Entertainment</a>
+    {% endif %}
+    {% if category == 'music' %}
+    <a id="music" class="nav-item nav-link category active" href="{% url 'index'%}?category=music">Music</a>
+    {% else %}
+    <a id="music" class="nav-item nav-link category" href="{% url 'index'%}?category=music">Music</a>
+    {% endif %}
+    {% if category == 'food' %}
+    <a id="food" class="nav-item nav-link category active" href="{% url 'index'%}?category=food">Food</a>
+    {% else %}
+    <a id="food" class="nav-item nav-link category" href="{% url 'index'%}?category=food">Food</a>
+    {% endif %}
+    {% if category == 'sports' %}
+    <a id="sports" class="nav-item nav-link category active" href="{% url 'index'%}?category=sports">Sports</a>
+    {% else %}
+    <a id="sports" class="nav-item nav-link category " href="{% url 'index'%}?category=sports">Sports</a>
+    {% endif %}
+    {% if category == 'other' %}
+    <a id="other" class="nav-item nav-link category active" href="{% url 'index'%}?category=other">Other</a>
+    {% else %}
+    <a id="other" class="nav-item nav-link category" href="{% url 'index'%}?category=other">Other</a>
+    {% endif %}
 </nav>
 <br />
 
+
+{% if activity_list %}
 <div class="container">
     <div class="grid-row">
         {% for activity in activity_list %}
@@ -38,5 +68,13 @@
         <li class="page-item"><a class="page-link" href="?page={{ activity_list.paginator.num_pages }}">Last</a></li>
     </ul>
 </nav>
-
+{% else %}
+<div class="container">
+    {% if search_query  %}
+    <h2>Could not find results for "{{ search_query }}"</h2>
+    {% else %}
+    <h2>Could not find any activities</h2>
+    {% endif %}
+</div>
+{% endif %}
 {% endblock %}
