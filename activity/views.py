@@ -219,11 +219,3 @@ def getActs(search_query): #Function that takes in search param and returns acti
 			return activity_list #Return the list
 	else: #If the search_query was empty
 		return [] #Return the empty list
-
-register = template.Library()
-
-@register.simple_tag(takes_context=True)
-def url_replace(context, **kwargs):
-    query = context['request'].GET.copy()
-    query.update(kwargs)
-    return query.urlencode()
