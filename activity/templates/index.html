@@ -133,16 +133,33 @@
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
-
-        <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-        {% if activity_list.has_previous %}
-        <li class="page-item"><a class="page-link" href="?{{ url_replace page=activity_list.previous_page_number }}">{{ activity_list.previous_page_number }}</a></li>
+        {% if sort != None or filter_act != None or category != None or search_box != None %}
+        {% if activity_list.has_previous and activity_list.paginator.num_pages != 1 %}
+        <li class="page-item"><a class="page-link" href="{{ request.get_full_path }}&page=1">First</a></li>
+        <li class="page-item"><a class="page-link" href="{{ request.get_full_path }}&page={{activity_list.previous_page_number }}">{{ activity_list.previous_page_number }}</a></li>
         {% endif %}
         <li class="page-item active"><a class="page-link" href="#">{{ activity_list.number }}</a></li>
         {% if activity_list.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{ activity_list.next_page_number }}">{{ activity_list.next_page_number }}</a></li>
+        <li class="page-item"><a class="page-link" href="{{ request.get_full_path }}&page={{activity_list.next_page_number }}">{{ activity_list.next_page_number }}</a></li>
         {% endif %}
-        <li class="page-item"><a class="page-link" href="?page={{ activity_list.paginator.num_pages }}">Last</a></li>
+        {% if activity_list.paginator.num_pages != 1 %}
+        <li class="page-item"><a class="page-link" href="{{ request.get_full_path }}&page={{ activity_list.paginator.num_pages }}">Last</a></li>
+        {% endif %}
+
+        <!--If there are no previous args (THIS IS A HACK, I think)-->
+        {% else %}
+            {% if activity_list.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{activity_list.previous_page_number }}">{{ activity_list.previous_page_number }}</a></li>
+            {% endif %}
+            <li class="page-item active"><a class="page-link" href="#">{{ activity_list.number }}</a></li>
+            {% if activity_list.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{activity_list.next_page_number }}">{{ activity_list.next_page_number }}</a></li>
+            {% endif %}
+            {% if activity_list.paginator.num_pages != 1 %}
+            <li class="page-item"><a class="page-link" href="?page={{ activity_list.paginator.num_pages }}">Last</a></li>
+            {% endif %}
+        {% endif %}
     </ul>
 </nav>
 {% else %}
