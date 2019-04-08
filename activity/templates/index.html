@@ -1,4 +1,11 @@
 {% extends "base.html" %}
+{% block search %}
+<form class="form-inline ml-auto mr-auto" type="get" action="." id="search">
+    <input class="form-control mr-sm-2" type="search" name="search_box" placeholder="Search" aria-label="Search">
+    <a id="search_submit" href="#" onclick="document.getElementById('search').submit();"><i class="fa fa-search"></i></a>
+</form>
+{% endblock %}
+
 {% block content %}
 <div class="jumbotron">
     <div class="jumbo-text .animated .fadeUpBig" style="color: white; text-align: center">
@@ -42,7 +49,77 @@
     {% endif %}
 </nav>
 <br />
-
+<!--Sort/Filter Buttons-->
+<div class="container">
+    <div class="panel profile-panel">      
+        <div class="panel-body">
+            <form class=" ml-2 form-inline" type="get" action=".">
+                <label class="col-form-label" for="filter">Sort:</label>
+                <select name="sort" class="ml-2 mr-5 mb-2 form-control cats" onchange="this.form.submit()">
+                    {% if sort == 'az' %}
+                    <option value="az" selected>A-Z</option>
+                    <option value="za">Z-A</option>
+                    <option value="review">Review</option>
+                    <option value="shuffle">Shuffle</option>
+                    {% elif sort == 'za' %}
+                    <option value="az" >A-Z</option>
+                    <option value="za" selected>Z-A</option>
+                    <option value="review">Review</option>
+                    <option value="shuffle">Shuffle</option>
+                    {% elif sort == 'shuffle' %}
+                    <option value="az" >A-Z</option>
+                    <option value="za" >Z-A</option>
+                    <option value="review">Review</option>
+                    <option value="shuffle" selected>Shuffle</option>
+                    {% elif sort == 'review' %}
+                    <option value="az" >A-Z</option>
+                    <option value="za" >Z-A</option>
+                    <option value="review" selected>Review</option>
+                    <option value="shuffle">Shuffle</option>
+                    {% else %}
+                    <option value="" disabled selected>Sort...</option>
+                    <option value="az">A-Z</option>
+                    <option value="za">Z-A</option>
+                    <option value="review">Review</option>
+                    <option value="shuffle">Shuffle</option>
+                    {%  endif %}
+                </select>
+                <label class="col-form-label" for="filter">Filter:</label>
+                <select name="filter" class="ml-2 mb-2 form-control cats" onchange="this.form.submit()">
+                    {% if filter_act == 'yelp' %}
+                    <option value="yelp" selected>Yelp</option>
+                    <option value="ticketmaster">TicketMaster</option>
+                    <option value="all">All</option>
+                    {% elif filter_act == 'ticketmaster' %}
+                    <option value="yelp">Yelp</option>
+                    <option value="ticketmaster" selected>TicketMaster</option>
+                    <option value="all">All</option>
+                    {% elif filter_act == 'all' %}
+                    <option value="yelp">Yelp</option>
+                    <option value="ticketmaster" >TicketMaster</option>
+                    <option value="all" selected>All</option>
+                    {% else %}
+                    <option value="" disabled selected>Filter...</option>
+                    <option value="yelp">Yelp</option>
+                    <option value="ticketmaster">TicketMaster</option>
+                    <option value="all">All</option>
+                    {% endif %}
+                </select>
+            </form>
+            <br />
+            {% if user_interest_list %}
+            <div class="button-area">
+                {% for int in user_interest_list %}
+                <button type="button" class="butt_{{int.activity_type}} btn btn-primary mx-1 mb-2 removeInt" data-catid="{{int.activity_type}}">
+                    <i class="far fa-trash-alt" style="color:white;"></i>
+                    {{int.activity_type}}
+                </button>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
 {% if activity_list %}
 <div class="container">
@@ -56,16 +133,33 @@
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
-
-        <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-        {% if activity_list.has_previous %}
-        <li class="page-item"><a class="page-link" href="?page={{ activity_list.previous_page_number }}">{{ activity_list.previous_page_number }}</a></li>
+        {% if sort != None or filter_act != None or category != None or search_box != None %}
+        {% if activity_list.has_previous and activity_list.paginator.num_pages != 1 %}
+        <li class="page-item"><a class="page-link" href="{{ request.get_full_path }}&page=1">First</a></li>
+        <li class="page-item"><a class="page-link" href="{{ request.get_full_path }}&page={{activity_list.previous_page_number }}">{{ activity_list.previous_page_number }}</a></li>
         {% endif %}
         <li class="page-item active"><a class="page-link" href="#">{{ activity_list.number }}</a></li>
         {% if activity_list.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{ activity_list.next_page_number }}">{{ activity_list.next_page_number }}</a></li>
+        <li class="page-item"><a class="page-link" href="{{ request.get_full_path }}&page={{activity_list.next_page_number }}">{{ activity_list.next_page_number }}</a></li>
         {% endif %}
-        <li class="page-item"><a class="page-link" href="?page={{ activity_list.paginator.num_pages }}">Last</a></li>
+        {% if activity_list.paginator.num_pages != 1 %}
+        <li class="page-item"><a class="page-link" href="{{ request.get_full_path }}&page={{ activity_list.paginator.num_pages }}">Last</a></li>
+        {% endif %}
+
+        <!--If there are no previous args (THIS IS A HACK, I think)-->
+        {% else %}
+            {% if activity_list.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{activity_list.previous_page_number }}">{{ activity_list.previous_page_number }}</a></li>
+            {% endif %}
+            <li class="page-item active"><a class="page-link" href="#">{{ activity_list.number }}</a></li>
+            {% if activity_list.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{activity_list.next_page_number }}">{{ activity_list.next_page_number }}</a></li>
+            {% endif %}
+            {% if activity_list.paginator.num_pages != 1 %}
+            <li class="page-item"><a class="page-link" href="?page={{ activity_list.paginator.num_pages }}">Last</a></li>
+            {% endif %}
+        {% endif %}
     </ul>
 </nav>
 {% else %}
