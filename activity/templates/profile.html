@@ -8,8 +8,10 @@
 </div>
 
 <div class="container">
+    <button type="button" class="btn btn-danger ml-auto" href="#acct_confirm" data-toggle="modal">Delete Account</button>
     <div class="panel profile-panel">      
        <h3>Add Interests</h3>
+       
         <div class="panel-body">
             <form type="get" action=".">
                 <select name="new_interest" class="form-control cats" onchange="this.form.submit()">
@@ -34,6 +36,7 @@
             {% endif %}
         </div>
     </div>
+    
 </div>
 
 
@@ -46,6 +49,26 @@
         {% for activity in activity_list %}
         {% include "activity_profile.html" with activity=activity %}
         {% endfor %}
+    </div>
+</div>
+
+<div class="modal" id="acct_confirm" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Are you sure?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Your account will be permanently deleted.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="{% url 'delete' %}"><button type="button" class="btn btn-danger">Delete Account</button></a>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
     </div>
 </div>
 
