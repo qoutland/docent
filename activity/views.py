@@ -2,6 +2,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -42,6 +43,13 @@ def add_removeInterest(request):
 
 #Main page
 def index(request):
+	act_list = []
+	activity_list = []
+	search_query=None
+	category=None
+	sort=None
+	filter_act=None
+	result_num=0
 	if request.method == 'GET': #If the request is a GET method
 		search_query = request.GET.get('search_box', None) #Get search box var
 		save_act = request.GET.get('save_act', None) #Get activity to save or delete
@@ -103,10 +111,12 @@ def index(request):
 		saved_list=[] #If the user is not authenticated return an empty list
 	form = SignUpForm()
 
-	paginator = Paginator(activity_list, 24) # Show 25 contacts per page
-	page = request.GET.get('page')
-	act_list = paginator.get_page(page)
-	result_num = len(activity_list)
+	if activity_list != []:
+		paginator = Paginator(activity_list, 24) # Show 25 contacts per page
+		page = request.GET.get('page')
+		act_list = paginator.get_page(page)
+		result_num = len(activity_list)
+
 	context = {
 		'activity_list': act_list,
 		'saved_list': saved_list,
@@ -179,6 +189,11 @@ def profile(request):
 		'saved_list': saved_list,
 	}
 	return render(request, 'profile.html', context)
+
+def delete_profile(request):
+	u = User.objects.get(pk=request.user.id)
+	u.delete()
+	return redirect('index')
 
 #Might be able to delete
 def signUp(request):
