@@ -6,7 +6,10 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import generic
+from django import template
+from urllib.parse import urlencode
 from itertools import chain
+from random import shuffle
 from .forms import SignUpForm
 from .models import Profile, Interest, Activity, ActivityType, SavedActivity
 
@@ -43,6 +46,8 @@ def index(request):
 		search_query = request.GET.get('search_box', None) #Get search box var
 		save_act = request.GET.get('save_act', None) #Get activity to save or delete
 		category = request.GET.get('category', None) #Get a category type
+		sort = request.GET.get('sort', None)
+		filter_act = request.GET.get('filter', None)
 		if search_query != None: #If there is a search query
 			activity_list = getActs(search_query) #Return the results (if there are any)
 		else:
@@ -56,7 +61,25 @@ def index(request):
 
 		if category != None:
 			activity_list = getActs(category)
-			#category = category.capitalize()
+		
+		if sort != None:
+			if sort == 'az':
+				activity_list = activity_list.order_by('name')
+			elif sort == 'za':
+				activity_list = activity_list.order_by('name').reverse()
+			elif sort =='review':
+				activity_list = activity_list.filter(origin='y').order_by('avg_review')
+			elif sort == 'shuffle':
+				activity_list = activity_list.order_by('?')
+
+		if filter_act != None:
+			if filter_act == 'yelp':
+				activity_list = activity_list.filter(origin='y')
+			elif filter_act == 'ticketmaster':
+				activity_list = activity_list.filter(origin='t')
+			elif filter_act == 'all':
+				pass
+			
 	elif request.method == 'POST':
 		form = SignUpForm(request.POST)
 		if form.is_valid():
@@ -91,6 +114,8 @@ def index(request):
 		'search_query': search_query,
 		'result_num': result_num,
 		'category': category,
+		'sort': sort,
+		'filter_act': filter_act,
 	}
 	return render(request, 'index.html', context)
 
