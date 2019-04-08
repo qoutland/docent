@@ -6,6 +6,8 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import generic
+from django import template
+from urllib.parse import urlencode
 from itertools import chain
 from random import shuffle
 from .forms import SignUpForm
@@ -217,3 +219,11 @@ def getActs(search_query): #Function that takes in search param and returns acti
 			return activity_list #Return the list
 	else: #If the search_query was empty
 		return [] #Return the empty list
+
+register = template.Library()
+
+@register.simple_tag(takes_context=True)
+def url_replace(context, **kwargs):
+    query = context['request'].GET.copy()
+    query.update(kwargs)
+    return query.urlencode()
