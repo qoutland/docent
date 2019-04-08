@@ -65,12 +65,18 @@ def index(request):
 				activity_list = activity_list.order_by('name')
 			elif sort == 'za':
 				activity_list = activity_list.order_by('name').reverse()
+			elif sort =='review':
+				activity_list = activity_list.filter(origin='y').order_by('avg_review')
+			elif sort == 'shuffle':
+				activity_list = activity_list.order_by('?')
 
-		if filter != None:
-			if sort == 'yelp':
+		if filter_act != None:
+			if filter_act == 'yelp':
 				activity_list = activity_list.filter(origin='y')
-			elif sort == 'ticketmaster':
+			elif filter_act == 'ticketmaster':
 				activity_list = activity_list.filter(origin='t')
+			elif filter_act == 'all':
+				pass
 			
 	elif request.method == 'POST':
 		form = SignUpForm(request.POST)
@@ -106,6 +112,8 @@ def index(request):
 		'search_query': search_query,
 		'result_num': result_num,
 		'category': category,
+		'sort': sort,
+		'filter_act': filter_act,
 	}
 	return render(request, 'index.html', context)
 

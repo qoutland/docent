@@ -48,25 +48,78 @@
     <a id="other" class="nav-item nav-link category" href="{% url 'index'%}?category=other">Other</a>
     {% endif %}
 </nav>
-<nav class="navbar navbar-expand-lg">    
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort</a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% url 'index'%}?sort=az">A-Z</a>
-                <a class="dropdown-item" href="{% url 'index'%}?sort=za">Z-A</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filter</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'index'%}?filter=yelp">Yelp</a>
-                    <a class="dropdown-item" href="{% url 'index'%}?sort=ticketmaster">Ticketmaster</a>
-                </div>
-            </li>
+<br />
+<!--Sort/Filter Buttons-->
+<div class="container">
+    <div class="panel profile-panel">      
+        <div class="panel-body">
+            <form class=" ml-2 form-inline" type="get" action=".">
+                <label class="col-form-label" for="filter">Sort:</label>
+                <select name="sort" class="ml-2 mr-5 mb-2 form-control cats" onchange="this.form.submit()">
+                    {% if sort == 'az' %}
+                    <option value="az" selected>A-Z</option>
+                    <option value="za">Z-A</option>
+                    <option value="review">Review</option>
+                    <option value="shuffle">Shuffle</option>
+                    {% elif sort == 'za' %}
+                    <option value="az" >A-Z</option>
+                    <option value="za" selected>Z-A</option>
+                    <option value="review">Review</option>
+                    <option value="shuffle">Shuffle</option>
+                    {% elif sort == 'shuffle' %}
+                    <option value="az" >A-Z</option>
+                    <option value="za" >Z-A</option>
+                    <option value="review">Review</option>
+                    <option value="shuffle" selected>Shuffle</option>
+                    {% elif sort == 'review' %}
+                    <option value="az" >A-Z</option>
+                    <option value="za" >Z-A</option>
+                    <option value="review" selected>Review</option>
+                    <option value="shuffle">Shuffle</option>
+                    {% else %}
+                    <option value="" disabled selected>Sort...</option>
+                    <option value="az">A-Z</option>
+                    <option value="za">Z-A</option>
+                    <option value="review">Review</option>
+                    <option value="shuffle">Shuffle</option>
+                    {%  endif %}
+                </select>
+                <label class="col-form-label" for="filter">Filter:</label>
+                <select name="filter" class="ml-2 mb-2 form-control cats" onchange="this.form.submit()">
+                    {% if filter_act == 'yelp' %}
+                    <option value="yelp" selected>Yelp</option>
+                    <option value="ticketmaster">TicketMaster</option>
+                    <option value="all">All</option>
+                    {% elif filter_act == 'ticketmaster' %}
+                    <option value="yelp">Yelp</option>
+                    <option value="ticketmaster" selected>TicketMaster</option>
+                    <option value="all">All</option>
+                    {% elif filter_act == 'all' %}
+                    <option value="yelp">Yelp</option>
+                    <option value="ticketmaster" >TicketMaster</option>
+                    <option value="all" selected>All</option>
+                    {% else %}
+                    <option value="" disabled selected>Filter...</option>
+                    <option value="yelp">Yelp</option>
+                    <option value="ticketmaster">TicketMaster</option>
+                    <option value="all">All</option>
+                    {% endif %}
+                </select>
+            </form>
+            <br />
+            {% if user_interest_list %}
+            <div class="button-area">
+                {% for int in user_interest_list %}
+                <button type="button" class="butt_{{int.activity_type}} btn btn-primary mx-1 mb-2 removeInt" data-catid="{{int.activity_type}}">
+                    <i class="far fa-trash-alt" style="color:white;"></i>
+                    {{int.activity_type}}
+                </button>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
-      </nav>
+    </div>
+</div>
 
 {% if activity_list %}
 <div class="container">
