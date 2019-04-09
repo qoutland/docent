@@ -115,7 +115,6 @@ class Command(BaseCommand):
             data = json.load(f)
         f.close()
         events = data['_embedded']['events']
-        events = data['_embedded']['events']
         for e in events:
             activity = Activity(
                 name=e['name'],
@@ -213,6 +212,98 @@ class Command(BaseCommand):
                     ActivityType.objects.get_or_create(activity_type=e['classifications'][0]['segment']['name'].lower())
                     ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=e['classifications'][0]['segment']['name'].lower()), act_id=activity)
 
+    def _create_hiking_activities(self):
+        data = requests.get('https://www.hikingproject.com/data/get-trails?lat=39.5296&lon=-119.8138&maxDistance=30&key=200446744-75b255e6be35c19e68574645f0e16570').json()
+        trails = data['trails']
+        for trail in trails:
+            activity = Activity(
+                name=trail['name'],
+                url=trail['url'],
+                pic_url=trail['imgMedium'],
+                avg_review=trail['stars'],
+                longitude=trail['longitude'],
+                latitude=trail['latitude'],
+                description=trail['summary'],
+                length=trail['length'],
+                origin='h'
+            )
+            if Activity.objects.filter(name=activity.name).count():
+                print('Already added')
+                if ActivityType.objects.filter(activity_type=trail['type'].lower()).count():
+                    if ActivityTypeLine.objects.filter(act_type=ActivityType.objects.get(activity_type=trail['type'].lower()), act_id=Activity.objects.get(name=activity.name)).count():
+                        print('Already added type')
+                    else:
+                        ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=trail['type'].lower()), act_id=Activity.objects.get(name=activity.name))
+                else:
+                    ActivityType.objects.create(activity_type=trail['type'].lower())
+                    ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=trail['type'].lower()), act_id=Activity.objects.get(name=activity.name))
+            else:
+                activity.save()
+                if trail['imgMedium'] != '':
+                    urllib.request.urlretrieve(trail['imgMedium'],  'activity/static/media/'+ str(activity.ID) + '_pic.jpg')             
+                    activity.pic_url=str(activity.ID) + '_pic.jpg'
+                    with open('activity/static/media/'+ str(activity.ID) + '_pic.jpg', 'r+b') as f:
+                        with Image.open(f) as image:
+                            cover = resizeimage.resize_cover(image, [286, 197])
+                            modal = resizeimage.resize_cover(image, [466, 197])
+                            cover.save('activity/static/media/'+ str(activity.ID) + '_pic.jpg', image.format)
+                            modal.save('activity/static/media/modal_'+ str(activity.ID) + '_pic.jpg', image.format)
+                    activity.save()
+                print('Added activity: ' + str(activity.ID))
+                #Check if type exists, if it does then add activity to it | else make that type and create the act type
+                if ActivityType.objects.filter(activity_type=trail['type']).count():
+                    ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=trail['type'].lower()), act_id=activity)
+                else:
+                    ActivityType.objects.get_or_create(activity_type=trail['type'].lower())
+                    ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=trail['type'].lower()), act_id=activity)
+
+    def _test_hike_data(self):
+        with open('hikes.json','r') as f:
+            data = json.load(f)
+        f.close()
+        trails = data['trails']
+        for trail in trails:
+            activity = Activity(
+                name=trail['name'],
+                url=trail['url'],
+                pic_url=trail['imgMedium'],
+                avg_review=trail['stars'],
+                longitude=trail['longitude'],
+                latitude=trail['latitude'],
+                description=trail['summary'],
+                length=trail['length'],
+                origin='h'
+            )
+            if Activity.objects.filter(name=activity.name).count():
+                print('Already added')
+                if ActivityType.objects.filter(activity_type=trail['type'].lower()).count():
+                    if ActivityTypeLine.objects.filter(act_type=ActivityType.objects.get(activity_type=trail['type'].lower()), act_id=Activity.objects.get(name=activity.name)).count():
+                        print('Already added type')
+                    else:
+                        ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=trail['type'].lower()), act_id=Activity.objects.get(name=activity.name))
+                else:
+                    ActivityType.objects.create(activity_type=trail['type'].lower())
+                    ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=trail['type'].lower()), act_id=Activity.objects.get(name=activity.name))
+            else:
+                activity.save()
+                if trail['imgMedium'] != '':
+                    urllib.request.urlretrieve(trail['imgMedium'],  'activity/static/media/'+ str(activity.ID) + '_pic.jpg')             
+                    activity.pic_url=str(activity.ID) + '_pic.jpg'
+                    with open('activity/static/media/'+ str(activity.ID) + '_pic.jpg', 'r+b') as f:
+                        with Image.open(f) as image:
+                            cover = resizeimage.resize_cover(image, [286, 197])
+                            modal = resizeimage.resize_cover(image, [466, 197])
+                            cover.save('activity/static/media/'+ str(activity.ID) + '_pic.jpg', image.format)
+                            modal.save('activity/static/media/modal_'+ str(activity.ID) + '_pic.jpg', image.format)
+                    activity.save()
+                print('Added activity: ' + str(activity.ID))
+                #Check if type exists, if it does then add activity to it | else make that type and create the act type
+                if ActivityType.objects.filter(activity_type=trail['type']).count():
+                    ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=trail['type'].lower()), act_id=activity)
+                else:
+                    ActivityType.objects.get_or_create(activity_type=trail['type'].lower())
+                    ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=trail['type'].lower()), act_id=activity)
+
     def handle(self, *args, **options):
         terms = ['entertainment', 'music', 'food', 'bar', 'sports', 'other']
         if not os.path.exists('activity/static/media'):
@@ -221,9 +312,11 @@ class Command(BaseCommand):
             for search_term in terms:
                 self._test_yelp_data(search_term)
                 self._test_ticket_data()
+                self._test_hike_data()
                 
         else:
             for search_term in terms:
                 acts = self._pull_json(search_term)
                 self._create_yelp_activities(acts, search_term)
             self._create_ticketmaster_activities()
+            self._create_hiking_activities()
