@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import generic
+from django.db.models import Q
 from django import template
 from urllib.parse import urlencode
 from itertools import chain
@@ -76,7 +77,8 @@ def index(request):
 			elif sort == 'za':
 				activity_list = activity_list.order_by('name').reverse()
 			elif sort =='review':
-				activity_list = activity_list.filter(origin='y').order_by('avg_review')
+				activity_list = activity_list.filter(Q(origin='y') | Q(origin='h'))
+				activity_list = activity_list.order_by('avg_review').reverse()
 			elif sort == 'shuffle':
 				activity_list = activity_list.order_by('?')
 
@@ -85,6 +87,8 @@ def index(request):
 				activity_list = activity_list.filter(origin='y')
 			elif filter_act == 'ticketmaster':
 				activity_list = activity_list.filter(origin='t')
+			elif filter_act == 'hikingproject':
+				activity_list = activity_list.filter(origin='h')
 			elif filter_act == 'all':
 				pass
 			
@@ -112,7 +116,7 @@ def index(request):
 	form = SignUpForm()
 
 	if activity_list != []:
-		paginator = Paginator(activity_list, 24) # Show 25 contacts per page
+		paginator = Paginator(activity_list, 24) # Show 24 contacts per page
 		page = request.GET.get('page')
 		act_list = paginator.get_page(page)
 		result_num = len(activity_list)
@@ -129,7 +133,8 @@ def index(request):
 	}
 	return render(request, 'index.html', context)
 
-def category(request): #This function is used to present the activities based on the categories (very similiar to search_query) **Maybe can be refactored in the future
+#Can be deleted sometime
+def category(request): 
 	if request.method == 'GET':
 		search_query = request.GET.get('type', None)
 		activity_list = getActs(search_query)
@@ -190,6 +195,7 @@ def profile(request):
 	}
 	return render(request, 'profile.html', context)
 
+#Allows a user to delete their profile
 def delete_profile(request):
 	u = User.objects.get(pk=request.user.id)
 	u.delete()
