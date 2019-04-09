@@ -49,7 +49,6 @@
     {% endif %}
 </nav>
 <br />
-<!--Sort/Filter Buttons-->
 <div class="container">
     <div class="panel profile-panel">      
         <div class="panel-body">
@@ -59,28 +58,28 @@
                     {% if sort == 'az' %}
                     <option value="az" selected>A-Z</option>
                     <option value="za">Z-A</option>
-                    <option value="review">Review</option>
+                    <option value="review">Avg Review</option>
                     <option value="shuffle">Shuffle</option>
                     {% elif sort == 'za' %}
                     <option value="az" >A-Z</option>
                     <option value="za" selected>Z-A</option>
-                    <option value="review">Review</option>
+                    <option value="review">Avg Review</option>
                     <option value="shuffle">Shuffle</option>
                     {% elif sort == 'shuffle' %}
                     <option value="az" >A-Z</option>
                     <option value="za" >Z-A</option>
-                    <option value="review">Review</option>
+                    <option value="review">Avg Review</option>
                     <option value="shuffle" selected>Shuffle</option>
                     {% elif sort == 'review' %}
                     <option value="az" >A-Z</option>
                     <option value="za" >Z-A</option>
-                    <option value="review" selected>Review</option>
+                    <option value="review" selected>Avg Review</option>
                     <option value="shuffle">Shuffle</option>
                     {% else %}
                     <option value="" disabled selected>Sort...</option>
                     <option value="az">A-Z</option>
                     <option value="za">Z-A</option>
-                    <option value="review">Review</option>
+                    <option value="review">Avg Review</option>
                     <option value="shuffle">Shuffle</option>
                     {%  endif %}
                 </select>
@@ -89,20 +88,26 @@
                     {% if filter_act == 'yelp' %}
                     <option value="yelp" selected>Yelp</option>
                     <option value="ticketmaster">TicketMaster</option>
+                    <option value="hikingproject">HikingProject</option>
                     <option value="all">All</option>
+                    <option value="">None</option>
                     {% elif filter_act == 'ticketmaster' %}
                     <option value="yelp">Yelp</option>
                     <option value="ticketmaster" selected>TicketMaster</option>
+                    <option value="hikingproject">HikingProject</option>
                     <option value="all">All</option>
-                    {% elif filter_act == 'all' %}
+                    <option value="">None</option>
+                    {% elif filter_act == 'hikingproject' %}
                     <option value="yelp">Yelp</option>
                     <option value="ticketmaster" >TicketMaster</option>
-                    <option value="all" selected>All</option>
+                    <option value="hikingproject" selected>HikingProject</option>
+                    <option value="">None</option>
                     {% else %}
                     <option value="" disabled selected>Filter...</option>
                     <option value="yelp">Yelp</option>
                     <option value="ticketmaster">TicketMaster</option>
-                    <option value="all">All</option>
+                    <option value="hikingproject">HikingProject</option>
+                    
                     {% endif %}
                 </select>
             </form>
@@ -120,7 +125,6 @@
         </div>
     </div>
 </div>
-
 {% if activity_list %}
 <div class="container">
     <div class="grid-row">
@@ -129,9 +133,7 @@
         {% endfor %}
     </div>
 </div>
-
-
-<nav aria-label="Page navigation example">
+<nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
         {% if sort != None or filter_act != None or category != None or search_box != None %}
         {% if activity_list.has_previous and activity_list.paginator.num_pages != 1 %}
