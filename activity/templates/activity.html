@@ -20,10 +20,11 @@
             {% endif %}
             {% endif %}
             <h5 class="card-title">{{activity.name|truncatechars:38}}</h5>
-            {% if activity.address1 %}
+            {% if activity.origin == 'y' %}
             <a href="https://maps.google.com/maps/search/{{ activity.name }}"><h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-location-arrow"></i> {{ activity.address1 }}</h6></a>
-            {% endif %}
-            {%if activity.origin == 'h'%}
+            {% elif activity.origin == 't' %}
+            <a href="https://maps.google.com/maps/search/{{ activity.address1 }}"><h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-location-arrow"></i> {{ activity.address1 }}</h6></a>
+            {% elif activity.origin == 'h'%}
             <a href="https://maps.google.com/maps/search/{{ activity.name }}"><h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-location-arrow"></i> To trailhead</h6></a>
             {% endif %}
             {% if activity.display_phone %}
