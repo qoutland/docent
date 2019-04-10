@@ -47,7 +47,7 @@
 <div class="container">
     <div class="grid-row">
         {% for activity in activity_list %}
-        {% include "activity_profile.html" with activity=activity %}
+        {% include "activity.html" with activity=activity index=0 %}
         {% endfor %}
     </div>
 </div>

@@ -23,10 +23,12 @@ $('.likebutton').click(function () {
   })
 });
 
+//Showing categories when they are chosen (DOnt think this does anything rn)
 $('.category').click(function (e) {
   $(this).addClass('active');
 });
 
+//Fades away like
 $('.removelike').click(function () {
   var catid;
   catid = $(this).attr("data-catid");
@@ -45,10 +47,12 @@ $('.removelike').click(function () {
   })
 });
 
+//Initiates jumbotron animation
 function animateJumbo() {
   $('.jumbo-text').fadeIn('slow')
 }
 
+//Add an interest (Still working on making this async)
 $('.addInt').click(function () {
   var catid;
   catid = $(this).attr("data-catid");
@@ -69,6 +73,7 @@ $('.addInt').click(function () {
   })
 });
 
+//Fades away an interest after removing it
 $('.removeInt').click(function () {
   var catid;
   catid = $(this).attr("data-catid");
@@ -90,10 +95,12 @@ $('.removeInt').click(function () {
   })
 });
 
+//Shows modals (might be able to remove)
 $('.show_modal').click(function () {
   $('.modal').style.display = "block";
 });
 
+//Chooses email based on who user decides to contact
 $("#contactLink").change(function() {
   if($(this).val() == "quin"){$("#contactForm").attr("action", "https://formspree.io/qoutland@gmail.com");
   }
