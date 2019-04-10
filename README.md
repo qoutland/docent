@@ -25,5 +25,5 @@ python manage.py collectstatic
 
 ### Resync the database after a schema change
 ```
-python manage.py makeigrations && python manage.py migrate
+python manage.py makemigrations && python manage.py migrate
 ```
