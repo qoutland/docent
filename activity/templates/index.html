@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+
+<!--Include the search bar-->
 {% block search %}
 <form class="form-inline ml-auto mr-auto" type="get" action="." id="search">
     <input class="form-control mr-sm-2" type="search" name="search_box" placeholder="Search" aria-label="Search">
@@ -7,6 +9,7 @@
 {% endblock %}
 
 {% block content %}
+<!--Jumbotron content-->
 <div class="jumbotron">
     <div class="jumbo-text .animated .fadeUpBig" style="color: white; text-align: center">
         {% if search_query %}
@@ -20,8 +23,10 @@
         {% endif %}
     </div>
 </div>
+
+<!--Quick choose categories-->
 <nav class="nav nav-pills nav-fill">
-    <!--This is really really dirty, butt fuckit-->
+    <!--This is really really dirty-->
     {% if category == 'entertainment' %}
     <a id="enterntainment" class="nav-item nav-link category active" href="{% url 'index'%}?category=entertainment">Entertainment</a>
     {% else %}
@@ -48,10 +53,14 @@
     <a id="other" class="nav-item nav-link category" href="{% url 'index'%}?category=other">Other</a>
     {% endif %}
 </nav>
+
 <br />
+
+<!--Sort and Filter Buttons-->
 <div class="container">
     <div class="panel profile-panel">      
         <div class="panel-body">
+            <!--This is also pretty dirty-->
             <form class=" ml-2 form-inline" type="get" action=".">
                 <label class="col-form-label" for="filter">Sort:</label>
                 <select name="sort" class="ml-2 mr-5 mb-2 form-control cats" onchange="this.form.submit()">
@@ -83,6 +92,7 @@
                     <option value="shuffle">Shuffle</option>
                     {%  endif %}
                 </select>
+                <!--Major hack, need to fix (maybe)-->
                 <label class="col-form-label" for="filter">Filter:</label>
                 <select name="filter" class="ml-2 mb-2 form-control cats" onchange="this.form.submit()">
                     {% if filter_act == 'yelp' %}
@@ -107,7 +117,6 @@
                     <option value="yelp">Yelp</option>
                     <option value="ticketmaster">TicketMaster</option>
                     <option value="hikingproject">HikingProject</option>
-                    
                     {% endif %}
                 </select>
             </form>
@@ -125,14 +134,18 @@
         </div>
     </div>
 </div>
+
+<!--Display activities in the grid-->
 {% if activity_list %}
 <div class="container">
     <div class="grid-row">
         {% for activity in activity_list %}
-        {% include "activity.html" with activity=activity %}
+        {% include "activity.html" with activity=activity index=1 %}
         {% endfor %}
     </div>
 </div>
+
+<!--Page navigation section-->
 <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
         {% if sort != None or filter_act != None or category != None or search_box != None %}
@@ -147,7 +160,6 @@
         {% if activity_list.paginator.num_pages != 1 %}
         <li class="page-item"><a class="page-link" href="{{ request.get_full_path }}&page={{ activity_list.paginator.num_pages }}">Last</a></li>
         {% endif %}
-
         <!--If there are no previous args (THIS IS A HACK, I think)-->
         {% else %}
             {% if activity_list.has_previous %}
@@ -163,7 +175,10 @@
             {% endif %}
         {% endif %}
     </ul>
+
 </nav>
+
+<!--If there are no activities to load-->
 {% else %}
 <div class="container">
     {% if search_query  %}
