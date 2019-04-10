@@ -134,6 +134,91 @@
   </nav>
   {% endblock %}
   {% block content %}{% endblock %}
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+      <p class="mb-1">© 2019 Docent</p>
+      <ul class="list-inline">
+        <li class="list-inline-item"><a href="https://docs.docent.life">Docs</a></li>
+        <li class="list-inline-item"><a href="#contactModal" data-toggle="modal">Contact</a></li>
+        <li class="list-inline-item"><a href="#issueModal" data-toggle="modal">Submit an Issue</a></li>
+      </ul>
+    </footer>
+
+    <!--Contact Form Modal-->
+    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="contactTitle">Contact a team member</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form method="post" id="contactForm" name="contactForm" action="https://test.com">
+            <div class="modal-body">
+                  <div class="form-group">
+                      <label for="contactLink">Select a team member</label>
+                      <select required class="form-control" id="contactLink" name="contactLink" >
+                        <option value="">Choose a team member...</option>
+                        <option value="quin">Quin Outland (qoutland@gmail.com)</option>
+                        <option value="sophia">Sophia Harrigan (sophia3587@gmail.com)</option>
+                        <option value="kevin">Kevin Samuel (kevinbenjamin@nevada.unr.edu)</option>
+                        <option value="all">All Team members</option>
+                      </select>
+                  </div>
+                    <div class="form-group">
+                      <label for="replyEmail">Reply email</label>
+                      <input type="email" class="form-control" id="replyEmail" placeholder="Email" name="_replyto" required="true">
+                    </div>
+                    <div class="form-group">
+                      <label for="message">Message</label>
+                      <textarea class="form-control" id="message" rows="3" name="message" required></textarea>
+                    </div>
+                  </div>
+                  <input type="hidden" name="_cc" value="" id="contactCC" name="contactCC"/>
+                  <input type="hidden" name="_subject" value="Someone has reached out to you via Docent" />
+            <div class="modal-footer">
+              <button class="btn btn-success" type="submit" value="Send">Send Email</button>
+            </div>
+          </form>
+          </div>
+        </div>
+    </div>
+
+    <!--Issue submit form-->
+    <div class="modal fade" id="issueModal" tabindex="-1" role="dialog" aria-labelledby="issueModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="issueTitle">Submit an Issue</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form method="post" id="issueForm" name="issueForm" action="https://formspree.io/qoutland@gmail.com">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="issueSubject">Issue Type</label>
+                    <select required class="form-control" id="issueSubject" name="_subject" >
+                      <option value="">Choose an issue type...</option>
+                      <option value="Visual Issue with Docent">Visual Issue</option>
+                      <option value="Functionality issue with Docent">Functionality</option>
+                      <option value="Broken Link with Docent">Broken Link</option>
+                      <option value="Account Issue with Docent">Account Issue</option>
+                    </select>
+                </div>
+                    <div class="form-group">
+                      <label for="message">Message</label>
+                      <textarea class="form-control" id="message" rows="3" name="message" required></textarea>
+                    </div>
+                  </div>
+            <div class="modal-footer">
+              <button class="btn btn-success" type="submit" value="Send">Send Email</button>
+            </div>
+          </form>
+          </div>
+        </div>
+    </div>
+
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
   crossorigin="anonymous"></script>
