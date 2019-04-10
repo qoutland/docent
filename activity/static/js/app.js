@@ -95,8 +95,7 @@ $('.show_modal').click(function () {
 });
 
 $("#contactLink").change(function() {
-  if($(this).val() == "quin"){
-    $("#contactForm").attr("action", "https://formspree.io/qoutland@gmail.com");
+  if($(this).val() == "quin"){$("#contactForm").attr("action", "https://formspree.io/qoutland@gmail.com");
   }
   else if($(this).val() == "sophia"){
     $("#contactForm").attr("action", "https://formspree.io/sophia3587@gmail.com");
