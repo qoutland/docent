@@ -213,7 +213,7 @@ class Command(BaseCommand):
                     ActivityTypeLine.objects.create(act_type=ActivityType.objects.get(activity_type=e['classifications'][0]['segment']['name'].lower()), act_id=activity)
 
     def _create_hiking_activities(self):
-        data = requests.get('https://www.hikingproject.com/data/get-trails?lat=39.5296&lon=-119.8138&maxDistance=30&key=200446744-75b255e6be35c19e68574645f0e16570').json()
+        data = requests.get('https://www.hikingproject.com/data/get-trails?lat=39.5296&lon=-119.8138&maxResults=50&key=200446744-75b255e6be35c19e68574645f0e16570').json()
         trails = data['trails']
         for trail in trails:
             activity = Activity(
