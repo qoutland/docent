@@ -1,3 +1,4 @@
+
 <div class="mb-3 ml-2 mr-2">
     <div class="card" style="width: 18rem; height: 365px;">
         <a data-target="#modal_{{ activity.ID }}" data-toggle="modal" href="#modal_{{ activity.ID }}">
@@ -8,8 +9,13 @@
         <img class="card-img-top" src="../../static/images/default.png" alt="Default Activity Pic" width="286px" height="197px">
         {% endif %}
         <div class="card-body">
+
+            {% block profile %}
             <a class="removelike mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;"
             onclick="return false"><i class="fas fa-bookmark"></i></a>
+            {% endblock %}
+
+
             <h5 class="card-title">{{activity.name|truncatechars:38}}</h5>
             {% if activity.address1 %}
             <a href="https://maps.google.com/maps/search/{{ activity.name }}"><h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-location-arrow"></i> {{ activity.address1 }}</h6></a>
