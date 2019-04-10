@@ -1,22 +1,28 @@
+<!--Activity Card-->
 <div class="mb-3 ml-2 mr-2">
     <div class="card" style="width: 18rem; height: 365px;">
         <a data-target="#modal_{{ activity.ID }}" data-toggle="modal" href="#modal_{{ activity.ID }}">
         {% if activity.pic_url %}
         {% load static %}
+        {% if index %}
         <img class="card-img-top" src="static/media/{{ activity.pic_url }}" alt="Activity Pic" width="286px" height="197px">
         {% else %}
-        <img class="card-img-top" src="../../static/images/default.png" alt="Default Activity Pic" width="286px"
-            height="197px">
+        <img class="card-img-top" src="../static/media/{{ activity.pic_url }}" alt="Activity Pic" width="286px" height="197px">
+        {% endif %}
+        {% else %}
+        <img class="card-img-top" src="../../static/images/default.png" alt="Default Activity Pic" width="286px" height="197px">
         {% endif %}
         </a>
         <div class="card-body">
             {% if user.is_authenticated %}
-            {% if activity in saved_list %}
-            <a class="likebutton mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;"
-                onclick="return false"><i class="fas fa-bookmark"></i></a>
+            {% if index %}
+                {% if activity in saved_list %}
+                    <a class="likebutton mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;" onclick="return false"><i class="fas fa-bookmark"></i></a>
+                {% else %}
+                    <a class="likebutton mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;" onclick="return false"><i class="far fa-bookmark"></i></a>
+                {% endif %}
             {% else %}
-            <a class="likebutton mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;"
-                onclick="return false"><i class="far fa-bookmark"></i></a>
+            <a class="removelike mark_{{ activity.ID }}" href="#" data-catid="{{ activity.ID }}" style="float: right;" onclick="return false"><i class="fas fa-bookmark"></i></a>
             {% endif %}
             {% endif %}
             <h5 class="card-title">{{activity.name|truncatechars:38}}</h5>
@@ -50,6 +56,7 @@
     </div>
 </div>
 
+<!--Activity Modal-->
 <div class="modal fade" id="modal_{{ activity.ID }}" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
