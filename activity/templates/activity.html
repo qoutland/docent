@@ -45,6 +45,7 @@
             {% if activity.length %}
             <p class="card-text" style="margin-top: 8px;"><i class="far fa-map"></i> Length: {{ activity.length }} Mi.</p>
             {% endif %}
+            <a class="distance" style="float:right; padding-top:0; margin-top:0;"></a>
             {% if activity.origin == 'y' %}
             <p class="card-text"><a href="{{ activity.url }}"><i class="fab fa-yelp" style="color: #d32323;"></i> Visit on Yelp</a></p>
             {% elif activity.origin == 't' %}
@@ -52,6 +53,8 @@
             {% elif activity.origin == 'h' %}
             <p class="card-text"><a href="{{ activity.url }}"><i class="fas fa-hiking" style="color: #588f00"></i> Visit on HikingProject</a></p>
             {% endif %}
+            <input hidden class="latitude" value="{{ activity.latitude }}">
+            <input hidden class="longitude" value="{{ activity.longitude }}">
         </div>
     </div>
 </div>
