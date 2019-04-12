@@ -10,7 +10,7 @@
 
 {% block content %}
 <!--Jumbotron content-->
-<div class="jumbotron">
+<div class="jumbotron" style="margin-bottom: 5px;">
     <div class="jumbo-text .animated .fadeUpBig" style="color: white; text-align: center">
         {% if search_query %}
             <h1 class="display-4">Results for "{{search_query}}"</h1>
@@ -28,29 +28,29 @@
 <nav class="nav nav-pills nav-fill">
     <!--This is really really dirty-->
     {% if category == 'entertainment' %}
-    <a id="enterntainment" class="nav-item nav-link category active" href="{% url 'index'%}?category=entertainment">Entertainment</a>
+    <a id="enterntainment" class="nav-item nav-link category active border rounded" href="{% url 'index'%}?category=entertainment">Entertainment</a>
     {% else %}
-    <a id="enterntainment" class="nav-item nav-link category" href="{% url 'index'%}?category=entertainment">Entertainment</a>
+    <a id="enterntainment" class="nav-item nav-link category border rounded" href="{% url 'index'%}?category=entertainment">Entertainment</a>
     {% endif %}
     {% if category == 'music' %}
-    <a id="music" class="nav-item nav-link category active" href="{% url 'index'%}?category=music">Music</a>
+    <a id="music" class="nav-item nav-link category active border rounded" href="{% url 'index'%}?category=music">Music</a>
     {% else %}
-    <a id="music" class="nav-item nav-link category" href="{% url 'index'%}?category=music">Music</a>
+    <a id="music" class="nav-item nav-link category border rounded" href="{% url 'index'%}?category=music">Music</a>
     {% endif %}
     {% if category == 'food' %}
-    <a id="food" class="nav-item nav-link category active" href="{% url 'index'%}?category=food">Food</a>
+    <a id="food" class="nav-item nav-link category active border rounded" href="{% url 'index'%}?category=food">Food</a>
     {% else %}
-    <a id="food" class="nav-item nav-link category" href="{% url 'index'%}?category=food">Food</a>
+    <a id="food" class="nav-item nav-link category border rounded" href="{% url 'index'%}?category=food">Food</a>
     {% endif %}
     {% if category == 'sports' %}
-    <a id="sports" class="nav-item nav-link category active" href="{% url 'index'%}?category=sports">Sports</a>
+    <a id="sports" class="nav-item nav-link category active border rounded" href="{% url 'index'%}?category=sports">Sports</a>
     {% else %}
-    <a id="sports" class="nav-item nav-link category " href="{% url 'index'%}?category=sports">Sports</a>
+    <a id="sports" class="nav-item nav-link category border rounded" href="{% url 'index'%}?category=sports">Sports</a>
     {% endif %}
     {% if category == 'other' %}
-    <a id="other" class="nav-item nav-link category active" href="{% url 'index'%}?category=other">Other</a>
+    <a id="other" class="nav-item nav-link category active border rounded" href="{% url 'index'%}?category=other">Other</a>
     {% else %}
-    <a id="other" class="nav-item nav-link category" href="{% url 'index'%}?category=other">Other</a>
+    <a id="other" class="nav-item nav-link category border rounded" href="{% url 'index'%}?category=other">Other</a>
     {% endif %}
 </nav>
 
