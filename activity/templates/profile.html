@@ -14,36 +14,36 @@
        
         <div class="panel-body">
             <form type="get" action=".">
-                <select name="new_interest" class="form-control cats" onchange="this.form.submit()">
+                <select name="new_interest" id="new_interest"  class="form-control cats addInt" >
                     <option value="" disabled selected>Choose an Interest</option>
                     {% if interest_list %}
                     {% for type in interest_list %}
-                    <option value={{type.activity_type}}>{{type.activity_type}}</option>
+                    <option value="{{type.activity_type}}" data-catid="{{type.activity_type}}">{{type.activity_type}}</option>
                     {% endfor %}
                     {% endif %}
                 </select>
             </form>
             <br />
-            {% if user_interest_list %}
-            <div class="button-area">
+
+            <div class="button-area" id="button-area">
+                {% if user_interest_list %}
                 {% for int in user_interest_list %}
-                <button type="button" class="butt_{{int.activity_type}} btn btn-primary mx-1 mb-2 removeInt" data-catid="{{int.activity_type}}">
-                    <i class="far fa-trash-alt" style="color:white;"></i>
-                    {{int.activity_type}}
-                </button>
+                <button type="button" class="btn btn-primary mx-1 mb-2 removeInt" data-catid="{{int.activity_type}}">
+                    <i class="far fa-trash-alt"></i> {{int.activity_type}}</button>
                 {% endfor %}
+                {% endif %}
             </div>
-            {% endif %}
+
         </div>
     </div>
     
 </div>
 
-
 <hr />
 <h2 class="display-5 text-center">Saved Activities</h2>
 <hr />
 
+{% if activity_list %}
 <div class="container">
     <div class="grid-row">
         {% for activity in activity_list %}
@@ -51,6 +51,12 @@
         {% endfor %}
     </div>
 </div>
+
+{% else %}
+<div class="container">
+    <h3><em> Click the <i class="fas fa-bookmark" style="color:#007bff"></i> icon on any activity to save it here. </em></h3>
+</div>
+{% endif %}
 
 <div class="modal" id="acct_confirm" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -71,6 +77,4 @@
         </div>
     </div>
 </div>
-
-
 {% endblock %}

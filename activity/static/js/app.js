@@ -53,9 +53,9 @@ function animateJumbo() {
 }
 
 //Add an interest (Still working on making this async)
-$('.addInt').click(function () {
-  var catid;
-  catid = $(this).attr("data-catid");
+$('.addInt').on("change", function () {
+  var option = $(this);
+  var catid = $(this)[0]['value'];
   $.ajax({
     type: "GET",
     url: "new_interest",
@@ -66,16 +66,57 @@ $('.addInt').click(function () {
       var str = "." + catid;
       console.log(data)
       if (data == 'created') {
-        $(str).fadeIn()
-        //this.parent().fadeOut()
+        //Add in the button
+        let area = document.getElementById('button-area');
+        let butt = document.createElement('button');
+        butt.type = 'button';
+        butt.classList.add('btn', 'btn-primary', 'mx-1', 'mb-2', 'removeInt');
+        let ico = document.createElement('i');
+        ico.classList.add("far", "fa-trash-alt")
+        butt.appendChild(ico)
+        butt.setAttribute("data-catid", catid);
+        butt.appendChild(document.createTextNode(' '+ catid))
+        area.appendChild(butt)
+        bindRemoveInt();
+        //Take it off the list
+        $(".addInt option[value='"+catid+"']").remove();
       }
     },
   })
 });
 
+//Readds event handler for removeInt
+function bindRemoveInt(){
+  $('.removeInt').click(function () {
+    var catid;
+    var butt = $(this);
+    catid = $(this).attr("data-catid");
+    $.ajax({
+      type: "GET",
+      url: "new_interest",
+      data: {
+        new_int: catid
+      },
+      success: function (data) {
+        console.log(data)
+        if (data == 'deleted') {
+          console.log(this)
+          butt.fadeOut();
+          let area = document.getElementById('new_interest');
+          let opt = document.createElement('option');
+          opt.setAttribute("value", catid);
+          opt.appendChild(document.createTextNode(catid));
+          area.appendChild(opt);
+        }
+      },
+    })
+  });
+}
+
 //Fades away an interest after removing it
 $('.removeInt').click(function () {
   var catid;
+  var butt = $(this);
   catid = $(this).attr("data-catid");
   $.ajax({
     type: "GET",
@@ -84,12 +125,15 @@ $('.removeInt').click(function () {
       new_int: catid
     },
     success: function (data) {
-      var str = ".butt_" + catid;
       console.log(data)
       if (data == 'deleted') {
-        console.log(str)
-        $(str).fadeOut()
-        //this.parent().fadeOut()
+        console.log(this)
+        butt.fadeOut();
+        let area = document.getElementById('new_interest');
+        let opt = document.createElement('option');
+        opt.setAttribute("value", catid);
+        opt.appendChild(document.createTextNode(catid));
+        area.appendChild(opt);
       }
     },
   })
@@ -116,6 +160,7 @@ $("#contactLink").change(function() {
   }
  });
 
+ //Show the user how far they are away from activities
  var acts = document.getElementsByClassName('card-body');
  function showMap(position) {
      Array.from(acts).forEach((act) => {
