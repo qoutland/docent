@@ -11,9 +11,11 @@ from django.db.models import Q
 from django import template
 from urllib.parse import urlencode
 from itertools import chain
-from random import shuffle
+from random import shuffle, choice 
 from .forms import SignUpForm
 from .models import Profile, Interest, Activity, ActivityType, SavedActivity
+import sys
+
 
 #Save an activity to a users profile
 def saveAct(request):
@@ -46,6 +48,7 @@ def add_removeInterest(request):
 def index(request):
 	act_list = []
 	activity_list = []
+	recommend_list = []
 	search_query=None
 	category=None
 	sort=None
@@ -57,6 +60,7 @@ def index(request):
 		category = request.GET.get('category', None) #Get a category type
 		sort = request.GET.get('sort', None)
 		filter_act = request.GET.get('filter', None)
+
 		if search_query != None: #If there is a search query
 			activity_list = getActs(search_query) #Return the results (if there are any)
 		else:
@@ -104,6 +108,7 @@ def index(request):
 			return redirect('index')
 
 	if request.user.is_authenticated: #If the user is authenticated show them the stars
+
 		saved_list=[] #Create empty list (must do if using the append function)
 		if SavedActivity.objects.filter(profile=request.user.id).exists(): #Check if a user has any saved activites
 			saved_activity_list = SavedActivity.objects.filter(profile=request.user.id) #Get all of instances (this is not just activities, it includes the user PK as well)
@@ -111,8 +116,44 @@ def index(request):
 				saved_list.append(Activity.objects.get(ID=save_act.save_act_id.ID)) #Append to the  list
 		else:
 			saved_list=[] #If the user doesn't have any saved activites return an empty list
+
+		#add recommend here
+		recommend_list=[]
+		interest_list = Interest.objects.filter(profile=request.user.id) 
+
+		if len(interest_list):
+			#random sort
+			def random_sort(a):
+				return choice([-1,1,0])
+			for interest_act in interest_list: 
+				activity_type=ActivityType.objects.get(interest=interest_act)
+				activities=Activity.objects.filter(activity_type=activity_type)
+				for activity_dbg in activities:
+					recommend_list.extend(activities) #Append to the  list
+
+				#make sure there are no duplicates 
+				recommend_list_set=set()
+				recommend_list_set.update(recommend_list)
+				recommend_list=list(recommend_list_set)
+				#randomly sort the activities
+				recommend_list.sort(key=random_sort)
+				#display first 9
+				recommend_list=recommend_list[:9]
+				print("length of list", len(recommend_list))
+				
+				#makes it so that activities in recommended don't show up again in featured activities
+				recommend_list_set=set()
+				recommend_list_set.update(recommend_list)
+				activity_list_set=set()
+				activity_list_set.update(activity_list)
+				temp_act_list_set=activity_list_set.difference(recommend_list_set)
+				activity_list=list(temp_act_list_set)
+		else:
+			recommend_list=[] #If the user doesn't have any saved activites return an empty list
+
 	else:
 		saved_list=[] #If the user is not authenticated return an empty list
+		recommend_list=[]
 	form = SignUpForm()
 
 	if activity_list != []:
@@ -130,6 +171,7 @@ def index(request):
 		'category': category,
 		'sort': sort,
 		'filter_act': filter_act,
+		'recommend_list': recommend_list
 	}
 	return render(request, 'index.html', context)
 
