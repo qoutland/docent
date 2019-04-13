@@ -53,7 +53,7 @@ function animateJumbo() {
 }
 
 //Add an interest (Still working on making this async)
-$('.addInt').change().on("click", function () {
+$('.addInt').on("change", function () {
   var option = $(this);
   var catid = $(this)[0]['value'];
   $.ajax({
@@ -75,21 +75,46 @@ $('.addInt').change().on("click", function () {
         ico.classList.add("far", "fa-trash-alt")
         butt.appendChild(ico)
         butt.setAttribute("data-catid", catid);
-        butt.on("click")
         butt.appendChild(document.createTextNode(' '+ catid))
         area.appendChild(butt)
-
+        bindRemoveInt();
         //Take it off the list
-        //let opt = document.getElementById('new_interest');
-        //opt.removeChild(option)
+        $(".addInt option[value='"+catid+"']").remove();
       }
     },
   })
 });
 
+//Readds event handler for removeInt
+function bindRemoveInt(){
+  $('.removeInt').click(function () {
+    var catid;
+    var butt = $(this);
+    catid = $(this).attr("data-catid");
+    $.ajax({
+      type: "GET",
+      url: "new_interest",
+      data: {
+        new_int: catid
+      },
+      success: function (data) {
+        console.log(data)
+        if (data == 'deleted') {
+          console.log(this)
+          butt.fadeOut();
+          let area = document.getElementById('new_interest');
+          let opt = document.createElement('option');
+          opt.setAttribute("value", catid);
+          opt.appendChild(document.createTextNode(catid));
+          area.appendChild(opt);
+        }
+      },
+    })
+  });
+}
+
 //Fades away an interest after removing it
 $('.removeInt').click(function () {
-  alert('Made it here.')
   var catid;
   var butt = $(this);
   catid = $(this).attr("data-catid");
@@ -104,7 +129,11 @@ $('.removeInt').click(function () {
       if (data == 'deleted') {
         console.log(this)
         butt.fadeOut();
-        //this.parent().fadeOut()
+        let area = document.getElementById('new_interest');
+        let opt = document.createElement('option');
+        opt.setAttribute("value", catid);
+        opt.appendChild(document.createTextNode(catid));
+        area.appendChild(opt);
       }
     },
   })
