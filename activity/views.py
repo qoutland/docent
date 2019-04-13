@@ -34,7 +34,7 @@ def add_removeInterest(request):
 		print(new_interest)
 		if new_interest: #If there is an activity to save/delete
 			print('Checking if it exists')
-			if Interest.objects.get(profile=request.user.id, act_type=ActivityType.objects.get(activity_type=new_interest)): #See if it exists
+			if Interest.objects.filter(profile=request.user.id, act_type=ActivityType.objects.get(activity_type=new_interest)).exists(): #See if it exists
 				print('It exists, deleting')
 				Interest.objects.get(profile=request.user.id, act_type=ActivityType.objects.get(activity_type=new_interest)).delete() #If it does then delete it
 				return HttpResponse("deleted")
