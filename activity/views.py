@@ -138,7 +138,7 @@ def index(request):
 				#randomly sort the activities
 				recommend_list.sort(key=random_sort)
 				#display first 9
-				recommend_list=recommend_list[:9]
+				recommend_list=recommend_list[:12]
 				print("length of list", len(recommend_list))
 				
 				#makes it so that activities in recommended don't show up again in featured activities
