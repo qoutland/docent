@@ -135,9 +135,9 @@ def index(request):
 		#add recommend here
 		recommend_list=[]
 		interest_list=[]
-		prof = Profile.objects.get(user=request.user)
-		if prof.recommended == True:
-			interest_list = Interest.objects.filter(profile=request.user.id) 
+		#prof = Profile.objects.get(user=request.user)
+		#if prof.recommended == True:
+		interest_list = Interest.objects.filter(profile=request.user.id) 
 
 		if len(interest_list):
 			#random sort
@@ -247,13 +247,13 @@ def profile(request):
 	int_list = ActivityType.objects.all() #Get all the activity types
 	user_interest_list = ActivityType.objects.filter(interest__in=Interest.objects.filter(profile=request.user.pk)) #Get all interests saved by the user
 	interest_list = [x for x in int_list if x not in user_interest_list] #Get the rest of the interests
-	recommended_acts = Profile.objects.get(user=request.user).recommended
+	#recommended_acts = Profile.objects.get(user=request.user).recommended
 	context = {
 		'interest_list': interest_list,
 		'user_interest_list': user_interest_list,
 		'activity_list': saved_list,
 		'saved_list': saved_list,
-		'recommended_acts': recommended_acts,
+		#'recommended_acts': recommended_acts,
 	}
 	return render(request, 'profile.html', context)
 
