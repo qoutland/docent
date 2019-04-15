@@ -25,23 +25,15 @@ Linux/MacOS: ```source venv/bin/activate```
 Follow instructions in *docent/secret_example.py*
 
 ### Run the server
-```
-python manage.py runserver
-```
+```python manage.py runserver```
 
 ## Useful Development Commands
 
 ### Populate the Activities
-```
-python manage.py populate_db *--test*
-```
+```python manage.py populate_db *--test*```
 
 ### Collect the static (CSS/JS/MEDIA)
-```
-python manage.py collectstatic
-```
+```python manage.py collectstatic```
 
 ### Resync the database after a schema change
-```
-python manage.py makemigrations && python manage.py migrate
-```
+```python manage.py makemigrations && python manage.py migrate```
