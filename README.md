@@ -1,7 +1,7 @@
 # Docent
 Find events in Reno!
 
-##QuickStart Guide
+## QuickStart Guide
 
 ### Install virtualenv
 ```pip install virtualenv```
