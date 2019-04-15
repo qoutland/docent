@@ -9,6 +9,7 @@ from localflavor.us.models import USStateField
 
 class Profile(models.Model): #Don't know if this is needed anymore
 	user = models.OneToOneField(User, on_delete=models.CASCADE,)
+	recommended = models.BooleanField(default=True)
 	
 class ActivityType(models.Model): #Activity Typing
 	type_id = models.AutoField(primary_key=True) #A primary key to keep track of IDs
