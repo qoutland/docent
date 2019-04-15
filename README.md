@@ -2,7 +2,7 @@
 Find events in Reno!
 
 ## Useful Development Commands
-In order to run this project completely please complete the 'docent/secrets_example.py' file and rename it to 'secrets.py'
+In order to run this project completely please complete the 'docent/secrets_example.py' file and rename it to 'secrets.py'.
 
 ### Install dependencies
 ```
