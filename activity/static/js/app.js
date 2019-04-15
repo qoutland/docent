@@ -151,12 +151,9 @@ $("#contactLink").change(function() {
   else if($(this).val() == "sophia"){
     $("#contactForm").attr("action", "https://formspree.io/sophia3587@gmail.com");
   }
-  else if($(this).val() == "kevin"){
-    $("#contactForm").attr("action", "https://formspree.io/kevinbenjamin@nevada.unr.edu");
-  }
   else if($(this).val() == "all"){
     $("#contactForm").attr("action", "https://formspree.io/qoutland@gmail.com");
-    $("#contactCC").attr("value", "sophia3587@gmail.com,kevinbenjamin@nevada.unr.edu");
+    $("#contactCC").attr("value", "sophia3587@gmail.com");
   }
  });
 
