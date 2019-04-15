@@ -20,13 +20,28 @@ import sys
 #Save an activity to a users profile
 def saveAct(request):
 	if request.method == 'GET':
-		save_act = request.GET['post_id'] #Get activity to save or delete
-		if save_act: #If there is an activity to save/delete
-			if SavedActivity.objects.filter(profile=request.user.id, save_act_id=save_act).exists(): #See if it exists
-				SavedActivity.objects.get(profile=request.user.id, save_act_id=save_act).delete() #If it does then delete it
-				return HttpResponse("deleted")
+		if request.GET.get('post_id', None):
+			save_act = request.GET['post_id'] #Get activity to save or delete
+			if save_act: #If there is an activity to save/delete
+				if SavedActivity.objects.filter(profile=request.user.id, save_act_id=save_act).exists(): #See if it exists
+					SavedActivity.objects.get(profile=request.user.id, save_act_id=save_act).delete() #If it does then delete it
+					return HttpResponse("deleted")
+				else:
+					SavedActivity.objects.get_or_create(profile=request.user, save_act_id=Activity.objects.get(ID=save_act)) #If not create it
+					return HttpResponse("created")
+		elif request.GET.get('status', None):
+			print('We made it in here')
+			status = request.GET.get('status', None)
+			prof = Profile.objects.get(user=request.user)
+			if status == "True":
+				print('Setting status to False')
+				prof.recommended = False
+				prof.save()
+				return HttpResponse("removed")
 			else:
-				SavedActivity.objects.get_or_create(profile=request.user, save_act_id=Activity.objects.get(ID=save_act)) #If not create it
+				print('Setting status to True')
+				prof.recommended = True
+				prof.save()
 				return HttpResponse("created")
 
 #Add or remove an interest from a user profile
@@ -119,7 +134,10 @@ def index(request):
 
 		#add recommend here
 		recommend_list=[]
-		interest_list = Interest.objects.filter(profile=request.user.id) 
+		interest_list=[]
+		prof = Profile.objects.get(user=request.user)
+		if prof.recommended == True:
+			interest_list = Interest.objects.filter(profile=request.user.id) 
 
 		if len(interest_list):
 			#random sort
@@ -208,9 +226,10 @@ def profile(request):
 			rem_interest = request.GET.get('old_interest', None) #Get the var
 			Interest.objects.filter(act_type=ActivityType.objects.get(activity_type=rem_interest), profile=request.user.id).delete() #Delete that object with the user and interest
 
-		if request.GET.get('save_act'): #If the user wants to delete a saved activity from the profile page
+		if request.GET.get('save_act', None): #If the user wants to delete a saved activity from the profile page
 			save_act = request.GET.get('save_act', None) #Get the var
 			SavedActivity.objects.get(profile=request.user.id, save_act_id=save_act).delete() #Delete that object with user and activity ID
+			
 
 		saved_activity_list = SavedActivity.objects.filter(profile=request.user.id) #Get all Saved Activities in SavedActivities for a specific user
 		saved_act_list=[]
@@ -228,12 +247,13 @@ def profile(request):
 	int_list = ActivityType.objects.all() #Get all the activity types
 	user_interest_list = ActivityType.objects.filter(interest__in=Interest.objects.filter(profile=request.user.pk)) #Get all interests saved by the user
 	interest_list = [x for x in int_list if x not in user_interest_list] #Get the rest of the interests
-
+	recommended_acts = Profile.objects.get(user=request.user).recommended
 	context = {
 		'interest_list': interest_list,
 		'user_interest_list': user_interest_list,
 		'activity_list': saved_list,
 		'saved_list': saved_list,
+		'recommended_acts': recommended_acts,
 	}
 	return render(request, 'profile.html', context)
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ActivityType, Activity, Interest, ActivityTypeLine, SavedActivity
+from .models import ActivityType, Activity, Interest, ActivityTypeLine, SavedActivity, Profile
 
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
@@ -36,3 +36,10 @@ class SavedActivityAdmin(admin.ModelAdmin):
         'profile',
         'save_act_id'
     )
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'recommended',
+)

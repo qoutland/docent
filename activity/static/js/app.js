@@ -160,6 +160,32 @@ $("#contactLink").change(function() {
   }
  });
 
+//Fades away like
+$('.reco').click(function () {
+  attr = $(this);
+  catid = $(this).attr("value");
+  $.ajax({
+    type: "GET",
+    url: "save_act",
+    data: {
+      status: catid
+    },
+    success: function (data) {
+      console.log(data)
+      if (data == 'removed'){
+        console.log('No recommened');
+        attr.checked = false;
+        attr.attr("value", "False");
+      }
+      else if (data == 'created'){
+        console.log('Showing recommended');
+        attr.checked = true;
+        attr.attr("value", "True");
+      }
+    },
+  })
+});
+
  //Show the user how far they are away from activities
  var acts = document.getElementsByClassName('card-body');
  function showMap(position) {
