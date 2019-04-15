@@ -1,4 +1,4 @@
-# Docent [docent.life](https://docent.life)
+# [Docent](https://docent.life)
 Find events in Reno!
 
 ## QuickStart Guide
