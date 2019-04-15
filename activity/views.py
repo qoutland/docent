@@ -135,9 +135,12 @@ def index(request):
 		#add recommend here
 		recommend_list=[]
 		interest_list=[]
-		prof = Profile.objects.get(user=request.user)
-		if prof.recommended == True:
-			interest_list = Interest.objects.filter(profile=request.user.id) 
+		try:
+			prof = Profile.objects.get(user=request.user)
+			if prof.recommended == True:
+				interest_list = Interest.objects.filter(profile=request.user.id)
+		except:
+			pass 
 
 		if len(interest_list):
 			#random sort
