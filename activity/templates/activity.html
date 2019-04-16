@@ -76,10 +76,11 @@
                 <img class="card-img-top" src="../../static/images/modal_default.png" alt="Default Activity Pic" width="466px" height="197px">
                 {% endif %}
                 <h4 class="modal-title card-title">{{activity.name}}</h4>
-                {% if activity.address1 %}
+                {% if activity.address1  and activity.origin == 'y' %}
                 <a href="https://maps.google.com/maps/search/{{ activity.name }}"><p class="card-subtitle mb-3 mt-2 text-muted"><i class="fas fa-location-arrow"></i> {{activity.address1}}</p></a>
-                {% endif %}
-                {% if activity.origin == 'h' %}
+                {% elif activity.origin == 't' %}
+                <a href="https://maps.google.com/maps/search/{{ activity.address1 }}"><p class="card-subtitle mb-3 mt-2 text-muted"><i class="fas fa-location-arrow"></i> {{activity.address1}}</p></a>
+                {% elif activity.origin == 'h' %}
                 <a href="https://maps.google.com/maps/search/{{ activity.name }}"><p class="card-subtitle mb-3 mt-2 text-muted"><i class="fas fa-location-arrow"></i> Directions to Trail</p></a>
                 {% endif %}
                 {% if activity.display_phone %}
@@ -97,7 +98,11 @@
                 {% if activity.length %}
                 <p class="card-text" style="margin-top: 8px;"><i class="far fa-map"></i> Length: {{ activity.length }} Mi.</p>
                 {% endif %}
+                {% if activity.origin == 'y' %}
                 <a href="https://maps.google.com/maps/search/{{ activity.name }}"><button type="button" class="btn btn-primary">Directions</button></a>
+                {% elif activity.origin == 't' %}
+                <a href="https://maps.google.com/maps/search/{{ activity.address1 }}"><button type="button" class="btn btn-primary">Directions</button></a>
+                {% endif %}
                 {% if activity.origin == 'y' %}
                 <a href="{{ activity.url }}"><button type="button" class="btn btn-primary" style="background-color:#d32323; border-color:#d32323;"><i class="fab fa-yelp"></i> Yelp</button></a>
                 {% elif activity.origin == 't' %}

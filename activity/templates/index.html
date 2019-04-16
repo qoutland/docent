@@ -69,27 +69,32 @@
                     <option value="za">Z-A</option>
                     <option value="review">Avg Review</option>
                     <option value="shuffle">Shuffle</option>
+                    <option value="">None</option>
                     {% elif sort == 'za' %}
                     <option value="az" >A-Z</option>
                     <option value="za" selected>Z-A</option>
                     <option value="review">Avg Review</option>
                     <option value="shuffle">Shuffle</option>
+                    <option value="">None</option>
                     {% elif sort == 'shuffle' %}
                     <option value="az" >A-Z</option>
                     <option value="za" >Z-A</option>
                     <option value="review">Avg Review</option>
                     <option value="shuffle" selected>Shuffle</option>
+                    <option value="">None</option>
                     {% elif sort == 'review' %}
                     <option value="az" >A-Z</option>
                     <option value="za" >Z-A</option>
                     <option value="review" selected>Avg Review</option>
                     <option value="shuffle">Shuffle</option>
+                    <option value="">None</option>
                     {% else %}
                     <option value="" disabled selected>Sort...</option>
                     <option value="az">A-Z</option>
                     <option value="za">Z-A</option>
                     <option value="review">Avg Review</option>
                     <option value="shuffle">Shuffle</option>
+                    <option value="">None</option>
                     {%  endif %}
                 </select>
                 <!--Major hack, need to fix (maybe)-->
@@ -99,13 +104,11 @@
                     <option value="yelp" selected>Yelp</option>
                     <option value="ticketmaster">TicketMaster</option>
                     <option value="hikingproject">HikingProject</option>
-                    <option value="all">All</option>
                     <option value="">None</option>
                     {% elif filter_act == 'ticketmaster' %}
                     <option value="yelp">Yelp</option>
                     <option value="ticketmaster" selected>TicketMaster</option>
                     <option value="hikingproject">HikingProject</option>
-                    <option value="all">All</option>
                     <option value="">None</option>
                     {% elif filter_act == 'hikingproject' %}
                     <option value="yelp">Yelp</option>
@@ -139,17 +142,15 @@
 {% if activity_list %}
 <div class="container">
     <div class="grid-row">
-        {% if recommend_list|length and not activity_list.has_previous and sort is None and filter_act is None and search_box is None and not category %}
+        {% if recommend_list|length and not activity_list.has_previous and sort is None and filter_act is None and search_query is None and category is None %}
         <h2 class="container" style="text-align: center; padding-bottom: 20px; font-family: Verdana, Geneva, Tahoma, sans-serif">Recommended for You</h1>
         
             {% for activity in recommend_list %}
             {% include "activity.html" with activity=activity index=1 %}
             {% endfor %}
-       
-        {% endif %}
-        {% if not activity_list.has_previous and sort is None and filter_act is None and search_box is None and not category %}
         <h2 class="container" style="text-align: center; padding-bottom: 20px; padding-top: 20px; font-family: Verdana, Geneva, Tahoma, sans-serif">Featured Activities</h1>
         {% endif %}
+        
         {% for activity in activity_list %}
         {% include "activity.html" with activity=activity index=1 %}
         {% endfor %}

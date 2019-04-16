@@ -123,7 +123,6 @@ def index(request):
 			return redirect('index')
 
 	if request.user.is_authenticated: #If the user is authenticated show them the stars
-
 		saved_list=[] #Create empty list (must do if using the append function)
 		if SavedActivity.objects.filter(profile=request.user.id).exists(): #Check if a user has any saved activites
 			saved_activity_list = SavedActivity.objects.filter(profile=request.user.id) #Get all of instances (this is not just activities, it includes the user PK as well)
@@ -139,7 +138,7 @@ def index(request):
 		#if prof.recommended == True:
 		interest_list = Interest.objects.filter(profile=request.user.id) 
 
-		if len(interest_list):
+		if len(interest_list) and sort == None and filter_act == None:
 			#random sort
 			def random_sort(a):
 				return choice([-1,1,0])
@@ -157,7 +156,6 @@ def index(request):
 				recommend_list.sort(key=random_sort)
 				#display first 9
 				recommend_list=recommend_list[:12]
-				print("length of list", len(recommend_list))
 				
 				#makes it so that activities in recommended don't show up again in featured activities
 				recommend_list_set=set()
