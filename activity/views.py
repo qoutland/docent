@@ -16,8 +16,7 @@ from .forms import SignUpForm
 from .models import Profile, Interest, Activity, ActivityType, SavedActivity
 import sys
 
-
-#Save an activity to a users profile
+#Save an activity to a users profile (for async)
 def saveAct(request):
 	if request.method == 'GET':
 		if request.GET.get('post_id', None):
@@ -44,7 +43,7 @@ def saveAct(request):
 				prof.save()
 				return HttpResponse("created")
 
-#Add or remove an interest from a user profile
+#Add or remove an interest from a user profile (for async)
 def add_removeInterest(request):
 	if request.method == 'GET':
 		new_interest = request.GET['new_int'] #Get activity to save or delete
@@ -59,7 +58,7 @@ def add_removeInterest(request):
 				Interest.objects.get_or_create(profile=request.user, act_type=ActivityType.objects.get(activity_type=new_interest)) #If not create it
 				return HttpResponse("created")
 
-#Main page
+#Main page (Where the magic happens)
 def index(request):
 	act_list = []
 	activity_list = []
@@ -111,7 +110,7 @@ def index(request):
 			elif filter_act == 'all':
 				pass
 			
-	elif request.method == 'POST':
+	elif request.method == 'POST': #Used if request is a post (creates a user)
 		form = SignUpForm(request.POST)
 		if form.is_valid():
 			user = form.save()
@@ -130,14 +129,11 @@ def index(request):
 				saved_list.append(Activity.objects.get(ID=save_act.save_act_id.ID)) #Append to the  list
 		else:
 			saved_list=[] #If the user doesn't have any saved activites return an empty list
-
-		#add recommend here
+		
+		#Creating the recomended list
 		recommend_list=[]
 		interest_list=[]
-		#prof = Profile.objects.get(user=request.user)
-		#if prof.recommended == True:
 		interest_list = Interest.objects.filter(profile=request.user.id) 
-
 		if len(interest_list) and sort == None and filter_act == None:
 			#random sort
 			def random_sort(a):
@@ -171,13 +167,15 @@ def index(request):
 		saved_list=[] #If the user is not authenticated return an empty list
 		recommend_list=[]
 	form = SignUpForm()
-
+	
+	#Do the paginations
 	if activity_list != []:
 		paginator = Paginator(activity_list, 24) # Show 24 contacts per page
 		page = request.GET.get('page')
 		act_list = paginator.get_page(page)
 		result_num = len(activity_list)
 
+	#Variables to return to the view
 	context = {
 		'activity_list': act_list,
 		'saved_list': saved_list,
@@ -190,27 +188,6 @@ def index(request):
 		'recommend_list': recommend_list
 	}
 	return render(request, 'index.html', context)
-
-#Can be deleted sometime
-def category(request): 
-	if request.method == 'GET':
-		search_query = request.GET.get('type', None)
-		activity_list = getActs(search_query)
-	if search_query != None:
-		search_query= search_query.capitalize()
-
-	form = SignUpForm()
-
-	paginator = Paginator(activity_list, 24) # Show 25 contacts per page
-	page = request.GET.get('page')
-	act_list = paginator.get_page(page)
-
-	context = {
-		'activity_list': act_list,
-		'type': search_query,
-		'form': form,
-	}
-	return render(request, 'category.html', context)
 
 @login_required #Can't see this page without loggin in
 def profile(request):
@@ -245,13 +222,11 @@ def profile(request):
 	int_list = ActivityType.objects.all() #Get all the activity types
 	user_interest_list = ActivityType.objects.filter(interest__in=Interest.objects.filter(profile=request.user.pk)) #Get all interests saved by the user
 	interest_list = [x for x in int_list if x not in user_interest_list] #Get the rest of the interests
-	#recommended_acts = Profile.objects.get(user=request.user).recommended
 	context = {
 		'interest_list': interest_list,
 		'user_interest_list': user_interest_list,
 		'activity_list': saved_list,
 		'saved_list': saved_list,
-		#'recommended_acts': recommended_acts,
 	}
 	return render(request, 'profile.html', context)
 
@@ -260,33 +235,6 @@ def delete_profile(request):
 	u = User.objects.get(pk=request.user.id)
 	u.delete()
 	return redirect('index')
-
-#Might be able to delete
-def signUp(request):
-	if request.method == 'POST':
-		form = SignUpForm(request.POST)
-		if form.is_valid():
-			user = form.save()
-			user.refresh_from_db()
-			user.save()
-			raw_password = form.cleaned_data.get('password1')
-			user = authenticate(username=user.username, password=raw_password)
-			login(request, user)
-			return redirect('index')
-	else:
-		form = SignUpForm()
-	return render(request, 'activity/signup.html', {'form': form})
-
-#Delete sometime
-def toTuple(lst):
-	act_list = [] #Declare an empty list (Needed for appending)
-	i=3 #Set number to create tuples of
-	while len(lst) >= i: #While list is 3 or greater (3 or more activites)
-		act_list.append(lst[(i-3):i]) #Append an item that is a tuple of 3 ex: ([act1, act2, act3], [act4, act5, act6])
-		i+=3 #Increase index by tuple counter
-	if len(lst) % 3 != 0: #If there is less than 3 activities in the list or num is not divisible by 3
-		act_list.append(lst[i-3:len(lst)]) #Append those items to the list (Might be 1 or 2 empty ones being appened *this doesn't matter)
-	return act_list #Return the finished list
 
 def getActs(search_query): #Function that takes in search param and returns activites that match it
 	if search_query != None and len(str(search_query)) > 0: #If the search_query is not blank

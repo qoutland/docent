@@ -23,10 +23,9 @@
         {% endif %}
     </div>
 </div>
-
 <!--Quick choose categories-->
 <nav class="nav nav-pills nav-fill">
-    <!--This is really really dirty-->
+    <!--This is really really dirty, can probably refactor somehow-->
     {% if category == 'entertainment' %}
     <a id="enterntainment" class="nav-item nav-link category active border rounded" href="{% url 'index'%}?category=entertainment">Entertainment</a>
     {% else %}
@@ -53,9 +52,7 @@
     <a id="other" class="nav-item nav-link category border rounded" href="{% url 'index'%}?category=other">Other</a>
     {% endif %}
 </nav>
-
 <br />
-
 <!--Sort and Filter Buttons-->
 <div class="container">
     <div class="panel profile-panel">      
@@ -94,10 +91,9 @@
                     <option value="za">Z-A</option>
                     <option value="review">Avg Review</option>
                     <option value="shuffle">Shuffle</option>
-                    <option value="">None</option>
                     {%  endif %}
                 </select>
-                <!--Major hack, need to fix (maybe)-->
+                <!--More dirty code, probably a better way-->
                 <label class="col-form-label" for="filter">Filter:</label>
                 <select name="filter" class="ml-2 mb-2 form-control cats" onchange="this.form.submit()">
                     {% if filter_act == 'yelp' %}
@@ -124,16 +120,6 @@
                 </select>
             </form>
             <br />
-            {% if user_interest_list %}
-            <div class="button-area">
-                {% for int in user_interest_list %}
-                <button type="button" class="butt_{{int.activity_type}} btn btn-primary mx-1 mb-2 removeInt" data-catid="{{int.activity_type}}">
-                    <i class="far fa-trash-alt" style="color:white;"></i>
-                    {{int.activity_type}}
-                </button>
-                {% endfor %}
-            </div>
-            {% endif %}
         </div>
     </div>
 </div>
@@ -142,19 +128,18 @@
 {% if activity_list %}
 <div class="container">
     <div class="grid-row">
+        <!--Recomended activites if nothing else is selected and user is logged in-->
         {% if recommend_list|length and not activity_list.has_previous and sort is None and filter_act is None and search_query is None and category is None %}
         <h2 class="container" style="text-align: center; padding-bottom: 20px; font-family: Verdana, Geneva, Tahoma, sans-serif">Recommended for You</h1>
-        
             {% for activity in recommend_list %}
             {% include "activity.html" with activity=activity index=1 %}
             {% endfor %}
         <h2 class="container" style="text-align: center; padding-bottom: 20px; padding-top: 20px; font-family: Verdana, Geneva, Tahoma, sans-serif">Featured Activities</h1>
         {% endif %}
-        
+        <!--Regular activities, shown after recomended activites-->
         {% for activity in activity_list %}
         {% include "activity.html" with activity=activity index=1 %}
         {% endfor %}
-
     </div>
 </div>
 

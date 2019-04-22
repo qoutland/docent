@@ -23,11 +23,6 @@ $('.likebutton').click(function () {
   })
 });
 
-//Showing categories when they are chosen (DOnt think this does anything rn)
-$('.category').click(function (e) {
-  $(this).addClass('active');
-});
-
 //Fades away like
 $('.removelike').click(function () {
   var catid;
@@ -52,7 +47,7 @@ function animateJumbo() {
   $('.jumbo-text').fadeIn('slow')
 }
 
-//Add an interest (Still working on making this async)
+//Add an interest async
 $('.addInt').on("change", function () {
   var option = $(this);
   var catid = $(this)[0]['value'];
@@ -85,7 +80,7 @@ $('.addInt').on("change", function () {
   })
 });
 
-//Readds event handler for removeInt
+//Readds event handler for removeInt (Needed to remove a recently added activity without refreshing the page)
 function bindRemoveInt(){
   $('.removeInt').click(function () {
     var catid;
@@ -139,11 +134,6 @@ $('.removeInt').click(function () {
   })
 });
 
-//Shows modals (might be able to remove)
-$('.show_modal').click(function () {
-  $('.modal').style.display = "block";
-});
-
 //Chooses email based on who user decides to contact
 $("#contactLink").change(function() {
   if($(this).val() == "quin"){$("#contactForm").attr("action", "https://formspree.io/qoutland@gmail.com");
@@ -191,6 +181,7 @@ $('.reco').click(function () {
          act.getElementsByClassName('distance')[0].innerHTML = Math.round(distance(position.coords.latitude,position.coords.longitude,act.getElementsByClassName('latitude')[0]['defaultValue'],act.getElementsByClassName('longitude')[0]['defaultValue'])*10)/10 + ' mi';
      });
  }
+ //Calculate the distance away
  function distance(lat1, lon1, lat2, lon2) {
      var p = 0.017453292519943295;
      var c = Math.cos;
