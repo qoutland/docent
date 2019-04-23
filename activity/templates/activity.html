@@ -27,17 +27,17 @@
             {% endif %}
                 <h5 class="card-title">{{activity.name|truncatechars:38}}</h5>
             {% if activity.origin == 'y' %}
-                <a href="https://maps.google.com/maps/search/{{ activity.name }}"><h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-location-arrow"></i> {{ activity.address1 }}</h6></a>
+                <a href="" onclick="mapsSelector({{ activity.latitude }},{{ activity.longitude }})"><h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-location-arrow"></i> {{ activity.address1 }}</h6></a>
             {% elif activity.origin == 't' %}
-                <a href="https://maps.google.com/maps/search/{{ activity.address1 }}"><h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-location-arrow"></i> {{ activity.address1 }}</h6></a>
+            <a href="" onclick="mapsSelector({{ activity.latitude }},{{ activity.longitude }})"><h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-location-arrow"></i> {{ activity.address1 }}</h6></a>
             {% elif activity.origin == 'h'%}
-                <a href="https://maps.google.com/maps/search/{{ activity.name }}"><h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-location-arrow"></i> To trailhead</h6></a>
+            <a href="" onclick="mapsSelector({{ activity.latitude }},{{ activity.longitude }})"><h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-location-arrow"></i> To trailhead</h6></a>
             {% endif %}
             {% if activity.display_phone %}
                 <div class="desktel">
-                    <a class="desktel" style="text-decoration: none;"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
+                    <a class="desktel" style="text-decoration: none;" target="_blank"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
                 </div>
-                <a class="mobiletel" href="tel:{{ activity.phone_number }}"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
+                <a class="mobiletel" href="tel:{{ activity.phone_number }}" target="_blank"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
             {% endif %}
             {% if activity.event_date %}
                 <p class="card-text" style="margin-top: 8px;"><i class="far fa-calendar-alt"></i> Event Date: {{ activity.event_date }}</p>
@@ -47,11 +47,11 @@
             {% endif %}
                 <a class="distance" style="float:right; padding-top:0; margin-top:0;"></a>
             {% if activity.origin == 'y' %}
-                <p class="card-text"><a href="{{ activity.url }}"><i class="fab fa-yelp" style="color: #d32323;"></i> Visit on Yelp</a></p>
+                <p class="card-text"><a href="{{ activity.url }}" target="_blank"><i class="fab fa-yelp" style="color: #d32323;"></i> Visit on Yelp</a></p>
             {% elif activity.origin == 't' %}
-                <p class="card-text"><a href="{{ activity.url }}"><i class="fas fa-ticket-alt" style="color: #0b47a8;"></i> Visit on Ticketmaster</a></p>
+                <p class="card-text"><a href="{{ activity.url }}" target="_blank"><i class="fas fa-ticket-alt" style="color: #0b47a8;"></i> Visit on Ticketmaster</a></p>
             {% elif activity.origin == 'h' %}
-                <p class="card-text"><a href="{{ activity.url }}"><i class="fas fa-hiking" style="color: #588f00"></i> Visit on HikingProject</a></p>
+                <p class="card-text"><a href="{{ activity.url }}" target="_blank"><i class="fas fa-hiking" style="color: #588f00"></i> Visit on HikingProject</a></p>
             {% endif %}
             <input hidden class="latitude" value="{{ activity.latitude }}">
             <input hidden class="longitude" value="{{ activity.longitude }}">
@@ -77,15 +77,15 @@
                 {% endif %}
                     <h4 class="modal-title card-title">{{activity.name}}</h4>
                 {% if activity.address1  and activity.origin == 'y' %}
-                    <a href="https://maps.google.com/maps/search/{{ activity.name }}"><p class="card-subtitle mb-3 mt-2 text-muted"><i class="fas fa-location-arrow"></i> {{activity.address1}}</p></a>
+                    <a href="" onclick="mapsSelector({{ activity.latitude }},{{ activity.longitude }})"><p class="card-subtitle mb-3 mt-2 text-muted"><i class="fas fa-location-arrow"></i> {{activity.address1}}</p></a>
                 {% elif activity.origin == 't' %}
-                    <a href="https://maps.google.com/maps/search/{{ activity.address1 }}"><p class="card-subtitle mb-3 mt-2 text-muted"><i class="fas fa-location-arrow"></i> {{activity.address1}}</p></a>
+                    <a href="" onclick="mapsSelector({{ activity.latitude }},{{ activity.longitude }})"><p class="card-subtitle mb-3 mt-2 text-muted"><i class="fas fa-location-arrow"></i> {{activity.address1}}</p></a>
                 {% elif activity.origin == 'h' %}
-                    <a href="https://maps.google.com/maps/search/{{ activity.name }}"><p class="card-subtitle mb-3 mt-2 text-muted"><i class="fas fa-location-arrow"></i> Directions to Trail</p></a>
+                    <a href="" onclick="mapsSelector({{ activity.latitude }},{{ activity.longitude }})"><p class="card-subtitle mb-3 mt-2 text-muted"><i class="fas fa-location-arrow"></i> Directions to Trail</p></a>
                 {% endif %}
                 {% if activity.display_phone %}
                     <div class="desktel"> <!--This is a fix for iOS Safari-->
-                        <a class="desktel" style="text-decoration: none;"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
+                        <a class="desktel" style="text-decoration: none;" target="_blank"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
                     </div>                
                     <a class="mobiletel" href="tel:{{ activity.phone_number }}"><p class="card-text"><i class="fas fa-phone"></i> {{ activity.display_phone }}</p></a>
                 {% endif %}
@@ -99,16 +99,16 @@
                     <p class="card-text" style="margin-top: 8px;"><i class="far fa-map"></i> Length: {{ activity.length }} Mi.</p>
                 {% endif %}
                 {% if activity.origin == 'y' %}
-                    <a href="https://maps.google.com/maps/search/{{ activity.name }}"><button type="button" class="btn btn-primary">Directions</button></a>
+                    <a href="" onclick="mapsSelector({{ activity.latitude }},{{ activity.longitude }})"><button type="button" class="btn btn-primary">Directions</button></a>
                 {% elif activity.origin == 't' %}
-                    <a href="https://maps.google.com/maps/search/{{ activity.address1 }}"><button type="button" class="btn btn-primary">Directions</button></a>
+                    <a href="" onclick="mapsSelector({{ activity.latitude }},{{ activity.longitude }})"><button type="button" class="btn btn-primary">Directions</button></a>
                 {% endif %}
                 {% if activity.origin == 'y' %}
-                    <a href="{{ activity.url }}"><button type="button" class="btn btn-primary" style="background-color:#d32323; border-color:#d32323;"><i class="fab fa-yelp"></i> Yelp</button></a>
+                    <a href="{{ activity.url }}" target="_blank"><button type="button" class="btn btn-primary" style="background-color:#d32323; border-color:#d32323;"><i class="fab fa-yelp"></i> Yelp</button></a>
                 {% elif activity.origin == 't' %}
-                    <a href="{{ activity.url }}"><button type="button" class="btn btn-primary" style="background-color: #0b47a8; border-color: #0b47a8;"><i class="fas fa-ticket-alt"></i> Ticketmaster</button></a>
+                    <a href="{{ activity.url }}" target="_blank"><button type="button" class="btn btn-primary" style="background-color: #0b47a8; border-color: #0b47a8;"><i class="fas fa-ticket-alt"></i> Ticketmaster</button></a>
                 {% elif activity.origin == 'h' %}
-                    <a href="{{ activity.url }}"><button type="button" class="btn btn-primary" style="background-color: #588f00; border-color: #588f00;"><i class="fas fa-hiking"></i> HikingProject</button></a>
+                    <a href="{{ activity.url }}" target="_blank"><button type="button" class="btn btn-primary" style="background-color: #588f00; border-color: #588f00;"><i class="fas fa-hiking"></i> HikingProject</button></a>
                 {% endif %}
             </div>
         </div>
