@@ -60,7 +60,7 @@ class Command(BaseCommand):
                             cover.save('activity/static/media/'+ str(activity.ID) + '_pic.jpg', image.format)
                             modal.save('activity/static/media/modal_'+ str(activity.ID) + '_pic.jpg', image.format)
                         except:
-                            activity.pic_url=NULL
+                            activity.pic_url=''
                 activity.save()
                 print('Added activity: ' + str(activity.ID))
                 #Check if type exists, if it does then add activity to it | else make that type and create the act type
