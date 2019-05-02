@@ -54,10 +54,13 @@ class Command(BaseCommand):
                 activity.pic_url=str(activity.ID) + '_pic.jpg'
                 with open('activity/static/media/'+ str(activity.ID) + '_pic.jpg', 'r+b') as f:
                     with Image.open(f) as image:
+                    try:
                         cover = resizeimage.resize_cover(image, [286, 197])
                         modal = resizeimage.resize_cover(image, [466, 197])
                         cover.save('activity/static/media/'+ str(activity.ID) + '_pic.jpg', image.format)
                         modal.save('activity/static/media/modal_'+ str(activity.ID) + '_pic.jpg', image.format)
+                    except:
+                        activity.pic_url=NULL
                 activity.save()
                 print('Added activity: ' + str(activity.ID))
                 #Check if type exists, if it does then add activity to it | else make that type and create the act type
