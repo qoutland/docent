@@ -28,7 +28,7 @@ class Activity(models.Model): #An activity object (using a PK for individual ref
 	phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
 	display_phone = models.CharField(blank=True, max_length=17)
 	url = models.URLField(blank=True)
-	pic_url = models.CharField(blank=True, max_length=20)
+	pic_url = models.CharField(blank=True, max_length=20, null=True)
 	longitude = models.FloatField(null=True)
 	latitude = models.FloatField(null=True)
 	address1 = models.CharField(_("address"), max_length=128, null=True)
